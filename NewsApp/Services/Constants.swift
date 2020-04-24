@@ -8,6 +8,10 @@
 
 import UIKit
 
+//segues
+let kTONEWSLISTVC: String = "toNewsListVC"
+let kTONEWSDETAILSVC: String = "toNewsDetailVC"
+
 //color
 let kMAINCOLOR: UIColor = UIColor(hexString: "#6a4bc9", alpha: 1.0)
 let kOFFWHITECOLOR: UIColor = UIColor(hexString: "#f0f0f0")
