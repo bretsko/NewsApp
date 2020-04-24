@@ -1,5 +1,5 @@
 //
-//  NewsListVC.swift
+//  HomeVC.swift
 //  NewsApp
 //
 //  Created by Macbook Pro 15 on 4/23/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewsListVC: UIViewController {
+class HomeVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     
@@ -25,7 +25,7 @@ class NewsListVC: UIViewController {
 
 //MARK: Private Methods
     fileprivate func setupViews() {
-        
+        self.view.backgroundColor = .red
     }
     
 //MARK: IBActions
@@ -36,4 +36,3 @@ class NewsListVC: UIViewController {
 }
 
 //MARK: Extensions
-
