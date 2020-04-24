@@ -21,13 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navController = UINavigationController() //create navController
         coordinator = MainCoordinator(navigationController: navController) //initialize our coordinator
+        coordinator?.start() //start coordinator
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navController //make it our root
         window?.makeKeyAndVisible()
         window?.windowScene = windowScene
-        coordinator?.start() //start coordinator
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

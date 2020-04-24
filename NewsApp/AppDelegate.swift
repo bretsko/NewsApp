@@ -10,9 +10,19 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+//    var coordinator: MainCoordinator?
+//    var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions
+        launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+//        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//        let initialViewController : HomeVC =
+//            mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as
+//                UIViewController as! HomeVC
+//        self.window = UIWindow(frame: UIScreen.main.bounds)
+//        self.window?.rootViewController = initialViewController
+//        self.window?.makeKeyAndVisible()
         return true
     }
 
