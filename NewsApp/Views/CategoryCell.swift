@@ -10,4 +10,9 @@ import UIKit
 
 class CategoryCell: UICollectionViewCell {
     
+    @IBOutlet weak var categoryLabel: UILabel!
+    
+    func populateViews(category: Category) {
+        categoryLabel.text = category.name
+    }
 }
