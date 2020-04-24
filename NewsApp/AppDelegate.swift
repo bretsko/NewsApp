@@ -11,10 +11,30 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var coordinator: MainCoordinator?
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let navController = UINavigationController() //create navController
+        coordinator = MainCoordinator(navigationController: navController) //initialize our coordinator
+        
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = navController //make it our root
+        window?.makeKeyAndVisible()
+//        window?.windowScene = windowScene
+        coordinator?.start() //start coordinator
+        
+//        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//        let initialViewController : UIViewController =
+//            mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as
+//            UIViewController
+//        self.window = UIWindow(frame: UIScreen.main.bounds)
+//        self.window?.rootViewController = navController
+//        self.window?.makeKeyAndVisible()
+        
         return true
     }
 

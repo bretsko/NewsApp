@@ -18,15 +18,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        let navController = UINavigationController() //create navController
-        coordinator = MainCoordinator(navigationController: navController) //initialize our coordinator
-        coordinator?.start() //start coordinator
         
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = navController //make it our root
-        window?.makeKeyAndVisible()
-        window?.windowScene = windowScene
+//        let navController = UINavigationController() //create navController
+//        coordinator = MainCoordinator(navigationController: navController) //initialize our coordinator
+//
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//        window = UIWindow(frame: UIScreen.main.bounds)
+//        window?.rootViewController = navController //make it our root
+//        window?.makeKeyAndVisible()
+//        window?.windowScene = windowScene
+//        coordinator?.start() //start coordinator
+        
+        if let controller = UIStoryboard(name: "Main", bundle:
+        nil).instantiateViewController(withIdentifier: "HomeVC") as? HomeVC {
+            if let window = self.window, let rootViewController = window.rootViewController {
+                var currentController = rootViewController
+                while let presentedController = currentController.presentedViewController {
+                    currentController = presentedController
+                }
+                currentController.present(controller, animated: true, completion: nil)
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
