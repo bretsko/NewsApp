@@ -8,6 +8,8 @@
 
 import UIKit
 
+///https://www.youtube.com/watch?v=7HgbcTqxoN4
+
 protocol Coordinator {
     var childCoordinators: [Coordinator] { get set }
     var navigationController: UINavigationController { get set }

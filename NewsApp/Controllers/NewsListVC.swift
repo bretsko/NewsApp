@@ -8,10 +8,10 @@
 
 import UIKit
 
-class NewsListVC: UIViewController {
+class NewsListVC: UIViewController, Storyboarded {
     
 //MARK: Properties
-    
+    weak var coordinator: MainCoordinator?
     
 //MARK: Views
     

@@ -11,7 +11,7 @@ import UIKit
 class HomeVC: UIViewController, Storyboarded {
     
 //MARK: Properties
-    
+    weak var coordinator: MainCoordinator?
     
 //MARK: Views
     

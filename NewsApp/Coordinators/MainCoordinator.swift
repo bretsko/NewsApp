@@ -14,12 +14,25 @@ class MainCoordinator: Coordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        setupNavigationController()
+//        setupNavigationController()
     }
     
     func start() {
         let vc = HomeVC.instantiate() //we can do this because of HomeVC conformed to Storyboarded protocol
+        vc.coordinator = self //assign vc's coordinator to self
         navigationController.pushViewController(vc, animated: false)
+    }
+    
+    func goToNewsList(category: String) {
+        let vc = NewsListVC.instantiate()
+        vc.coordinator = self
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func goToNewsDetails(news: String) {
+        let vc = NewsDetailVC.instantiate()
+        vc.coordinator = self
+        navigationController.pushViewController(vc, animated: true)
     }
     
     fileprivate func setupNavigationController() {
