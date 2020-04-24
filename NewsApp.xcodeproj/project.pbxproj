@@ -137,8 +137,8 @@
 		335233A224527E320056EA8E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				335233B62452803C0056EA8E /* Constants.swift */,
 				335233A72452803C0056EA8E /* Extensions */,
+				335233B62452803C0056EA8E /* Constants.swift */,
 				335233B82452803C0056EA8E /* PersistenceLayer.swift */,
 				335233B72452803C0056EA8E /* Service.swift */,
 				335233A62452803C0056EA8E /* SettingsService.swift */,

@@ -48,17 +48,17 @@
                     </view>
                     <navigationItem key="navigationItem" id="9Tz-ox-PJT"/>
                     <connections>
-                        <segue destination="ie5-EL-mTU" kind="presentation" id="bfd-6q-miE"/>
+                        <segue destination="ie5-EL-mTU" kind="presentation" identifier="toNewsListVC" id="bfd-6q-miE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1002" y="137"/>
         </scene>
-        <!--View Controller-->
+        <!--News ListVC-->
         <scene sceneID="yxW-x1-BXd">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="ie5-EL-mTU" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="ie5-EL-mTU" customClass="NewsListVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Tex-Of-xbM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -78,17 +78,17 @@
                         <viewLayoutGuide key="safeArea" id="UtD-W2-7tS"/>
                     </view>
                     <connections>
-                        <segue destination="7VP-Ys-aHn" kind="presentation" id="QdW-LI-mA7"/>
+                        <segue destination="7VP-Ys-aHn" kind="presentation" identifier="toNewsDetailVC" id="QdW-LI-mA7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RME-x9-8BV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1860" y="137"/>
         </scene>
-        <!--View Controller-->
+        <!--News DetailVC-->
         <scene sceneID="JlS-fO-gor">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="7VP-Ys-aHn" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="7VP-Ys-aHn" customClass="NewsDetailVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4SE-bW-d0g">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
