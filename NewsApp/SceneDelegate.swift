@@ -19,17 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
-//        let navController = UINavigationController() //create navController
-//        coordinator = MainCoordinator(navigationController: navController) //initialize our coordinator
-//
-//        guard let windowScene = (scene as? UIWindowScene) else { return }
-//        window = UIWindow(frame: UIScreen.main.bounds)
-//        window?.rootViewController = navController //make it our root
-//        window?.makeKeyAndVisible()
-//        window?.windowScene = windowScene
-//        coordinator?.start() //start coordinator
-        
-        
         let navController = UINavigationController() //create navController
         coordinator = MainCoordinator(navigationController: navController) //initialize our coordinator
         
@@ -39,26 +28,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         window?.windowScene = windowScene
         coordinator?.start() //start coordinator
-                
-        //        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        //        let initialViewController : UIViewController =
-        //            mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as
-        //            UIViewController
-        //        self.window = UIWindow(frame: UIScreen.main.bounds)
-        //        self.window?.rootViewController = navController
-        //        self.window?.makeKeyAndVisible()
-        
-        
-//        if let controller = UIStoryboard(name: "Main", bundle:
-//        nil).instantiateViewController(withIdentifier: "HomeVC") as? HomeVC {
-//            if let window = self.window, let rootViewController = window.rootViewController {
-//                var currentController = rootViewController
-//                while let presentedController = currentController.presentedViewController {
-//                    currentController = presentedController
-//                }
-//                currentController.present(controller, animated: true, completion: nil)
-//            }
-//        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

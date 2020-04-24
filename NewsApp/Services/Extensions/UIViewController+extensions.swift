@@ -18,10 +18,11 @@ extension UIViewController {
         return instantiateFromNib()
     }
     
+    //MARK: Commented out because of Coordinator pattern's instantiate()
     /// method that instantiate a xib file given a string name
-    static func instantiate() -> Self {
-      return self.init(nibName: String(describing: self), bundle: nil)
-    }
+//    static func instantiate() -> Self {
+//      return self.init(nibName: String(describing: self), bundle: nil)
+//    }
 }
 
 ///MARK SwiftUI stuffs
