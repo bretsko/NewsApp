@@ -14,7 +14,7 @@ class MainCoordinator: Coordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-//        setupNavigationController()
+        setupNavigationController()
     }
     
     func start() {
@@ -38,7 +38,7 @@ class MainCoordinator: Coordinator {
     fileprivate func setupNavigationController() {
         self.navigationController.isNavigationBarHidden = false
         self.navigationController.navigationBar.prefersLargeTitles = true
-        navigationController.navigationBar.tintColor = SettingsService.shared.grayColor //button color
-        navigationController.setStatusBarColor(backgroundColor: kMAINCOLOR)
+//        navigationController.navigationBar.tintColor = SettingsService.shared.grayColor //button color
+//        navigationController.setStatusBarColor(backgroundColor: kMAINCOLOR)
     }
 }
