@@ -15,19 +15,32 @@ class NetworkManager {
     var token = PrivateKeys.newsApiKey.rawValue
     
     func getArticles(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
-        self.fetchArticles(endpoint: endpoint) { result in
-            switch result {
-            case let .success(articles):
-                print("Articles are \(articles)")
-            //                self.articles = articles
-            case let .failure(error):
-                print(error.localizedDescription)
+        switch endpoint {
+        case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
+            fetchArticles(endpoint: endpoint) { (result) in //fetch articles
+                switch result {
+                case let.success(articles):
+                    print("Articles are: ", articles)
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
+        case .source: //get all sources, working but not implemented
+            fetchSources { (result) in
+                switch result {
+                case let.success(sources):
+                    print("Sources are: ", sources)
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        default:
+            completion(.failure(EndPointError.unsupportedEndpoint))
         }
     }
     
-    ///Use Endpoint.category for category VC with sources, and Endpoint.articles for list of articles with parameters
-    func fetchArticles(endpoint: EndPoints, completion: @escaping (Result<[Source]>) -> Void) {
+///Use Endpoint.category for category VC with sources, and Endpoint.articles for list of articles with parameters
+    func fetchArticles(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
         let articlesRequest = makeRequest(for: endpoint)
         let task = urlSession.dataTask(with: articlesRequest) { data, response, error in
             // Check for errors.
