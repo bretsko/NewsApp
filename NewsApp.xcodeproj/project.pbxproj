@@ -44,6 +44,9 @@
 		335233E32453C9410056EA8E /* KingfisherStatic in Frameworks */ = {isa = PBXBuildFile; productRef = 335233E22453C9410056EA8E /* KingfisherStatic */; };
 		335233E52453C9410056EA8E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 335233E42453C9410056EA8E /* Kingfisher */; };
 		335233E72453C9410056EA8E /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 335233E62453C9410056EA8E /* KingfisherSwiftUI */; };
+		335233E92453CA470056EA8E /* PrivateKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233E82453CA460056EA8E /* PrivateKeys.swift */; };
+		335233EB2453D0F70056EA8E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233EA2453D0F70056EA8E /* NetworkManager.swift */; };
+		335233ED2453D2B80056EA8E /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233EC2453D2B80056EA8E /* Article.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +86,9 @@
 		335233DB245372B70056EA8E /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		335233DD2453744D0056EA8E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		335233DF2453C1970056EA8E /* CategoryFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryFlowLayout.swift; sourceTree = "<group>"; };
+		335233E82453CA460056EA8E /* PrivateKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeys.swift; sourceTree = "<group>"; };
+		335233EA2453D0F70056EA8E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		335233EC2453D2B80056EA8E /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +127,7 @@
 				3352338B2452768E0056EA8E /* AppDelegate.swift */,
 				3352338D2452768E0056EA8E /* SceneDelegate.swift */,
 				335233912452768E0056EA8E /* Main.storyboard */,
+				335233EA2453D0F70056EA8E /* NetworkManager.swift */,
 				335233D32452CD2B0056EA8E /* Coordinators */,
 				3352339F24527E1A0056EA8E /* Controllers */,
 				335233A024527E230056EA8E /* Models */,
@@ -148,6 +155,7 @@
 			children = (
 				335233D7245372450056EA8E /* News.swift */,
 				335233DD2453744D0056EA8E /* Category.swift */,
+				335233EC2453D2B80056EA8E /* Article.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -170,6 +178,7 @@
 				335233B82452803C0056EA8E /* PersistenceLayer.swift */,
 				335233B72452803C0056EA8E /* Service.swift */,
 				335233A62452803C0056EA8E /* SettingsService.swift */,
+				335233E82453CA460056EA8E /* PrivateKeys.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -295,6 +304,7 @@
 				335233BC2452803C0056EA8E /* UIButton+extensions.swift in Sources */,
 				335233C82452803C0056EA8E /* Constants.swift in Sources */,
 				335233D22452CAF50056EA8E /* Storyboarded.swift in Sources */,
+				335233E92453CA470056EA8E /* PrivateKeys.swift in Sources */,
 				335233C02452803C0056EA8E /* UIBarButton+extensions.swift in Sources */,
 				335233902452768E0056EA8E /* HomeVC.swift in Sources */,
 				335233C32452803C0056EA8E /* UIStackView+extensions.swift in Sources */,
@@ -305,7 +315,9 @@
 				335233DA245372A70056EA8E /* NewsCell.swift in Sources */,
 				335233DE2453744D0056EA8E /* Category.swift in Sources */,
 				3352338C2452768E0056EA8E /* AppDelegate.swift in Sources */,
+				335233ED2453D2B80056EA8E /* Article.swift in Sources */,
 				335233B92452803C0056EA8E /* SettingsService.swift in Sources */,
+				335233EB2453D0F70056EA8E /* NetworkManager.swift in Sources */,
 				3352338E2452768E0056EA8E /* SceneDelegate.swift in Sources */,
 				335233BB2452803C0056EA8E /* UIViewController+extensions.swift in Sources */,
 				335233C52452803C0056EA8E /* UIScrollView+extensions.swift in Sources */,
