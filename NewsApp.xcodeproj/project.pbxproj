@@ -127,7 +127,7 @@
 				3352338B2452768E0056EA8E /* AppDelegate.swift */,
 				3352338D2452768E0056EA8E /* SceneDelegate.swift */,
 				335233912452768E0056EA8E /* Main.storyboard */,
-				335233EA2453D0F70056EA8E /* NetworkManager.swift */,
+				335233EE2453E39C0056EA8E /* Network */,
 				335233D32452CD2B0056EA8E /* Coordinators */,
 				3352339F24527E1A0056EA8E /* Controllers */,
 				335233A024527E230056EA8E /* Models */,
@@ -220,6 +220,14 @@
 				335233D12452CAF50056EA8E /* Storyboarded.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		335233EE2453E39C0056EA8E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				335233EA2453D0F70056EA8E /* NetworkManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

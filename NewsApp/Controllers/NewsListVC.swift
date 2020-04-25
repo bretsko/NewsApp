@@ -13,11 +13,17 @@ class NewsListVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     weak var coordinator: MainCoordinator?
-    var newsList: [News] = []
+    var networkManager = NetworkManager()
+    var articles: [Article] = [] {
+       didSet {
+           tableView.reloadData()
+       }
+    }
     var category: String! {
         didSet {
 //            self.newsList = category.news
             self.title = "\(category!) News"
+            fetchArticles()
         }
     }
     
@@ -46,26 +52,35 @@ class NewsListVC: UIViewController, Storyboarded {
     
     
 //MARK: Helper Methods
-
+    func fetchArticles() {
+        networkManager.getArticles() { result in
+            switch result {
+            case let .success(articles):
+                self.articles = articles
+            case let .failure(error):
+                print(error)
+            }
+        }
+    }
 }
 
 //MARK: Extensions
 extension NewsListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let news = newsList[indexPath.row]
-        coordinator?.goToNewsDetails(news: news)
+        let article = articles[indexPath.row]
+        coordinator?.goToNewsDetails(article: article)
     }
 }
 
 extension NewsListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return newsList.count
+        return articles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: NewsCell = tableView.dequeueReusableCell(withIdentifier: String(describing: NewsCell.self), for: indexPath) as! NewsCell
-        let news = newsList[indexPath.row]
-        cell.titleLabel.text = "\(news.title)"
+        let article = articles[indexPath.row]
+        cell.titleLabel.text = "\(article.title)"
         return cell
     }
 }
