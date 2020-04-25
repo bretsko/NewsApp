@@ -64,7 +64,7 @@ class HomeVC: UIViewController, Storyboarded {
 //MARK: Extensions
 extension HomeVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let cell: CategoryCell = collectionView.cellForItem(at: indexPath) as! CategoryCell
+//        let cell: CategoryCell = collectionView.cellForItem(at: indexPath) as! CategoryCell //to initialize the cell
         let category = categories[indexPath.row]
         coordinator?.goToNewsList(category: category)
     }
