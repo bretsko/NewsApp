@@ -53,10 +53,11 @@ class NewsListVC: UIViewController, Storyboarded {
     
 //MARK: Helper Methods
     func fetchArticles() {
-        networkManager.getArticles() { result in
+        networkManager.getArticles(endpoint: .category) { result in
             switch result {
             case let .success(articles):
-                self.articles = articles
+                print("Articles are \(articles)")
+//                self.articles = articles
             case let .failure(error):
                 print(error)
             }

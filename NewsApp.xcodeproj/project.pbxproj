@@ -41,12 +41,10 @@
 		335233DC245372B70056EA8E /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233DB245372B70056EA8E /* CategoryCell.swift */; };
 		335233DE2453744D0056EA8E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233DD2453744D0056EA8E /* Category.swift */; };
 		335233E02453C1970056EA8E /* CategoryFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233DF2453C1970056EA8E /* CategoryFlowLayout.swift */; };
-		335233E32453C9410056EA8E /* KingfisherStatic in Frameworks */ = {isa = PBXBuildFile; productRef = 335233E22453C9410056EA8E /* KingfisherStatic */; };
-		335233E52453C9410056EA8E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 335233E42453C9410056EA8E /* Kingfisher */; };
-		335233E72453C9410056EA8E /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 335233E62453C9410056EA8E /* KingfisherSwiftUI */; };
 		335233E92453CA470056EA8E /* PrivateKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233E82453CA460056EA8E /* PrivateKeys.swift */; };
 		335233EB2453D0F70056EA8E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233EA2453D0F70056EA8E /* NetworkManager.swift */; };
 		335233ED2453D2B80056EA8E /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233EC2453D2B80056EA8E /* Article.swift */; };
+		335233FD2453FEEF0056EA8E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 335233FC2453FEEF0056EA8E /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,9 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				335233E72453C9410056EA8E /* KingfisherSwiftUI in Frameworks */,
-				335233E52453C9410056EA8E /* Kingfisher in Frameworks */,
-				335233E32453C9410056EA8E /* KingfisherStatic in Frameworks */,
+				335233FD2453FEEF0056EA8E /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,9 +243,7 @@
 			);
 			name = NewsApp;
 			packageProductDependencies = (
-				335233E22453C9410056EA8E /* KingfisherStatic */,
-				335233E42453C9410056EA8E /* Kingfisher */,
-				335233E62453C9410056EA8E /* KingfisherSwiftUI */,
+				335233FC2453FEEF0056EA8E /* Kingfisher */,
 			);
 			productName = NewsApp;
 			productReference = 335233882452768E0056EA8E /* NewsApp.app */;
@@ -280,7 +274,7 @@
 			);
 			mainGroup = 3352337F2452768E0056EA8E;
 			packageReferences = (
-				335233E12453C9410056EA8E /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				335233FB2453FEEF0056EA8E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 335233892452768E0056EA8E /* Products */;
 			projectDirPath = "";
@@ -542,7 +536,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		335233E12453C9410056EA8E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+		335233FB2453FEEF0056EA8E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
 			requirement = {
@@ -553,20 +547,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		335233E22453C9410056EA8E /* KingfisherStatic */ = {
+		335233FC2453FEEF0056EA8E /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 335233E12453C9410056EA8E /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = KingfisherStatic;
-		};
-		335233E42453C9410056EA8E /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 335233E12453C9410056EA8E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			package = 335233FB2453FEEF0056EA8E /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
-		};
-		335233E62453C9410056EA8E /* KingfisherSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 335233E12453C9410056EA8E /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = KingfisherSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
