@@ -27,7 +27,7 @@ class HomeVC: UIViewController, Storyboarded {
 
 //MARK: Private Methods
     fileprivate func setupViews() {
-        self.title = "NewsStand"
+        self.title = "News Stand"
         setupCollectionView()
         addDummyData()
     }
@@ -62,13 +62,13 @@ class HomeVC: UIViewController, Storyboarded {
 }
 
 //MARK: Extensions
-extension HomeVC: UICollectionViewDelegate {}
-
-//extension HomeVC: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: self.view.safeAreaLayoutGuide.layoutFrame.width / 2 - 24, height: self.view.safeAreaLayoutGuide.layoutFrame.height / 3 - 30)
-//    }
-//}
+extension HomeVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let cell: CategoryCell = collectionView.cellForItem(at: indexPath) as! CategoryCell
+        let category = categories[indexPath.row]
+        coordinator?.goToNewsList(category: category)
+    }
+}
 
 extension HomeVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
