@@ -8,21 +8,6 @@
 
 import UIKit
 
-struct Sources: Decodable {
-    var status: String
-    var sources: [Source]
-}
-
-struct Source: Decodable {
-    var id: String
-    var name: String
-    var description: String
-    var url: String
-    var category: String
-    var language: String
-    var country: String
-}
-
 struct ArticleList: Decodable {
     var status: String //"ok" or error
     var code: String? //code and message will have value if status is error
@@ -41,7 +26,7 @@ struct Article {
     let publishedAt: String
     let content: String
     let url: URL
-    let urlToImage: URL
+    let urlToImage: URL?
     
 //    func fetchImage(completion: @escaping (_ image: UIImage?, _ error: String?) -> Void) {
 //        let request = URLRequest(url: previewImageURL)
