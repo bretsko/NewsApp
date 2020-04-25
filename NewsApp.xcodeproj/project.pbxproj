@@ -40,6 +40,7 @@
 		335233DA245372A70056EA8E /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233D9245372A70056EA8E /* NewsCell.swift */; };
 		335233DC245372B70056EA8E /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233DB245372B70056EA8E /* CategoryCell.swift */; };
 		335233DE2453744D0056EA8E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233DD2453744D0056EA8E /* Category.swift */; };
+		335233E02453C1970056EA8E /* CategoryFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233DF2453C1970056EA8E /* CategoryFlowLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@
 		335233D9245372A70056EA8E /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		335233DB245372B70056EA8E /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		335233DD2453744D0056EA8E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		335233DF2453C1970056EA8E /* CategoryFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryFlowLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			children = (
 				335233DB245372B70056EA8E /* CategoryCell.swift */,
 				335233D9245372A70056EA8E /* NewsCell.swift */,
+				335233DF2453C1970056EA8E /* CategoryFlowLayout.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				335233BA2452803C0056EA8E /* UIImageView+extensions.swift in Sources */,
 				335233CC2452821E0056EA8E /* NewsListVC.swift in Sources */,
 				335233CE2452822C0056EA8E /* NewsDetailVC.swift in Sources */,
+				335233E02453C1970056EA8E /* CategoryFlowLayout.swift in Sources */,
 				335233D62452CD5A0056EA8E /* MainCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

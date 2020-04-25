@@ -12,7 +12,16 @@ class CategoryCell: UICollectionViewCell {
     
     @IBOutlet weak var categoryLabel: UILabel!
     
-    func populateViews(category: Category) {
-        categoryLabel.text = category.name
+    var category: Category? {
+        didSet {
+            populateViews()
+        }
+    }
+    
+    func populateViews() {
+        self.contentView.backgroundColor = .lightGray
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
+        categoryLabel.text = category!.name
     }
 }
