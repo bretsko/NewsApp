@@ -9,10 +9,10 @@
 import UIKit
 
 struct ArticleList: Decodable {
-    var status: String //"ok" or error
-    var code: String? //code and message will have value if status is error
-    var message: String? //if status is error
-    var totalResults: Int? //if status is ok
+//    var status: String //"ok" or error
+//    var code: String? //code and message will have value if status is error
+//    var message: String? //if status is error
+//    var totalResults: Int? //if status is ok
     var articles: [Article]
 }
 
@@ -26,7 +26,7 @@ struct Article {
     let publishedAt: String
     let content: String
     let url: URL
-    let urlToImage: URL?
+//    let urlToImage: URL?
     
 //    func fetchImage(completion: @escaping (_ image: UIImage?, _ error: String?) -> Void) {
 //        let request = URLRequest(url: previewImageURL)
@@ -69,7 +69,7 @@ extension Article: Decodable {
         publishedAt = try articlesContainer.decode(String.self, forKey: .publishedAt)
         content = try articlesContainer.decode(String.self, forKey: .content)
         url = try articlesContainer.decode(URL.self, forKey: .url)
-        urlToImage = try articlesContainer.decode(URL.self, forKey: .urlToImage)
+//        urlToImage = try? articlesContainer.decode(URL.self, forKey: .urlToImage)
 //        let screenshotURLContainer = try postsContainer.nestedContainer(keyedBy: PreviewImageURLKeys.self, forKey: .previewImageURL) //new
 //        // Decode the image and assign it to the variable
 //        previewImageURL = try screenshotURLContainer.decode(URL.self, forKey: .imageURL) //new
@@ -86,49 +86,49 @@ extension Article: Decodable {
 }
 
 
-struct User: Codable {
-//    let id: Int
-    let name: String
-    let imageURL: ImageURL
-
-    enum CodingKeys: String, CodingKey {
-        case name
-        case imageURL = "image_url"
-    }
-}
-
-// MARK: - ImageURL
-struct ImageURL: Codable {
-    let the50Px: String
-
-    enum CodingKeys: String, CodingKey {
-        case the50Px = "50px"
-    }
-}
-
-struct Maker: Decodable {
-    var name: String
-//    var imageUrl: URL
-    
-    init(from decoder: Decoder) throws {
-        // Decode the Post from the API call
-        let makersContainer = try decoder.container(keyedBy: MakerKeys.self)
-        // Decode each of the properties from the API into the appropriate type (string, etc.) for their associated struct variable
-        name = try makersContainer.decode(String.self, forKey: .name)
-//        let screenshotURLContainer = try makersContainer.nestedContainer(keyedBy: ImageURLKeys.self, forKey: .makerImageUrl) //new
-        // Decode the image and assign it to the variable
-//        imageUrl = try screenshotURLContainer.decode(URL.self, forKey: .imageURL) //new
-    }
-    
-    enum MakerKeys: String, CodingKey {
-        case name = ""
-//        case makerImageUrl = "image_url"
-    }
-    
-    enum ImageURLKeys: String, CodingKey {
-        // for all posts, we only want the 850px image
-        // Check out the screenshot_url property in our Postman call to see where this livesx
-        case imageURL = "100px"
-    }
-}
+//struct User: Codable {
+////    let id: Int
+//    let name: String
+//    let imageURL: ImageURL
+//
+//    enum CodingKeys: String, CodingKey {
+//        case name
+//        case imageURL = "image_url"
+//    }
+//}
+//
+//// MARK: - ImageURL
+//struct ImageURL: Codable {
+//    let the50Px: String
+//
+//    enum CodingKeys: String, CodingKey {
+//        case the50Px = "50px"
+//    }
+//}
+//
+//struct Maker: Decodable {
+//    var name: String
+////    var imageUrl: URL
+//
+//    init(from decoder: Decoder) throws {
+//        // Decode the Post from the API call
+//        let makersContainer = try decoder.container(keyedBy: MakerKeys.self)
+//        // Decode each of the properties from the API into the appropriate type (string, etc.) for their associated struct variable
+//        name = try makersContainer.decode(String.self, forKey: .name)
+////        let screenshotURLContainer = try makersContainer.nestedContainer(keyedBy: ImageURLKeys.self, forKey: .makerImageUrl) //new
+//        // Decode the image and assign it to the variable
+////        imageUrl = try screenshotURLContainer.decode(URL.self, forKey: .imageURL) //new
+//    }
+//
+//    enum MakerKeys: String, CodingKey {
+//        case name = ""
+////        case makerImageUrl = "image_url"
+//    }
+//
+//    enum ImageURLKeys: String, CodingKey {
+//        // for all posts, we only want the 850px image
+//        // Check out the screenshot_url property in our Postman call to see where this livesx
+//        case imageURL = "100px"
+//    }
+//}
 
