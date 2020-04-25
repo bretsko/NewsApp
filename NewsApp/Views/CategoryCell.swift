@@ -22,6 +22,6 @@ class CategoryCell: UICollectionViewCell {
         self.contentView.backgroundColor = .lightGray
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
-        categoryLabel.text = category!.name
+        categoryLabel.text = category?.rawValue
     }
 }
