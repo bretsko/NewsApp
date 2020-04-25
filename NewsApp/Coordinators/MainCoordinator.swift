@@ -23,15 +23,17 @@ class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func goToNewsList(category: String) {
+    func goToNewsList(category: Category) {
         let vc = NewsListVC.instantiate()
         vc.coordinator = self
+        vc.category = category //must pass category instead so back button on details will have category name as its back button
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func goToNewsDetails(news: String) {
+    func goToNewsDetails(news: News) {
         let vc = NewsDetailVC.instantiate()
         vc.coordinator = self
+        vc.title = news.title
         navigationController.pushViewController(vc, animated: true)
     }
     
