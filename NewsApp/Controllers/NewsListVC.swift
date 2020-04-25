@@ -14,10 +14,10 @@ class NewsListVC: UIViewController, Storyboarded {
 //MARK: Properties
     weak var coordinator: MainCoordinator?
     var newsList: [News] = []
-    var category: Category! {
+    var category: String! {
         didSet {
-            self.newsList = category.news
-            self.title = "\(category.name) News"
+//            self.newsList = category.news
+            self.title = "\(category!) News"
         }
     }
     
