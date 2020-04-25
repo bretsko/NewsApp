@@ -40,21 +40,6 @@ class HomeVC: UIViewController, Storyboarded {
 //        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: String(describing: CategoryCell.self)) //no need since it's inside collectionView's story
     }
     
-//    fileprivate func addDummyData() {
-//        categories = [
-//            Category(name: "Business", news: [News(title: "Stocks up", body: "Stocks up"), News(title: "Stocks down", body: "Stocks down"), ]),
-//            Category(name: "Health", news: [News(title: "Health up", body: "Health up"), News(title: "Health down", body: "Health down"), ]),
-//            Category(name: "Economy", news: [News(title: "Economy up", body: "Economy up"), News(title: "Economy down", body: "Economy down"), ]),
-//            Category(name: "Business2", news: [News(title: "Stocks up", body: "Stocks up"), News(title: "Stocks down", body: "Stocks down"), ]),
-//            Category(name: "Health2", news: [News(title: "Health up", body: "Health up"), News(title: "Health down", body: "Health down"), ]),
-//            Category(name: "Economy2", news: [News(title: "Economy up", body: "Economy up"), News(title: "Economy down", body: "Economy down"), ]),
-//            Category(name: "Business3", news: [News(title: "Stocks up", body: "Stocks up"), News(title: "Stocks down", body: "Stocks down"), ]),
-//            Category(name: "Health3", news: [News(title: "Health up", body: "Health up"), News(title: "Health down", body: "Health down"), ]),
-//            Category(name: "Economy3", news: [News(title: "Economy up", body: "Economy up"), News(title: "Economy down", body: "Economy down"), ]),
-//        ]
-//        collectionView.reloadData()
-//    }
-    
 //MARK: IBActions
     
     
@@ -80,7 +65,6 @@ extension HomeVC: UICollectionViewDataSource {
         let cell: CategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CategoryCell.self), for: indexPath) as! CategoryCell
         let category = Category.allCases[indexPath.row]
         cell.category = category
-        cell.backgroundColor = .gray
         return cell
     }
 }
