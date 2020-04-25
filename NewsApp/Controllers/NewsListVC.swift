@@ -13,6 +13,12 @@ class NewsListVC: UIViewController, Storyboarded {
 //MARK: Properties
     weak var coordinator: MainCoordinator?
     var newsList: [News] = []
+    var category: Category! {
+        didSet {
+            self.newsList = category.news
+            self.title = "\(category.name) News"
+        }
+    }
     
 //MARK: Views
     @IBOutlet weak var tableView: UITableView!
@@ -26,14 +32,13 @@ class NewsListVC: UIViewController, Storyboarded {
 
 //MARK: Private Methods
     fileprivate func setupViews() {
-        self.title = "News List"
         setupTableView()
     }
     
     fileprivate func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(NewsCell.self, forCellReuseIdentifier: String(describing: NewsCell.self))
+//        tableView.register(NewsCell.self, forCellReuseIdentifier: String(describing: NewsCell.self)) //not needed if cell is created in storyboard
     }
     
 //MARK: IBActions
@@ -45,7 +50,10 @@ class NewsListVC: UIViewController, Storyboarded {
 
 //MARK: Extensions
 extension NewsListVC: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let news = newsList[indexPath.row]
+        coordinator?.goToNewsDetails(news: news)
+    }
 }
 
 extension NewsListVC: UITableViewDataSource {
