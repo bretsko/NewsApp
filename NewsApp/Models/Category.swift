@@ -8,7 +8,9 @@
 
 import Foundation
 
-struct Category {
-    var name: String
-    var news: [News]
+enum Category: String {
+    case business = "Business", entertainment = "Entertainment", general = "General", health = "Health", science = "Science", sports = "Sports", technology = "Technology"
+}
+
+extension Category: CaseIterable { //to be able to use Category.allCases
 }
