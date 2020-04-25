@@ -14,8 +14,20 @@ class NetworkManager {
     var baseURL = "https://newsapi.org/v2/"
     var token = PrivateKeys.newsApiKey.rawValue
     
+    func getArticles(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
+        self.fetchArticles(endpoint: endpoint) { result in
+            switch result {
+            case let .success(articles):
+                print("Articles are \(articles)")
+            //                self.articles = articles
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     ///Use Endpoint.category for category VC with sources, and Endpoint.articles for list of articles with parameters
-    func getArticles(endpoint: EndPoints, completion: @escaping (Result<[Source]>) -> Void) {
+    func fetchArticles(endpoint: EndPoints, completion: @escaping (Result<[Source]>) -> Void) {
         let articlesRequest = makeRequest(for: endpoint)
         let task = urlSession.dataTask(with: articlesRequest) { data, response, error in
             // Check for errors.
@@ -27,24 +39,59 @@ class NetworkManager {
             guard let data = data else {
                 return completion(Result.failure(EndPointError.noData))
             }
-            do {
-                let jsonResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any]
-                print("JSON RESULT = ", jsonResult, "\n")
-                
+//            do {
+//                let jsonResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any]
+//                print("JSON RESULT = ", jsonResult, "\n")
+//
+//                guard let result = try? JSONDecoder().decode(Sources.self, from: data) else {
+//                    return completion(Result.failure(EndPointError.couldNotParse))
+//                }
+//                let articles = result.sources
+////                let articles = result.articles
+//
+//                // Return the result with the completion handler.
+//                DispatchQueue.main.async {
+//                    completion(Result.success(articles))
+//                }
+//            } catch {
+//                print("JSONSERializaiton error")
+//            }
+            switch endpoint {
+            case .articles:
+                print("Getting articles")
+//                guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
+//                    return completion(Result.failure(EndPointError.couldNotParse))
+//                }
+//
+//                let articles = result.articles
+//
+//                // Return the result with the completion handler.
+//                DispatchQueue.main.async {
+//                    completion(Result.success(articles))
+//                }
+            case .source:
                 guard let result = try? JSONDecoder().decode(Sources.self, from: data) else {
                     return completion(Result.failure(EndPointError.couldNotParse))
                 }
                 let articles = result.sources
-//                let articles = result.articles
+                //                let articles = result.articles
                 
                 // Return the result with the completion handler.
                 DispatchQueue.main.async {
                     completion(Result.success(articles))
                 }
-            } catch {
-                print("JSONSERializaiton error")
+            default:
+                print("Endpoint not supported")
+                break
+                
             }
-            
+//            if endpoint == EndPoints.category { //if endpoint is category
+//
+//            } else if endpoint == EndPoints.articles {
+//
+//            } else { //loo
+//                print("Endpoint not supported")
+//            }
 //            guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
 //                return completion(Result.failure(EndPointError.couldNotParse))
 //            }
@@ -88,7 +135,7 @@ class NetworkManager {
     // All the code we did before but cleaned up into their own methods
     private func makeRequest(for endPoint: EndPoints) -> URLRequest {
         // grab the parameters from the endpoint and convert them into a string
-        let stringParams = endPoint.paramsToString()
+        let stringParams = endPoint.paramsToString(parameters: [:])
         // get the path of the endpoint
         let path = endPoint.getPath()
         print("Path: \(path)")
@@ -105,12 +152,17 @@ class NetworkManager {
     enum EndPoints {
         case articles
         case category
+        case source
+        case country
+        case topHeadline
         case comments(articleId: Int)
         
-        // determine which path to provide for the API request
+        // determine which path to provide for the API request. sources for category, and everything for articles search
         func getPath() -> String {
             switch self {
-            case .category:
+            case .category, .topHeadline, .country:
+                return "top-headlines"
+            case .source:
                 return "sources"
             case .articles:
                 return "everything"
@@ -137,16 +189,15 @@ class NetworkManager {
         // grab the parameters for the appropriate object (article or comment)
         func getParams() -> [String: String] {
             switch self {
-            case .category:
+            case .source:
                 return [ //find more info at https://newsapi.org/docs/endpoints/sources
                     "category": "business", //either: business, entertainment, general, health, science, sports, technology
 //                    "language": "", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
 //                    "country": "", //Find sources that display news in a specific country. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Default: all countries.
                 ]
-            case .articles:
+            case .articles, .country, .topHeadline, .category:
                 return [ //find more info at https://newsapi.org/docs/endpoints/everything
                     "sortBy": "popularity", //values can only be relevancy, popularity, publishedAt
-                    "category": "business", //either: business, entertainment, general, health, science, sports, technology
 //                    "q": "", //Keywords or phrases to search for in the article title and body.
 //                    "qInTitle": "" //Keywords or phrases to search for in the article title only.
 //                    "sources": "" //A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
@@ -170,11 +221,11 @@ class NetworkManager {
         }
         
         ///create string from array of parameters joining each element with & and put "=" between key and value
-        func paramsToString() -> String {
-            let parameterArray = getParams().map { key, value in
+        func paramsToString(parameters: [String: String]) -> String {
+            let parameterArray = getParams().map { key, value in //create an array from key and value
                 return "\(key)=\(value)"
             }
-            return parameterArray.joined(separator: "&")
+            return parameterArray.joined(separator: "&") //join each element in array with &
         }
     }
     

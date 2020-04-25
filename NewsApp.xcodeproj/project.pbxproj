@@ -45,6 +45,7 @@
 		335233EB2453D0F70056EA8E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233EA2453D0F70056EA8E /* NetworkManager.swift */; };
 		335233ED2453D2B80056EA8E /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335233EC2453D2B80056EA8E /* Article.swift */; };
 		335233FD2453FEEF0056EA8E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 335233FC2453FEEF0056EA8E /* Kingfisher */; };
+		33859CFE2454DF32001E2855 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33859CFD2454DF32001E2855 /* Source.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +88,7 @@
 		335233E82453CA460056EA8E /* PrivateKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeys.swift; sourceTree = "<group>"; };
 		335233EA2453D0F70056EA8E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		335233EC2453D2B80056EA8E /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		33859CFD2454DF32001E2855 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 				335233D7245372450056EA8E /* News.swift */,
 				335233DD2453744D0056EA8E /* Category.swift */,
 				335233EC2453D2B80056EA8E /* Article.swift */,
+				33859CFD2454DF32001E2855 /* Source.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				335233BC2452803C0056EA8E /* UIButton+extensions.swift in Sources */,
 				335233C82452803C0056EA8E /* Constants.swift in Sources */,
 				335233D22452CAF50056EA8E /* Storyboarded.swift in Sources */,
+				33859CFE2454DF32001E2855 /* Source.swift in Sources */,
 				335233E92453CA470056EA8E /* PrivateKeys.swift in Sources */,
 				335233C02452803C0056EA8E /* UIBarButton+extensions.swift in Sources */,
 				335233902452768E0056EA8E /* HomeVC.swift in Sources */,
