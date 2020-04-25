@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="z0R-Ch-G9P">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="16" y="0.0" width="343" height="667"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uhF-Pw-iod">
                                     <size key="itemSize" width="128" height="128"/>
@@ -55,10 +55,10 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="z0R-Ch-G9P" secondAttribute="trailing" id="DUb-Yf-npJ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="z0R-Ch-G9P" secondAttribute="trailing" constant="16" id="DUb-Yf-npJ"/>
                             <constraint firstItem="z0R-Ch-G9P" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="KGK-8L-liu"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="z0R-Ch-G9P" secondAttribute="bottom" id="TKH-6F-tJI"/>
-                            <constraint firstItem="z0R-Ch-G9P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sC5-gj-kSe"/>
+                            <constraint firstItem="z0R-Ch-G9P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="sC5-gj-kSe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
