@@ -30,10 +30,11 @@ class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func goToNewsDetails(news: News) {
+    func goToNewsDetails(article: Article) {
         let vc = NewsDetailVC.instantiate()
         vc.coordinator = self
-        vc.title = news.title
+        vc.title = article.title
+        vc.article = article
         navigationController.pushViewController(vc, animated: true)
     }
     
