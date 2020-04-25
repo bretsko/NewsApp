@@ -12,6 +12,7 @@ class NewsDetailVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     weak var coordinator: MainCoordinator?
+    var article: Article?
     
 //MARK: Views
     
