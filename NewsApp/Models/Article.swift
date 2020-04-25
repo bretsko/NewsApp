@@ -8,6 +8,21 @@
 
 import UIKit
 
+struct Sources: Decodable {
+    var status: String
+    var sources: [Source]
+}
+
+struct Source: Decodable {
+    var id: String
+    var name: String
+    var description: String
+    var url: String
+    var category: String
+    var language: String
+    var country: String
+}
+
 struct ArticleList: Decodable {
     var status: String //"ok" or error
     var code: String? //code and message will have value if status is error
