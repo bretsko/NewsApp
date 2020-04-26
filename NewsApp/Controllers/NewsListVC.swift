@@ -59,7 +59,7 @@ class NewsListVC: UIViewController, Storyboarded {
                 print("Articles are \(articles)")
 //                self.articles = articles
             case let .failure(error):
-                print(error.localizedDescription)
+                print(error)
             }
         }
     }

@@ -59,6 +59,7 @@ class NetworkManager {
                 switch endpoint {
                 case .articles: //for everything? endpoint
                     print("Getting \(endpoint)")
+                    
                     guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
                         return completion(Result.failure(EndPointError.couldNotParse))
                     }

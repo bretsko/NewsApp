@@ -9,17 +9,26 @@
 import UIKit
 
 struct ArticleList: Decodable {
-//    var status: String //"ok" or error
+    let requestStatus: String //"ok" or error
 //    var code: String? //code and message will have value if status is error
 //    var message: String? //if status is error
 //    var totalResults: Int? //if status is ok
-    var articles: [Article]
+    let articles: [Article]
+    
+    enum CodingKeys: String, CodingKey {
+        case requestStatus = "status", articles
+    }
+}
+
+struct Source: Codable {
+    let id: String?
+    let name: String
 }
 
 /// A product retrieved from the Product Hunt API.
 struct Article {
     // Various properties of a post that we either need or want to display
-//    let source: object
+    let source: Source
     let author: String
     let title: String
     let description: String
@@ -62,10 +71,10 @@ extension Article: Decodable {
         // Decode the Post from the API call
         let articlesContainer = try decoder.container(keyedBy: ArticleKeys.self)
         // Decode each of the properties from the API into the appropriate type (string, etc.) for their associated struct variable
-//        source = try articlesContainer.decode(String.self, forKey: .source)
+        source = try articlesContainer.decode(Source.self, forKey: .source)
         author = try articlesContainer.decode(String.self, forKey: .author)
         title = try articlesContainer.decode(String.self, forKey: .title)
-        description = try articlesContainer.decode(String.self, forKey: .description)
+        description = try articlesContainer.decode(String.self, forKey: .articleDescription)
         publishedAt = try articlesContainer.decode(String.self, forKey: .publishedAt)
         content = try articlesContainer.decode(String.self, forKey: .content)
         url = try articlesContainer.decode(URL.self, forKey: .url)
@@ -76,8 +85,10 @@ extension Article: Decodable {
     }
     
     enum ArticleKeys: String, CodingKey {
-        case author, title, description, url, urlToImage, publishedAt, content
-//        case makers = "makers" //no need to do this as API is in camelCase
+        case source
+        case author, title
+        case articleDescription = "description"
+        case url, urlToImage, publishedAt, content
     }
     
     enum SourceKeys: String, CodingKey {
