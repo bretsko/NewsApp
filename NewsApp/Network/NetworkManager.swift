@@ -15,15 +15,19 @@ class NetworkManager {
     //properties
     static let urlSession = URLSession.shared // shared singleton session object used to run tasks. Will be useful later
     static let baseURL = "https://newsapi.org/v2/"
-    static let token = PrivateKeys.newsApiKey.rawValue
+    static let apiKey = PrivateKeys.newsApiKey.rawValue
     
-    static func getArticles(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
+    static func fetchNewsApi(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
         switch endpoint {
         case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
+//            getTopHeadLines { (articles) in
+//                print(articles)
+//            }
             fetchArticles(endpoint: endpoint) { (result) in //fetch articles
                 switch result {
-                case let.success(articles):
+                case let .success(articles):
                     print("Articles are: ", articles)
+                    completion(.success(articles))
                 case let .failure(error):
                     completion(.failure(error))
                 }
@@ -40,6 +44,25 @@ class NetworkManager {
         default:
             completion(.failure(EndPointError.unsupportedEndpoint))
         }
+    }
+    
+    ///Wesley's fetch article
+    static func getTopHeadLines(completion: @escaping (_ article: Article) -> ()){
+        let url = URL(string: "\(NetworkManager.baseURL)top-headlines?country=us&apiKey=\(NetworkManager.apiKey)")
+        let task = NetworkManager.urlSession.dataTask(with: url!, completionHandler: { data, response, error in
+
+           if error != nil {
+            print(error as Any)
+                return
+            }
+            
+            let articles = try? JSONDecoder().decode(ArticleList.self, from: data!)
+            DispatchQueue.main.async {
+                print("\(articles)")
+                print("DONE Printing articles")
+            }
+        })
+        task.resume()
     }
     
 ///Use Endpoint.category for category VC with sources, and Endpoint.articles for list of articles with parameters
@@ -62,7 +85,6 @@ class NetworkManager {
                 switch endpoint {
                 case .articles: //for everything? endpoint
                     print("Getting \(endpoint)")
-                    
                     guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
                         return completion(Result.failure(EndPointError.couldNotParse))
                     }
@@ -118,32 +140,6 @@ class NetworkManager {
         task.resume()
     }
     
-//    func getComments(_ articleId: Int, completion: @escaping (Result<[Comment]>) -> Void) {
-//        let commentsRequest = makeRequest(for: .comments(articleId: articleId))
-//        let task = urlSession.dataTask(with: commentsRequest) { data, response, error in
-//            // Check for errors
-//            if let error = error {
-//                return completion(Result.failure(error))
-//            }
-//
-//            // Check to see if there is any data that was retrieved.
-//            guard let data = data else {
-//                return completion(Result.failure(EndPointError.noData))
-//            }
-//
-//            // Attempt to decode the comment data.
-//            guard let result = try? JSONDecoder().decode(CommentApiResponse.self, from: data) else {
-//                return completion(Result.failure(EndPointError.couldNotParse))
-//            }
-//
-//            // Return the result with the completion handler.
-//            DispatchQueue.main.async {
-//                completion(Result.success(result.comments))
-//            }
-//        }
-//        task.resume()
-//    }
-    
     // All the code we did before but cleaned up into their own methods
     static private func makeRequest(for endPoint: EndPoints) -> URLRequest {
         // grab the parameters from the endpoint and convert them into a string
@@ -156,8 +152,15 @@ class NetworkManager {
         print("Full path: \(fullURL)")
         // build the request
         var request = URLRequest(url: fullURL)
+        request.allHTTPHeaderFields = endPoint.getHeaders(apiKey: apiKey)
         request.httpMethod = endPoint.getHTTPMethod()
-        request.allHTTPHeaderFields = endPoint.getHeaders(token: token)
+        
+//        let request = NSMutableURLRequest(url: fullURL)
+//        request.httpMethod = "GET"
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.addValue("application/json", forHTTPHeaderField: "Accept")
+//        request.setValue(apiKey, forHTTPHeaderField: "X-Api-Key") //sets the header
+        
         return request
     }
     
@@ -189,12 +192,12 @@ class NetworkManager {
         }
         
         // Same headers we used for Postman
-        func getHeaders(token: String) -> [String: String] {
+        func getHeaders(apiKey: String) -> [String: String] {
             return [
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "Authorization": "Bearer \(token)",
-//                "Host": "api.producthunt.com"
+                "Authorization": "X-Api-Key \(apiKey)", //"Authorization"
+//                "Host": "newsapi.org"
             ]
         }
         

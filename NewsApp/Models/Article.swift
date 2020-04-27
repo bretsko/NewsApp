@@ -8,33 +8,33 @@
 
 import UIKit
 
-struct ArticleList: Decodable {
-    let requestStatus: String //"ok" or error
+public struct ArticleList: Codable {
+//    let requestStatus: String //"ok" or error
 //    var code: String? //code and message will have value if status is error
 //    var message: String? //if status is error
 //    var totalResults: Int? //if status is ok
-    let articles: [Article]
+    public let articles: [Article]
     
-    enum CodingKeys: String, CodingKey {
-        case requestStatus = "status", articles
-    }
+//    enum CodingKeys: String, CodingKey {
+//        case requestStatus = "status", articles
+//    }
 }
 
-struct Source: Codable {
-    let id: String?
-    let name: String
+public struct Source: Codable {
+    public let id: String?
+    public let name: String
 }
 
 /// A product retrieved from the Product Hunt API.
-struct Article {
+public struct Article {
     // Various properties of a post that we either need or want to display
-    let source: Source
-    let author: String
-    let title: String
-    let description: String
-    let publishedAt: String
-    let content: String
-    let url: URL
+    public let source: Source?
+    public let author: String?
+    public let title: String?
+    public let description: String?
+    public let publishedAt: String?
+    public let content: String?
+    public let url: URL?
 //    let urlToImage: URL?
     
 //    func fetchImage(completion: @escaping (_ image: UIImage?, _ error: String?) -> Void) {
@@ -64,30 +64,30 @@ struct Article {
 
 
 // MARK: Decodable
-extension Article: Decodable {
+extension Article: Codable {
     // properties within a Post returned from the Product Hunt API that we want to extract the info from.
     
-    init(from decoder: Decoder) throws {
-        // Decode the Post from the API call
-        let articlesContainer = try decoder.container(keyedBy: ArticleKeys.self)
-        // Decode each of the properties from the API into the appropriate type (string, etc.) for their associated struct variable
-        source = try articlesContainer.decode(Source.self, forKey: .source)
-        author = try articlesContainer.decode(String.self, forKey: .author)
-        title = try articlesContainer.decode(String.self, forKey: .title)
-        description = try articlesContainer.decode(String.self, forKey: .articleDescription)
-        publishedAt = try articlesContainer.decode(String.self, forKey: .publishedAt)
-        content = try articlesContainer.decode(String.self, forKey: .content)
-        url = try articlesContainer.decode(URL.self, forKey: .url)
-//        urlToImage = try? articlesContainer.decode(URL.self, forKey: .urlToImage)
-//        let screenshotURLContainer = try postsContainer.nestedContainer(keyedBy: PreviewImageURLKeys.self, forKey: .previewImageURL) //new
-//        // Decode the image and assign it to the variable
-//        previewImageURL = try screenshotURLContainer.decode(URL.self, forKey: .imageURL) //new
-    }
+//    public init(from decoder: Decoder) throws {
+//        // Decode the Post from the API call
+//        let articlesContainer = try decoder.container(keyedBy: ArticleKeys.self)
+//        // Decode each of the properties from the API into the appropriate type (string, etc.) for their associated struct variable
+//        source = try articlesContainer.decode(Source.self, forKey: .source)
+//        author = try articlesContainer.decode(String.self, forKey: .author)
+//        title = try articlesContainer.decode(String.self, forKey: .title)
+//        description = try articlesContainer.decode(String.self, forKey: .description)
+//        publishedAt = try articlesContainer.decode(String.self, forKey: .publishedAt)
+//        content = try articlesContainer.decode(String.self, forKey: .content)
+//        url = try articlesContainer.decode(URL.self, forKey: .url)
+////        urlToImage = try? articlesContainer.decode(URL.self, forKey: .urlToImage)
+////        let screenshotURLContainer = try postsContainer.nestedContainer(keyedBy: PreviewImageURLKeys.self, forKey: .previewImageURL) //new
+////        // Decode the image and assign it to the variable
+////        previewImageURL = try screenshotURLContainer.decode(URL.self, forKey: .imageURL) //new
+//    }
     
     enum ArticleKeys: String, CodingKey {
         case source
         case author, title
-        case articleDescription = "description"
+        case description
         case url, urlToImage, publishedAt, content
     }
     
