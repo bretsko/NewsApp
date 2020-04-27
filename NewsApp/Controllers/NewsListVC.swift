@@ -13,7 +13,6 @@ class NewsListVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     weak var coordinator: MainCoordinator?
-    var networkManager = NetworkManager()
     var articles: [Article] = [] {
        didSet {
            tableView.reloadData()
@@ -53,7 +52,7 @@ class NewsListVC: UIViewController, Storyboarded {
     
 //MARK: Helper Methods
     func fetchArticles() {
-        networkManager.getArticles(endpoint: .category) { result in
+        NetworkManager.getArticles(endpoint: .category) { result in
             switch result {
             case let .success(articles):
                 print("Articles are \(articles)")
