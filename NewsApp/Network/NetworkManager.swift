@@ -9,12 +9,15 @@
 import UIKit
 
 class NetworkManager {
+    //make it singleton
+    public static let shared = NetworkManager()
+    private init() {}
+    //properties
+    static let urlSession = URLSession.shared // shared singleton session object used to run tasks. Will be useful later
+    static let baseURL = "https://newsapi.org/v2/"
+    static let token = PrivateKeys.newsApiKey.rawValue
     
-    let urlSession = URLSession.shared // shared singleton session object used to run tasks. Will be useful later
-    var baseURL = "https://newsapi.org/v2/"
-    var token = PrivateKeys.newsApiKey.rawValue
-    
-    func getArticles(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
+    static func getArticles(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
         switch endpoint {
         case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
             fetchArticles(endpoint: endpoint) { (result) in //fetch articles
@@ -40,7 +43,7 @@ class NetworkManager {
     }
     
 ///Use Endpoint.category for category VC with sources, and Endpoint.articles for list of articles with parameters
-    func fetchArticles(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
+    static func fetchArticles(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
         let articlesRequest = makeRequest(for: endpoint)
         let task = urlSession.dataTask(with: articlesRequest) { data, response, error in
             // Check for errors.
@@ -92,7 +95,7 @@ class NetworkManager {
         task.resume()
     }
     
-    func fetchSources(completion: @escaping (Result<[Source]>) -> Void) {
+    static func fetchSources(completion: @escaping (Result<[Source]>) -> Void) {
         let articlesRequest = makeRequest(for: .source) //setup request as source
         let task = urlSession.dataTask(with: articlesRequest) { data, response, error in
             // Check for errors.
@@ -142,7 +145,7 @@ class NetworkManager {
 //    }
     
     // All the code we did before but cleaned up into their own methods
-    private func makeRequest(for endPoint: EndPoints) -> URLRequest {
+    static private func makeRequest(for endPoint: EndPoints) -> URLRequest {
         // grab the parameters from the endpoint and convert them into a string
         let stringParams = endPoint.paramsToString(parameters: [:])
         // get the path of the endpoint
