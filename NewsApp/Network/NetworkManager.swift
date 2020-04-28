@@ -20,13 +20,9 @@ class NetworkManager {
     static func fetchNewsApi(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
         switch endpoint {
         case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
-//            getTopHeadLines { (articles) in
-//                print(articles)
-//            }
             fetchArticles(endpoint: endpoint) { (result) in //fetch articles
                 switch result {
                 case let .success(articles):
-                    print("Articles are: ", articles)
                     completion(.success(articles))
                 case let .failure(error):
                     completion(.failure(error))
@@ -50,12 +46,10 @@ class NetworkManager {
     static func getTopHeadLines(completion: @escaping (_ article: Article) -> ()){
         let url = URL(string: "\(NetworkManager.baseURL)top-headlines?country=us&apiKey=\(NetworkManager.apiKey)")
         let task = NetworkManager.urlSession.dataTask(with: url!, completionHandler: { data, response, error in
-
            if error != nil {
             print(error as Any)
                 return
             }
-            
             let articles = try? JSONDecoder().decode(ArticleList.self, from: data!)
             DispatchQueue.main.async {
                 print("\(articles)")
@@ -73,45 +67,18 @@ class NetworkManager {
             if let error = error {
                 return completion(Result.failure(error))
             }
-            
             // Check to see if there is any data that was retrieved.
             guard let data = data else {
                 return completion(Result.failure(EndPointError.noData))
             }
-            do {
-                let jsonResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any]
-                print("JSON RESULT = ", jsonResult, "\n")
-
-                switch endpoint {
-                case .articles: //for everything? endpoint
-                    print("Getting \(endpoint)")
-                    guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
-                        return completion(Result.failure(EndPointError.couldNotParse))
-                    }
-                    
-                    let articles = result.articles
-                    
-                    // Return the result with the completion handler.
-                    DispatchQueue.main.async {
-                        completion(Result.success(articles))
-                    }
-                case .category, .country, .topHeadline: //for top-headlines? endpoint because category and country parameter is only in /top-headlines and /sources
-                    print("Getting \(endpoint)")
-                    guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
-                        return completion(Result.failure(EndPointError.couldNotParse))
-                    }
-                    
-                    let articles = result.articles
-                    
-                    // Return the result with the completion handler.
-                    DispatchQueue.main.async {
-                        completion(Result.success(articles))
-                    }
-                default:
-                    completion(.failure(EndPointError.unsupportedEndpoint))
-                }
-            } catch {
-                print("JSONSERializaiton error")
+            guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
+                return completion(Result.failure(EndPointError.couldNotParse))
+            }
+            //get our articles from result
+            let articles = result.articles
+            // Return the result with the completion handler.
+            DispatchQueue.main.async {
+                completion(Result.success(articles))
             }
         }
         task.resume()
@@ -154,13 +121,6 @@ class NetworkManager {
         var request = URLRequest(url: fullURL)
         request.allHTTPHeaderFields = endPoint.getHeaders(apiKey: apiKey)
         request.httpMethod = endPoint.getHTTPMethod()
-        
-//        let request = NSMutableURLRequest(url: fullURL)
-//        request.httpMethod = "GET"
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.addValue("application/json", forHTTPHeaderField: "Accept")
-//        request.setValue(apiKey, forHTTPHeaderField: "X-Api-Key") //sets the header
-        
         return request
     }
     
