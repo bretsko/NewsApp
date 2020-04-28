@@ -56,7 +56,7 @@ class NewsListVC: UIViewController, Storyboarded {
             switch result {
             case let .success(articles):
                 print("Articles are \(articles)")
-//                self.articles = articles
+                self.articles = articles
             case let .failure(error):
                 print(error)
             }
