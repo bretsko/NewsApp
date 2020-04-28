@@ -38,7 +38,7 @@ class NetworkManager {
                 }
             }
         default:
-            completion(.failure(EndPointError.unsupportedEndpoint))
+            completion(.failure(EndPointError.unsupportedEndpoint(message: "Endpoint is not supported")))
         }
     }
     
@@ -69,10 +69,16 @@ class NetworkManager {
             }
             // Check to see if there is any data that was retrieved.
             guard let data = data else {
-                return completion(Result.failure(EndPointError.noData))
+                return completion(Result.failure(EndPointError.noData(message: "Articles has no data")))
             }
             guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
-                return completion(Result.failure(EndPointError.couldNotParse))
+                return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse Articles")))
+            }
+            if result.status != "ok" { //check if status is not ok
+                guard let errorMessage = result.message else {
+                    return completion(Result.failure(EndPointError.endpointError(message: "Status not ok with no error message")))
+                }
+                completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error: \(errorMessage)")))
             }
             //get our articles from result
             let articles = result.articles
@@ -93,10 +99,10 @@ class NetworkManager {
             }
             // Check to see if there is any data that was retrieved.
             guard let data = data else {
-                return completion(Result.failure(EndPointError.noData))
+                return completion(Result.failure(EndPointError.noData(message: "Sources has no data")))
             }
             guard let result = try? JSONDecoder().decode(Sources.self, from: data) else {
-                return completion(Result.failure(EndPointError.couldNotParse))
+                return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse sources")))
             }
             let articles = result.sources
             // Return the result with the completion handler.
@@ -218,9 +224,11 @@ class NetworkManager {
     }
     
     enum EndPointError: Error {
-        case couldNotParse
-        case noData
-        case unsupportedEndpoint
+        case couldNotParse(message: String)
+        case noData(message: String)
+        case unsupportedEndpoint(message: String)
+        case endpointError(message: String)
+        case unknown(message: String)
     }
 }
 
