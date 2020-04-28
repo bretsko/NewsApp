@@ -9,10 +9,10 @@
 import UIKit
 
 public struct ArticleList: Codable {
-//    let requestStatus: String //"ok" or error
-//    var code: String? //code and message will have value if status is error
-//    var message: String? //if status is error
-//    var totalResults: Int? //if status is ok
+    let status: String //"ok" or error
+    var code: String? //code and message will have value if status is error
+    var message: String? //if status is error
+    var totalResults: Int? //if status is ok
     public let articles: [Article]
     
 //    enum CodingKeys: String, CodingKey {
