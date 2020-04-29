@@ -50,6 +50,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     fileprivate func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 100
 //        tableView.register(NewsCell.self, forCellReuseIdentifier: String(describing: NewsCell.self)) //not needed if cell is created in storyboard
     }
     
