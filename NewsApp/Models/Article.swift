@@ -65,3 +65,15 @@ public struct Article {
 
 // MARK: Codable
 extension Article: Codable {}
+
+extension Article: Equatable { //to be able to use .contains method or compare if they're equal
+    public static func == (lhs: Article, rhs: Article) -> Bool {
+        return lhs.title == rhs.title && lhs.url == rhs.url
+    }
+}
+
+extension Article: Hashable { //Articles needs to conform to Hashable in order have unique elements when I turned them into a set or orderedSet
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.title.hashValue)
+    }
+}
