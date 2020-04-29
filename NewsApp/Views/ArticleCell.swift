@@ -9,8 +9,16 @@
 import UIKit
 
 class NewsCell: UITableViewCell {
-
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imgView: UIImageView!
-
+    
+    func populateViews(news: Article) {
+        guard let title = news.title else { return }
+        titleLabel.text = title
+        guard let imgUrl = news.urlToImage else {
+            imgView.isHidden = true
+            return
+        }
+        
+    }
 }

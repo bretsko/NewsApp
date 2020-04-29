@@ -1,5 +1,5 @@
 //
-//  NewsListVC.swift
+//  ArticleListVC.swift
 //  NewsApp
 //
 //  Created by Macbook Pro 15 on 4/23/20.
@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class NewsListVC: UIViewController, Storyboarded {
+class ArticleListVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     weak var coordinator: MainCoordinator?
@@ -52,7 +52,7 @@ class NewsListVC: UIViewController, Storyboarded {
     
 //MARK: Helper Methods
     func fetchArticles() {
-        NetworkManager.fetchNewsApi(endpoint: .category) { result in
+        NetworkManager.fetchNewsApi(endpoint: .category, parameters: ["category": self.category]) { result in
             switch result {
             case let .success(articles):
                 print("Articles are \(articles)")
@@ -72,7 +72,7 @@ extension NewsListVC: UITableViewDelegate {
     }
 }
 
-extension NewsListVC: UITableViewDataSource {
+extension ListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return articles.count
     }
@@ -80,7 +80,8 @@ extension NewsListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: NewsCell = tableView.dequeueReusableCell(withIdentifier: String(describing: NewsCell.self), for: indexPath) as! NewsCell
         let article = articles[indexPath.row]
-        cell.titleLabel.text = "\(article.title)"
+        
+        cell.titleLabel.text = "\(article.title!)"
         return cell
     }
 }
