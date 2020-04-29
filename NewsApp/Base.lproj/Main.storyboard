@@ -175,17 +175,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MSH-wS-YHM">
-                                <rect key="frame" x="166" y="266" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gmc-Yq-Kh6">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="gmc-Yq-Kh6" firstAttribute="top" secondItem="3zq-0l-5js" secondAttribute="top" id="2iJ-Hc-OSU"/>
+                            <constraint firstItem="3zq-0l-5js" firstAttribute="trailing" secondItem="gmc-Yq-Kh6" secondAttribute="trailing" id="42X-mo-vlQ"/>
+                            <constraint firstItem="gmc-Yq-Kh6" firstAttribute="leading" secondItem="3zq-0l-5js" secondAttribute="leading" id="hiX-rC-pAq"/>
+                            <constraint firstItem="3zq-0l-5js" firstAttribute="bottom" secondItem="gmc-Yq-Kh6" secondAttribute="bottom" id="tDb-bi-XJz"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="3zq-0l-5js"/>
                     </view>
+                    <connections>
+                        <outlet property="webView" destination="gmc-Yq-Kh6" id="Iwn-Vt-roY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ERy-z3-vuI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
