@@ -20,9 +20,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     }
     var category: String! {
         didSet {
-//            self.newsList = category.news
             self.title = "\(category!) News"
-            fetchArticles()
         }
     }
     
@@ -33,13 +31,13 @@ class ArticleListVC: UIViewController, Storyboarded {
 //MARK: App LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         setupViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         activityIndicator.shouldAnimate()
+        getArticles()
     }
 
 //MARK: Private Methods
@@ -58,11 +56,10 @@ class ArticleListVC: UIViewController, Storyboarded {
     
     
 //MARK: Helper Methods
-    func fetchArticles() {
+    func getArticles() {
         NetworkManager.fetchNewsApi(endpoint: .category, parameters: ["category": self.category]) { result in
             switch result {
             case let .success(articles):
-                print("Articles are \(articles)")
                 self.articles = articles
                 self.activityIndicator.shouldAnimate(shouldAnimate: false)
             case let .failure(error):
@@ -93,7 +90,6 @@ extension ArticleListVC: UITableViewDataSource {
         let cell: ArticleCell = tableView.dequeueReusableCell(withIdentifier: String(describing: ArticleCell.self), for: indexPath) as! ArticleCell
         let article = articles[indexPath.row]
         cell.populateViews(article: article)
-//        cell.titleLabel.text = "\(article.title!)"
         return cell
     }
 }

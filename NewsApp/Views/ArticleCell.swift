@@ -38,7 +38,8 @@ class ArticleCell: UITableViewCell {
                                     let _ = try result.get() //value
                                 } catch {
                                     self.imgView.isHidden = true
-                                    print("Article Image Error=", error.localizedDescription)
+                                    print("\(article.title!) has no image")
+//                                    print("Article Image Error=", error.localizedDescription)
                                 }
                             })
     }
