@@ -20,7 +20,10 @@ class NetworkManager {
     
 ///Function that calls fetchArticle or fetchSources depending on the endpoint
     static func fetchNewsApi(endpoint: EndPoints, parameters: [String: String] = [:], completion: @escaping (Result<[Article]>) -> Void) {
-        self.parameters = parameters
+        for (key, value) in parameters where value != "" { //if value has value, then appen to self.parameters
+            self.parameters[key] = value
+        }
+//        self.parameters = parameters
         switch endpoint {
         case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
             fetchArticles(endpoint: endpoint) { (result) in //fetch articles
@@ -78,15 +81,26 @@ class NetworkManager {
             guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
                 return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse Articles")))
             }
-            if result.status != "ok" { //check if status is not ok
-                guard let errorMessage = result.message else {
-                    return completion(Result.failure(EndPointError.endpointError(message: "Status not ok with no error message")))
+            if result.status == "error" { //check if status has error
+//                do { //data debugging
+//                    let jsonResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any]
+//                    print(jsonResult)
+//                } catch {
+//                    print("Error deserializing JSON: \(error)")
+//                }
+                guard let errorMessage = result.message, let errorCode = result.code else { //check if theres an error message from the endpoint
+                    return completion(Result.failure(EndPointError.unknown()))
                 }
-                completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error: \(errorMessage)")))
+                switch errorCode { //check if endpoint error is known
+                case "maximumResultsReached": //free acc allows to fetch 100 articles only
+                    return completion(Result.failure(EndPointError.maximumResultsReached()))
+                default:
+                    return completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error: \(errorMessage)")))
+                }
             }
             DispatchQueue.main.async {
                 //Ensure we are passing unique array articles. Article must conform to Hashable and Equatable
-                let uniqueArticles = Array(NSOrderedSet(array: result.articles)) as? [Article]
+                let uniqueArticles = Array(NSOrderedSet(array: result.articles!)) as? [Article]
                 completion(Result.success(uniqueArticles!))
             }
         }
@@ -119,7 +133,7 @@ class NetworkManager {
     // All the code we did before but cleaned up into their own methods
     static private func makeRequest(for endPoint: EndPoints) -> URLRequest {
         // grab the parameters from the endpoint and convert them into a string
-        let stringParams = endPoint.paramsToString(parameters: [:])
+        let stringParams = endPoint.paramsToString()
         // get the path of the endpoint
         let path = endPoint.getPath()
         // create the full url from the above variables
@@ -165,7 +179,7 @@ class NetworkManager {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Authorization": "X-Api-Key \(apiKey)", //"Authorization"
-//                "Host": "newsapi.org"
+                "Host": "newsapi.org"
             ]
         }
         
@@ -181,25 +195,25 @@ class NetworkManager {
             case .articles:
                 return [ //find more info at https://newsapi.org/docs/endpoints/everything
                     "q": NetworkManager.parameters["q"] ?? "", //Keywords or phrases to search for in the article title and body.
-//                    "qInTitle": "" //Keywords or phrases to search for in the article title only.
+                    "qInTitle": "", //Keywords or phrases to search for in the article title only.
                     "sources": NetworkManager.parameters["sources"] ?? "", //A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
 //                    "domains": NetworkManager.parameters["domains"] ?? "", //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
 //                    "excludeDomains": NetworkManager.parameters["excludedDomains"] ??  "" //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.
-//                    "from": NetworkManager.parameters["from"] ?? "" //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
-//                    "to": NetworkManager.parameters["to"] ?? "" //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
+                    "from": NetworkManager.parameters["from"] ?? "", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
+                    "to": NetworkManager.parameters["to"] ?? "", //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
                     "language": NetworkManager.parameters["language"] ??  "en", //The 2-letter ISO-639-1 code of the language you want to get headlines
                     "sortBy": NetworkManager.parameters["sortBy"] ?? "popularity", //values can only be relevancy, popularity, publishedAt
                     "pageSize": NetworkManager.parameters["pageSize"] ?? "20", //(Int) 20 default and 100 is max
-//                    "page": NetworkManager.parameters["page"] ?? 20, //(Int) Use this to page through the results.
+//                    "page": NetworkManager.parameters["page"] ?? "20", //(Int) Use this to page through the results.
                 ]
             case .country, .topHeadline, .category:
                 return [
-//                    "country": NetworkManager.parameters["country"] ?? "", //The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
+                    "country": NetworkManager.parameters["country"] ?? "us", //The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
                     "category": NetworkManager.parameters["category"] ??  "business", //The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
-//                    "sources": NetworkManager.parameters["sources"] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
-//                    "q": NetworkManager.parameters["q"] ?? "", //Keywords or a phrase to search for.
+                    "sources": NetworkManager.parameters["sources"] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
+                    "q": NetworkManager.parameters["q"] ?? "", //Keywords or a phrase to search for.
                     "pageSize": NetworkManager.parameters["pageSize"] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
-//                    "page": NetworkManager.parameters["page"] ?? "", //Use this to page through the results if the total results found is greater than the page size.
+                    "page": NetworkManager.parameters["page"] ?? "1", //Use this to page through the results if the total results found is greater than the page size.
                 ]
             case let .comments(articleId):
                 return [
@@ -212,25 +226,39 @@ class NetworkManager {
         }
         
         ///create string from array of parameters joining each element with & and put "=" between key and value
-        func paramsToString(parameters: [String: String]) -> String {
+        func paramsToString() -> String {
             let parameterArray = getParams().map { key, value in //create an array from key and value
                 return "\(key)=\(value)"
             }
             return parameterArray.joined(separator: "&") //join each element in array with &
         }
     }
-    
-    enum Result<T> {
-        case success(T)
-        case failure(Error)
-    }
-    
-    enum EndPointError: Error {
-        case couldNotParse(message: String)
-        case noData(message: String)
-        case unsupportedEndpoint(message: String)
-        case endpointError(message: String)
-        case unknown(message: String)
-    }
 }
 
+enum Result<T> {
+    case success(T)
+    case failure(Error)
+}
+
+enum EndPointError: Error {
+    case couldNotParse(message: String)
+    case noData(message: String)
+    case unsupportedEndpoint(message: String)
+    case endpointError(message: String)
+    case maximumResultsReached(message: String = "You have reached maximum amount articles. Upgrade your account to see more.")
+    case unknown(message: String = "Error status with no error message")
+}
+
+extension EndPointError: LocalizedError { //to show passed message for error.localizedDescription
+    public var errorDescription: String? {
+        switch self {
+            case let .couldNotParse(message),
+                 let .noData(message),
+                 let .unsupportedEndpoint(message),
+                 let .endpointError(message),
+                 let .maximumResultsReached(message),
+                 let .unknown(message):
+                return message
+        }
+    }
+}
