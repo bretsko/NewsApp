@@ -23,7 +23,7 @@ class ArticleListVC: UIViewController, Storyboarded {
             self.title = "\(category!) News"
         }
     }
-    var page: Int = 1
+    var page: Int = 0
     
 //MARK: Views
     @IBOutlet weak var tableView: UITableView!
