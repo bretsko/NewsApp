@@ -11,7 +11,6 @@
         <!--HomeVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="HomeVC" id="BYZ-38-t0r" customClass="HomeVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -67,13 +66,14 @@
                         <outlet property="collectionView" destination="z0R-Ch-G9P" id="hGI-Gc-wgY"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1002" y="137"/>
         </scene>
         <!--NewsListVC-->
         <scene sceneID="yxW-x1-BXd">
             <objects>
-                <viewController storyboardIdentifier="NewsListVC" title="NewsListVC" modalPresentationStyle="fullScreen" id="ie5-EL-mTU" customClass="NewsListVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArticleListVC" title="NewsListVC" modalPresentationStyle="fullScreen" id="ie5-EL-mTU" customClass="ArticleListVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Tex-Of-xbM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -82,7 +82,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NewsCell" rowHeight="100" id="92f-OM-dB3" customClass="NewsCell" customModule="NewsApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ArticleCell" rowHeight="100" id="92f-OM-dB3" customClass="ArticleCell" customModule="NewsApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="92f-OM-dB3" id="B7f-eU-G4s">
@@ -93,8 +93,8 @@
                                                     <rect key="frame" x="8" y="8" width="359" height="84"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6S8-VP-awx">
-                                                            <rect key="frame" x="0.0" y="0.0" width="243" height="29"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="243" height="21.5"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -106,32 +106,60 @@
                                                         </imageView>
                                                     </subviews>
                                                 </stackView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="srb-JZ-lD0" userLabel="main Activity Indicator">
+                                                    <rect key="frame" x="172.5" y="35" width="30" height="30"/>
+                                                </activityIndicatorView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="224-Jh-Tni" userLabel="image Activity Indicator">
+                                                    <rect key="frame" x="310" y="35" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="M3L-HU-Pgc"/>
+                                                        <constraint firstAttribute="width" constant="30" id="fsc-LW-4w4"/>
+                                                    </constraints>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="8Z4-1N-FlZ" secondAttribute="bottom" constant="8" id="36y-Mc-zAl"/>
+                                                <constraint firstItem="srb-JZ-lD0" firstAttribute="centerX" secondItem="B7f-eU-G4s" secondAttribute="centerX" id="3wP-mq-4NV"/>
                                                 <constraint firstAttribute="trailing" secondItem="8Z4-1N-FlZ" secondAttribute="trailing" constant="8" id="6Ne-iP-lST"/>
+                                                <constraint firstItem="srb-JZ-lD0" firstAttribute="centerY" secondItem="B7f-eU-G4s" secondAttribute="centerY" id="9HH-8I-Ll9"/>
+                                                <constraint firstItem="224-Jh-Tni" firstAttribute="centerX" secondItem="Q0w-8z-JRt" secondAttribute="centerX" id="AAb-8I-PWz"/>
                                                 <constraint firstItem="8Z4-1N-FlZ" firstAttribute="leading" secondItem="B7f-eU-G4s" secondAttribute="leading" constant="8" id="F1z-Ar-ZcY"/>
                                                 <constraint firstItem="8Z4-1N-FlZ" firstAttribute="top" secondItem="B7f-eU-G4s" secondAttribute="top" constant="8" id="Mnf-Cq-0eK"/>
+                                                <constraint firstItem="srb-JZ-lD0" firstAttribute="height" secondItem="224-Jh-Tni" secondAttribute="height" id="SdC-lF-cLV"/>
+                                                <constraint firstItem="srb-JZ-lD0" firstAttribute="width" secondItem="224-Jh-Tni" secondAttribute="width" id="bBy-DX-dw4"/>
+                                                <constraint firstItem="224-Jh-Tni" firstAttribute="centerY" secondItem="Q0w-8z-JRt" secondAttribute="centerY" id="oVb-1h-f8o"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="imgIndicator" destination="224-Jh-Tni" id="IpE-Up-DoQ"/>
                                             <outlet property="imgView" destination="Q0w-8z-JRt" id="7sq-T3-ci8"/>
+                                            <outlet property="mainIndicator" destination="srb-JZ-lD0" id="hZR-9Z-3DE"/>
                                             <outlet property="titleLabel" destination="6S8-VP-awx" id="scg-WB-4al"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="HRH-cx-tRn">
+                                <rect key="frame" x="162.5" y="308.5" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Ad6-qU-oUp"/>
+                                    <constraint firstAttribute="width" constant="50" id="XyE-m2-kye"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="HRH-cx-tRn" firstAttribute="centerX" secondItem="ykJ-w8-HcQ" secondAttribute="centerX" id="9R4-fP-qD5"/>
                             <constraint firstItem="ykJ-w8-HcQ" firstAttribute="leading" secondItem="UtD-W2-7tS" secondAttribute="leading" id="INq-cu-y6v"/>
                             <constraint firstItem="ykJ-w8-HcQ" firstAttribute="top" secondItem="UtD-W2-7tS" secondAttribute="top" id="Jxm-Vd-HIM"/>
                             <constraint firstItem="UtD-W2-7tS" firstAttribute="bottom" secondItem="ykJ-w8-HcQ" secondAttribute="bottom" id="iOx-R2-2q9"/>
                             <constraint firstItem="UtD-W2-7tS" firstAttribute="trailing" secondItem="ykJ-w8-HcQ" secondAttribute="trailing" id="lzq-yp-VFh"/>
+                            <constraint firstItem="HRH-cx-tRn" firstAttribute="centerY" secondItem="ykJ-w8-HcQ" secondAttribute="centerY" id="p8a-fA-tIv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="UtD-W2-7tS"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="HRH-cx-tRn" id="fOa-eg-UBH"/>
                         <outlet property="tableView" destination="ykJ-w8-HcQ" id="hGm-dk-3bP"/>
                     </connections>
                 </viewController>
@@ -139,10 +167,10 @@
             </objects>
             <point key="canvasLocation" x="1860" y="137"/>
         </scene>
-        <!--News DetailVC-->
+        <!--Article DetailVC-->
         <scene sceneID="JlS-fO-gor">
             <objects>
-                <viewController storyboardIdentifier="NewsDetailVC" modalPresentationStyle="fullScreen" id="7VP-Ys-aHn" customClass="NewsDetailVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArticleDetailVC" modalPresentationStyle="fullScreen" id="7VP-Ys-aHn" customClass="ArticleDetailVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4SE-bW-d0g">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
