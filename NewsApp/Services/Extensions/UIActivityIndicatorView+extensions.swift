@@ -6,4 +6,17 @@
 //  Copyright © 2020 SamuelFolledo. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+extension UIActivityIndicatorView {
+///function that animates and show indicatorView or not
+    func shouldAnimate(shouldAnimate: Bool = true) {
+        if shouldAnimate {
+            self.startAnimating()
+            self.isHidden = false
+        } else {
+            self.stopAnimating()
+            self.isHidden = true
+        }
+    }
+}
