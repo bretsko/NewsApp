@@ -55,7 +55,7 @@ class NetworkManager {
             }
             let articles = try? JSONDecoder().decode(ArticleList.self, from: data!)
             DispatchQueue.main.async {
-                print("\(articles)")
+                print("\(articles!)")
                 print("DONE Printing articles")
             }
         })
@@ -74,6 +74,7 @@ class NetworkManager {
             guard let data = data else {
                 return completion(Result.failure(EndPointError.noData(message: "Articles has no data")))
             }
+            //decode data
             guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
                 return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse Articles")))
             }
@@ -84,7 +85,9 @@ class NetworkManager {
                 completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error: \(errorMessage)")))
             }
             DispatchQueue.main.async {
-                completion(Result.success(result.articles)) //return articles
+                //Ensure we are passing unique array articles. Article must conform to Hashable and Equatable
+                let uniqueArticles = Array(NSOrderedSet(array: result.articles)) as? [Article]
+                completion(Result.success(uniqueArticles!))
             }
         }
         task.resume()
