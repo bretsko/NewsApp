@@ -23,6 +23,7 @@ class ArticleListVC: UIViewController, Storyboarded {
             self.title = "\(category!) News"
         }
     }
+    var page: Int = 1
     
 //MARK: Views
     @IBOutlet weak var tableView: UITableView!
@@ -57,13 +58,16 @@ class ArticleListVC: UIViewController, Storyboarded {
     
 //MARK: Helper Methods
     func getArticles() {
-        NetworkManager.fetchNewsApi(endpoint: .category, parameters: ["category": self.category]) { result in
-            switch result {
-            case let .success(articles):
-                self.articles = articles
-                self.activityIndicator.shouldAnimate(shouldAnimate: false)
-            case let .failure(error):
-                print(error)
+        NetworkManager.fetchNewsApi(endpoint: .category, parameters: ["category": self.category, "page": "\(page)"]) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(articles):
+                    print("New articles = \(articles.count)")
+                    self.articles.append(contentsOf: articles)
+                    self.activityIndicator.shouldAnimate(shouldAnimate: false)
+                case let .failure(error):
+                    Service.presentAlert(on: self, title: "Error", message: error.localizedDescription)
+                }
             }
         }
     }
@@ -90,6 +94,10 @@ extension ArticleListVC: UITableViewDataSource {
         let cell: ArticleCell = tableView.dequeueReusableCell(withIdentifier: String(describing: ArticleCell.self), for: indexPath) as! ArticleCell
         let article = articles[indexPath.row]
         cell.populateViews(article: article)
+        if indexPath.row == articles.count - 1 { //if last cell, get more articles
+            self.page += 1 //increment page
+            getArticles()
+        }
         return cell
     }
 }
