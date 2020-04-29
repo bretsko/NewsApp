@@ -7,15 +7,16 @@
 //
 
 import UIKit
+import WebKit
 
 class ArticleDetailVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     weak var coordinator: MainCoordinator?
-    var article: Article?
+    var article: Article!
     
 //MARK: Views
-    
+    @IBOutlet weak var webView: WKWebView!
     
 //MARK: App LifeCycle
     override func viewDidLoad() {
@@ -26,7 +27,9 @@ class ArticleDetailVC: UIViewController, Storyboarded {
 
 //MARK: Private Methods
     fileprivate func setupViews() {
-        
+        webView.navigationDelegate = self
+        webView.load(URLRequest(url: article.url))
+        webView.allowsBackForwardNavigationGestures = true
     }
     
 //MARK: IBActions
@@ -37,4 +40,4 @@ class ArticleDetailVC: UIViewController, Storyboarded {
 }
 
 //MARK: Extensions
-
+extension ArticleDetailVC: WKNavigationDelegate {}
