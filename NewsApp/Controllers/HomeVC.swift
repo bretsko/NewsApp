@@ -21,7 +21,6 @@ class HomeVC: UIViewController, Storyboarded {
 //MARK: App LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         setupViews()
     }
 
@@ -29,7 +28,6 @@ class HomeVC: UIViewController, Storyboarded {
     fileprivate func setupViews() {
         self.title = "News Stand"
         setupCollectionView()
-//        addDummyData()
     }
     
     fileprivate func setupCollectionView() {

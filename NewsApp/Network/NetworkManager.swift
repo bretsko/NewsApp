@@ -16,8 +16,11 @@ class NetworkManager {
     static let urlSession = URLSession.shared // shared singleton session object used to run tasks. Will be useful later
     static let baseURL = "https://newsapi.org/v2/"
     static let apiKey = PrivateKeys.newsApiKey.rawValue
+    static var parameters: [String: String] = [:]
     
-    static func fetchNewsApi(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
+///Function that calls fetchArticle or fetchSources depending on the endpoint
+    static func fetchNewsApi(endpoint: EndPoints, parameters: [String: String] = [:], completion: @escaping (Result<[Article]>) -> Void) {
+        self.parameters = parameters
         switch endpoint {
         case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
             fetchArticles(endpoint: endpoint) { (result) in //fetch articles
@@ -42,7 +45,7 @@ class NetworkManager {
         }
     }
     
-    ///Wesley's fetch article
+///Wesley's fetch article
     static func getTopHeadLines(completion: @escaping (_ article: Article) -> ()){
         let url = URL(string: "\(NetworkManager.baseURL)top-headlines?country=us&apiKey=\(NetworkManager.apiKey)")
         let task = NetworkManager.urlSession.dataTask(with: url!, completionHandler: { data, response, error in
@@ -80,11 +83,8 @@ class NetworkManager {
                 }
                 completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error: \(errorMessage)")))
             }
-            //get our articles from result
-            let articles = result.articles
-            // Return the result with the completion handler.
             DispatchQueue.main.async {
-                completion(Result.success(articles))
+                completion(Result.success(result.articles)) //return articles
             }
         }
         task.resume()
@@ -119,7 +119,6 @@ class NetworkManager {
         let stringParams = endPoint.paramsToString(parameters: [:])
         // get the path of the endpoint
         let path = endPoint.getPath()
-        print("Path: \(path)")
         // create the full url from the above variables
         let fullURL = URL(string: baseURL.appending("\(path)?\(stringParams)"))!
         print("Full path: \(fullURL)")
@@ -172,32 +171,32 @@ class NetworkManager {
             switch self {
             case .source:
                 return [ //find more info at https://newsapi.org/docs/endpoints/sources
-                    "category": "business", //either: business, entertainment, general, health, science, sports, technology
-//                    "language": "", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
-//                    "country": "", //Find sources that display news in a specific country. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Default: all countries.
+                    "category": NetworkManager.parameters["category"] ?? "business", //either: business, entertainment, general, health, science, sports, technology
+                    "language": NetworkManager.parameters["language"] ?? "en", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
+                    "country": NetworkManager.parameters["country"] ?? "", //Find sources that display news in a specific country. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Default: all countries.
                 ]
             case .articles:
                 return [ //find more info at https://newsapi.org/docs/endpoints/everything
-//                    "q": "", //Keywords or phrases to search for in the article title and body.
+                    "q": NetworkManager.parameters["q"] ?? "", //Keywords or phrases to search for in the article title and body.
 //                    "qInTitle": "" //Keywords or phrases to search for in the article title only.
-//                    "sources": "" //A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
-//                    "domains": "", //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
-//                    "excludeDomains": "" //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.
-//                    "from": "" //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
-//                    "to": "" //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
-//                    "language": "", //The 2-letter ISO-639-1 code of the language you want to get headlines
-                    "sortBy": "popularity", //values can only be relevancy, popularity, publishedAt
-                    "pageSize": "20", //(Int) 20 default and 100 is max
-//                    "page": 20, //(Int) Use this to page through the results.
+                    "sources": NetworkManager.parameters["sources"] ?? "", //A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
+//                    "domains": NetworkManager.parameters["domains"] ?? "", //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
+//                    "excludeDomains": NetworkManager.parameters["excludedDomains"] ??  "" //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.
+//                    "from": NetworkManager.parameters["from"] ?? "" //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
+//                    "to": NetworkManager.parameters["to"] ?? "" //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
+                    "language": NetworkManager.parameters["language"] ??  "en", //The 2-letter ISO-639-1 code of the language you want to get headlines
+                    "sortBy": NetworkManager.parameters["sortBy"] ?? "popularity", //values can only be relevancy, popularity, publishedAt
+                    "pageSize": NetworkManager.parameters["pageSize"] ?? "20", //(Int) 20 default and 100 is max
+//                    "page": NetworkManager.parameters["page"] ?? 20, //(Int) Use this to page through the results.
                 ]
             case .country, .topHeadline, .category:
                 return [
-//                    "country": "", //The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
-                    "category": "business", //The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
-//                    "sources": "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
-//                    "q": "", //Keywords or a phrase to search for.
-                    "pageSize": "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
-//                    "page": "", //Use this to page through the results if the total results found is greater than the page size.
+//                    "country": NetworkManager.parameters["country"] ?? "", //The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
+                    "category": NetworkManager.parameters["category"] ??  "business", //The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
+//                    "sources": NetworkManager.parameters["sources"] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
+//                    "q": NetworkManager.parameters["q"] ?? "", //Keywords or a phrase to search for.
+                    "pageSize": NetworkManager.parameters["pageSize"] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
+//                    "page": NetworkManager.parameters["page"] ?? "", //Use this to page through the results if the total results found is greater than the page size.
                 ]
             case let .comments(articleId):
                 return [

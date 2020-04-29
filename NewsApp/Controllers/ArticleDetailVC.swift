@@ -1,5 +1,5 @@
 //
-//  NewsDetailVC.swift
+//  ArticleDetailVC.swift
 //  NewsApp
 //
 //  Created by Macbook Pro 15 on 4/23/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewsDetailVC: UIViewController, Storyboarded {
+class ArticleDetailVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     weak var coordinator: MainCoordinator?
