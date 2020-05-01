@@ -12,11 +12,10 @@ class HomeVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     weak var coordinator: MainCoordinator?
-//    var categories: [String] = ["General", "Business", "Technology", "Entertainment", "Health", "Science", "Sports"]
     
 //MARK: Views
     @IBOutlet weak var collectionView: UICollectionView!
-    
+    @IBOutlet weak var searchBar: UISearchBar!
     
 //MARK: App LifeCycle
     override func viewDidLoad() {
