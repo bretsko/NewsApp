@@ -63,7 +63,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     
 //MARK: Helper Methods
     func getArticles() {
-        NetworkManager.fetchNewsApi(endpoint: .category, parameters: parameters) { result in
+        NetworkManager.fetchNewsApi(endpoint: .category) { result in
             DispatchQueue.main.async {
                 switch result {
                 case let .success(articles):

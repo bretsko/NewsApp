@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33066CED245DFD2D00EF6EA8 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33066CEC245DFD2D00EF6EA8 /* Endpoint.swift */; };
 		3352338C2452768E0056EA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352338B2452768E0056EA8E /* AppDelegate.swift */; };
 		3352338E2452768E0056EA8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352338D2452768E0056EA8E /* SceneDelegate.swift */; };
 		335233902452768E0056EA8E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352338F2452768E0056EA8E /* HomeVC.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33066CEC245DFD2D00EF6EA8 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		335233882452768E0056EA8E /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3352338B2452768E0056EA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3352338D2452768E0056EA8E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				335233DD2453744D0056EA8E /* Category.swift */,
 				335233EC2453D2B80056EA8E /* Article.swift */,
 				33859CFD2454DF32001E2855 /* Source.swift */,
+				33066CEC245DFD2D00EF6EA8 /* Endpoint.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				335233B92452803C0056EA8E /* SettingsService.swift in Sources */,
 				335233EB2453D0F70056EA8E /* NetworkManager.swift in Sources */,
 				3352338E2452768E0056EA8E /* SceneDelegate.swift in Sources */,
+				33066CED245DFD2D00EF6EA8 /* Endpoint.swift in Sources */,
 				335233BB2452803C0056EA8E /* UIViewController+extensions.swift in Sources */,
 				335233C52452803C0056EA8E /* UIScrollView+extensions.swift in Sources */,
 				3354CBEE2458FDBC008F7968 /* UIActivityIndicatorView+extensions.swift in Sources */,
