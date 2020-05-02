@@ -14,9 +14,16 @@ class NetworkManager {
     private init() {}
     //properties
     static let urlSession = URLSession.shared // shared singleton session object used to run tasks. Will be useful later
-    static let baseURL = "https://newsapi.org/v2/"
-    static let apiKey = PrivateKeys.newsApiKey.rawValue
-    static var parameters: [String: String] = [:]
+    static private let baseURL = "https://newsapi.org/v2/"
+    static private let apiKey = PrivateKeys.newsApiKey.rawValue
+    static private var parameters: [String: String] = [:]
+    
+///Updates parameters
+    static func updateParameters(parameters: [String: String]) {
+        for parameter in parameters.compactMapValues({ $0 }) where parameter.value != "" { //compactMapValues removes nil values, and ensures it will not read "" values
+            self.parameters[parameter.key] = parameter.value
+        }
+    }
     
 ///Function that calls fetchArticle or fetchSources depending on the endpoint
     static func fetchNewsApi(endpoint: EndPoints, parameters: [String: String] = [:], completion: @escaping (Result<[Article]>) -> Void) {
