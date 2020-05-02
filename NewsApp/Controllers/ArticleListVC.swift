@@ -18,14 +18,9 @@ class ArticleListVC: UIViewController, Storyboarded {
            tableView.reloadData()
        }
     }
-    var parameters: [String: String] = [:] {
-        didSet {
-            self.title = parameters[kCATEGORY] ?? "News List"
-        }
-    }
-//    var category: String! {
+//    var parameters: [String: String] = [:] {
 //        didSet {
-//            self.title = "\(category!) News"
+//            self.title = parameters[kCATEGORY] ?? "News List"
 //        }
 //    }
     var page: Int = 0

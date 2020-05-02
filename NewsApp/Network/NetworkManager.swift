@@ -27,10 +27,6 @@ class NetworkManager {
     
 ///Function that calls fetchArticle or fetchSources depending on the endpoint
     static func fetchNewsApi(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
-//        for (key, value) in parameters where value != "" { //if value has value, then appen to self.parameters
-//            self.parameters[key] = value
-//        }
-//        self.parameters = parameters
         switch endpoint {
         case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
             fetchArticles(endpoint: endpoint) { (result) in //fetch articles
@@ -55,23 +51,6 @@ class NetworkManager {
         }
     }
     
-///Wesley's fetch article
-    static func getTopHeadLines(completion: @escaping (_ article: Article) -> ()){
-        let url = URL(string: "\(NetworkManager.baseURL)top-headlines?country=us&apiKey=\(NetworkManager.apiKey)")
-        let task = NetworkManager.urlSession.dataTask(with: url!, completionHandler: { data, response, error in
-           if error != nil {
-            print(error as Any)
-                return
-            }
-            let articles = try? JSONDecoder().decode(ArticleList.self, from: data!)
-            DispatchQueue.main.async {
-                print("\(articles!)")
-                print("DONE Printing articles")
-            }
-        })
-        task.resume()
-    }
-    
 ///Use Endpoint.category for category VC with sources, and Endpoint.articles for list of articles with parameters
     static func fetchArticles(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
         let articlesRequest = makeRequest(for: endpoint)
@@ -88,6 +67,7 @@ class NetworkManager {
             guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
                 return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse Articles")))
             }
+            print(result.totalResults)
             if result.status == "error" { //check if status has error
 //                do { //data debugging
 //                    let jsonResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any]

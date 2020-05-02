@@ -27,7 +27,7 @@ class MainCoordinator: Coordinator {
         let vc = ArticleListVC.instantiate()
         vc.coordinator = self
         vc.title = parameters[kCATEGORY] ?? "News List"
-        NetworkManager.updateParameters(parameters: parameters)
+        NetworkManager.updateParameters(parameters: parameters) //update parameters
         navigationController.pushViewController(vc, animated: true)
     }
     
