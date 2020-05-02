@@ -23,13 +23,11 @@ class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func goToNewsList(parameters: [String: String]) {
+    func goToNewsList(endpoint: EndPoints, parameters: [String: String]) {
         let vc = ArticleListVC.instantiate()
         vc.coordinator = self
         vc.title = parameters[kCATEGORY] ?? "News List"
-//        vc.parameters = parameters
         NetworkManager.updateParameters(parameters: parameters)
-//        vc.category = category //must pass category instead so back button on details will have category name as its back button
         navigationController.pushViewController(vc, animated: true)
     }
     
