@@ -8,6 +8,21 @@
 
 import UIKit
 
+let kLANGUAGE: String = "language"
+let kCOUNTRY: String = "country"
+let kQ: String = "q"
+let kQINTITLE: String = "qInTitle"
+let kSOURCES: String = "sources"
+let kDOMAINS: String = "domains"
+let kEXCLUDEDOMAINS: String = "excludeDomains"
+let kFROM: String = "from"
+let kTO: String = "to"
+let kSORTBY: String = "sortBy"
+let kPAGESIZE: String = "pageSize"
+let kPAGE: String = "page"
+let kCATEGORY: String = "category"
+
+
 //segues
 let kTONEWSLISTVC: String = "toNewsListVC"
 let kTONEWSDETAILSVC: String = "toNewsDetailVC"
