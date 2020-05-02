@@ -18,12 +18,13 @@ class ArticleListVC: UIViewController, Storyboarded {
            tableView.reloadData()
        }
     }
+    var endpoint: EndPoints!
 //    var parameters: [String: String] = [:] {
 //        didSet {
 //            self.title = parameters[kCATEGORY] ?? "News List"
 //        }
 //    }
-    var page: Int = 0
+    var page: Int = 1
     
 //MARK: Views
     @IBOutlet weak var tableView: UITableView!
@@ -63,11 +64,10 @@ class ArticleListVC: UIViewController, Storyboarded {
     
 //MARK: Helper Methods
     func getArticles() {
-        NetworkManager.fetchNewsApi(endpoint: .category, parameters: [kPAGE: "\(page)"]) { result in
+        NetworkManager.fetchNewsApi(endpoint: endpoint, parameters: [kPAGE: "\(page)"]) { result in
             DispatchQueue.main.async {
                 switch result {
                 case let .success(articles):
-                    print("New articles = \(articles.count)")
                     self.articles.append(contentsOf: articles)
                     self.activityIndicator.shouldAnimate(shouldAnimate: false)
                 case let .failure(error):

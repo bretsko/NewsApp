@@ -47,13 +47,14 @@ enum EndPoints {
     
     ///create string from array of parameters joining each element with & and put "=" between key and value
     func paramsToString(parameters: [String: String]) -> String {
-        let parameterArray = getParams(parameters: parameters).map { key, value in //create an array from key and valuexb
+        let parameterArray = getParams(parameters: parameters).map { key, value in //create an array from key and value
+//        let parameterArray = parameters.map { key, value in //create an array from key and valuexb
             return "\(key)=\(value)"
         }
         return parameterArray.joined(separator: "&") //join each element in array with &
     }
     
-    // grab the parameters for the appropriate object (article or comment)
+    // grab the parameters for the appropriate object (article or comment) and add default
     func getParams(parameters: [String: String]) -> [String: String] {
         switch self {
         case .source:

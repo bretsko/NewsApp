@@ -83,7 +83,7 @@ class NetworkManager {
                 case "maximumResultsReached": //free acc allows to fetch 100 articles only
                     return completion(Result.failure(EndPointError.maximumResultsReached()))
                 default:
-                    return completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error: \(errorMessage)")))
+                    return completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error \(errorCode): \(errorMessage)"))) //error message from endpoint
                 }
             }
             DispatchQueue.main.async {
