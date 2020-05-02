@@ -18,11 +18,16 @@ class ArticleListVC: UIViewController, Storyboarded {
            tableView.reloadData()
        }
     }
-    var category: String! {
+    var parameters: [String: String] = [:] {
         didSet {
-            self.title = "\(category!) News"
+            self.title = parameters[kCATEGORY] ?? "News List"
         }
     }
+//    var category: String! {
+//        didSet {
+//            self.title = "\(category!) News"
+//        }
+//    }
     var page: Int = 0
     
 //MARK: Views
@@ -58,7 +63,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     
 //MARK: Helper Methods
     func getArticles() {
-        NetworkManager.fetchNewsApi(endpoint: .category, parameters: ["category": self.category, "page": "\(page)"]) { result in
+        NetworkManager.fetchNewsApi(endpoint: .category, parameters: parameters) { result in
             DispatchQueue.main.async {
                 switch result {
                 case let .success(articles):

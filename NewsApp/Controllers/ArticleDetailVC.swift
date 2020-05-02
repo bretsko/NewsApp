@@ -28,7 +28,7 @@ class ArticleDetailVC: UIViewController, Storyboarded {
 //MARK: Private Methods
     fileprivate func setupViews() {
         webView.navigationDelegate = self
-        webView.load(URLRequest(url: article.url))
+        webView.load(URLRequest(url: article.url!))
         webView.allowsBackForwardNavigationGestures = true
     }
     
