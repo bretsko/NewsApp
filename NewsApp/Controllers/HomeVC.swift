@@ -27,6 +27,13 @@ class HomeVC: UIViewController, Storyboarded {
     fileprivate func setupViews() {
         self.title = "News Stand"
         setupCollectionView()
+        setupSearchBar()
+    }
+    
+    fileprivate func setupSearchBar() {
+        searchBar.searchTextField.delegate = self
+        searchBar.searchTextField.placeholder = "Search for News"
+        searchBar.returnKeyType = .search
     }
     
     fileprivate func setupCollectionView() {
@@ -63,5 +70,16 @@ extension HomeVC: UICollectionViewDataSource {
         let category = Category.allCases[indexPath.row]
         cell.category = category
         return cell
+    }
+}
+
+// MARK: - Search bar functions
+extension HomeVC: UISearchTextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if textField.text != nil {
+//            fetchGifs(for: textField.text!)
+        }
+        return true
     }
 }
