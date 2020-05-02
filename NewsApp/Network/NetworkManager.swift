@@ -188,33 +188,33 @@ class NetworkManager {
             switch self {
             case .source:
                 return [ //find more info at https://newsapi.org/docs/endpoints/sources
-                    "category": NetworkManager.parameters["category"] ?? "business", //either: business, entertainment, general, health, science, sports, technology
-                    "language": NetworkManager.parameters["language"] ?? "en", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
-                    "country": NetworkManager.parameters["country"] ?? "", //Find sources that display news in a specific country. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Default: all countries.
+                    kCATEGORY: NetworkManager.parameters[kCATEGORY] ?? "general", //either: business, entertainment, general, health, science, sports, technology
+                    kLANGUAGE: NetworkManager.parameters[kLANGUAGE] ?? "en", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
+                    kCOUNTRY: NetworkManager.parameters[kCOUNTRY] ?? "", //Find sources that display news in a specific country. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Default: all countries.
                 ]
             case .articles:
                 return [ //find more info at https://newsapi.org/docs/endpoints/everything
-                    "q": NetworkManager.parameters["q"] ?? "", //Keywords or phrases to search for in the article title and body.
-                    "qInTitle": "", //Keywords or phrases to search for in the article title only.
-                    "sources": NetworkManager.parameters["sources"] ?? "", //A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
-//                    "domains": NetworkManager.parameters["domains"] ?? "", //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
-//                    "excludeDomains": NetworkManager.parameters["excludedDomains"] ??  "" //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.
-                    "from": NetworkManager.parameters["from"] ?? "", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
-                    "to": NetworkManager.parameters["to"] ?? "", //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
-                    "language": NetworkManager.parameters["language"] ??  "en", //The 2-letter ISO-639-1 code of the language you want to get headlines
-                    "sortBy": NetworkManager.parameters["sortBy"] ?? "popularity", //values can only be relevancy, popularity, publishedAt
-                    "pageSize": NetworkManager.parameters["pageSize"] ?? "20", //(Int) 20 default and 100 is max
+                    kQ: NetworkManager.parameters[kQ] ?? "", //Keywords or phrases to search for in the article title and body.
+                    kQINTITLE: NetworkManager.parameters[kQINTITLE] ?? "", //Keywords or phrases to search for in the article title only.
+                    kSOURCES: NetworkManager.parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
+//                    kDOMAINS: NetworkManager.parameters[kDOMAINS] ?? "", //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
+//                    kEXCLUDEDOMAINS: NetworkManager.parameters[kEXCLUDEDOMAINS] ??  "" //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.
+                    kFROM: NetworkManager.parameters[kFROM] ?? "", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
+                    kTO: NetworkManager.parameters[kTO] ?? "", //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
+                    kLANGUAGE: NetworkManager.parameters[kLANGUAGE] ??  "en", //The 2-letter ISO-639-1 code of the language you want to get headlines
+                    kSORTBY: NetworkManager.parameters[kSORTBY] ?? "popularity", //values can only be relevancy, popularity, publishedAt
+                    kPAGESIZE: NetworkManager.parameters[kPAGESIZE] ?? "2", //(Int) 20 default and 100 is max
 //                    "page": NetworkManager.parameters["page"] ?? "20", //(Int) Use this to page through the results.
                 ]
             case .country, .topHeadline, .category:
                 return [
-                    "country": NetworkManager.parameters["country"] ?? "us", //The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
-                    "category": NetworkManager.parameters["category"] ??  "business", //The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
-                    "sources": NetworkManager.parameters["sources"] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
-                    "q": NetworkManager.parameters["q"] ?? "", //Keywords or a phrase to search for.
-                    "pageSize": NetworkManager.parameters["pageSize"] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
-                    "page": NetworkManager.parameters["page"] ?? "1", //Use this to page through the results if the total results found is greater than the page size.
-                ]
+                    kCOUNTRY: NetworkManager.parameters[kCOUNTRY] ?? "us", //The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
+                    kCATEGORY: NetworkManager.parameters[kCATEGORY] ??  "general", //The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
+                    kSOURCES: NetworkManager.parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
+                    kQ: NetworkManager.parameters[kQ] ?? "", //Keywords or a phrase to search for.
+                    kPAGESIZE: NetworkManager.parameters[kPAGESIZE] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
+                    kPAGE: NetworkManager.parameters[kPAGE] ?? "1", //Use this to page through the results if the total results found is greater than the page size.
+                    ]
             case let .comments(articleId):
                 return [
                     "sort_by": "votes",
