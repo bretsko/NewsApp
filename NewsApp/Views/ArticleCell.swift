@@ -21,6 +21,7 @@ class ArticleCell: UITableViewCell {
         imgIndicator.shouldAnimate()
         titleLabel.text = ""
         imgView.image = UIImage()
+        imgView.kf.cancelDownloadTask()
     }
     
     func populateViews(article: Article) {
@@ -37,9 +38,11 @@ class ArticleCell: UITableViewCell {
                                 do {
                                     let _ = try result.get() //value
                                 } catch {
-                                    self.imgView.isHidden = true
+                                    DispatchQueue.main.async {
+                                        self.imgView.isHidden = true
 //                                    print("\(article.title!) has no image")
 //                                    print("Article Image Error=", error.localizedDescription)
+                                    }
                                 }
                             })
     }
