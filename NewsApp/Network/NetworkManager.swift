@@ -16,7 +16,8 @@ class NetworkManager {
     static let urlSession = URLSession.shared // shared singleton session object used to run tasks. Will be useful later
     static private let baseURL = "https://newsapi.org/v2/"
     static private let apiKey = PrivateKeys.newsApiKey.rawValue
-    static private var parameters: [String: String] = [:]
+    static private var parameters: [String: String] = [kPAGE: "0", kPAGESIZE: "20"]
+    static var totalCount: Int = Int.max
     
 ///Updates parameters
     static func updateParameters(parameters: [String: String]) {
@@ -26,7 +27,8 @@ class NetworkManager {
     }
     
 ///Function that calls fetchArticle or fetchSources depending on the endpoint
-    static func fetchNewsApi(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
+    static func fetchNewsApi(endpoint: EndPoints, parameters: [String: String] = [:], completion: @escaping (Result<[Article]>) -> Void) {
+        updateParameters(parameters: parameters)
         switch endpoint {
         case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
             fetchArticles(endpoint: endpoint) { (result) in //fetch articles
@@ -65,16 +67,15 @@ class NetworkManager {
             }
             //decode data
             guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
-                return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse Articles")))
-            }
-            print(result.totalResults)
-            if result.status == "error" { //check if status has error
 //                do { //data debugging
 //                    let jsonResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any]
 //                    print(jsonResult)
 //                } catch {
 //                    print("Error deserializing JSON: \(error)")
 //                }
+                return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse Articles")))
+            }
+            if result.status == "error" { //check if status has error
                 guard let errorMessage = result.message, let errorCode = result.code else { //check if theres an error message from the endpoint
                     return completion(Result.failure(EndPointError.unknown()))
                 }
@@ -86,6 +87,7 @@ class NetworkManager {
                 }
             }
             DispatchQueue.main.async {
+                totalCount = result.totalResults! //update total articles
                 //Ensure we are passing unique array articles. Article must conform to Hashable and Equatable
                 let uniqueArticles = Array(NSOrderedSet(array: result.articles!)) as? [Article]
                 completion(Result.success(uniqueArticles!))

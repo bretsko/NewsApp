@@ -40,6 +40,11 @@ class ArticleListVC: UIViewController, Storyboarded {
         activityIndicator.shouldAnimate()
         getArticles()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NetworkManager.totalCount = Int.max //reset totalCount of articles
+    }
 
 //MARK: Private Methods
     fileprivate func setupViews() {
@@ -58,7 +63,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     
 //MARK: Helper Methods
     func getArticles() {
-        NetworkManager.fetchNewsApi(endpoint: .category) { result in
+        NetworkManager.fetchNewsApi(endpoint: .category, parameters: [kPAGE: "\(page)"]) { result in
             DispatchQueue.main.async {
                 switch result {
                 case let .success(articles):
@@ -94,7 +99,7 @@ extension ArticleListVC: UITableViewDataSource {
         let cell: ArticleCell = tableView.dequeueReusableCell(withIdentifier: String(describing: ArticleCell.self), for: indexPath) as! ArticleCell
         let article = articles[indexPath.row]
         cell.populateViews(article: article)
-        if indexPath.row == articles.count - 1 { //if last cell, get more articles
+        if indexPath.row == articles.count - 1 && indexPath.row < NetworkManager.totalCount - 1 { //if last cell and it's not the last article, get more articles
             self.page += 1 //increment page
             getArticles()
         }
