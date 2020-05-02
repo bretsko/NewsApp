@@ -47,7 +47,7 @@ enum EndPoints {
     
     ///create string from array of parameters joining each element with & and put "=" between key and value
     func paramsToString(parameters: [String: String]) -> String {
-        let parameterArray = getParams(parameters: parameters).map { key, value in //create an array from key and value
+        let parameterArray = getParams(parameters: parameters).map { key, value in //create an array from key and valuexb
             return "\(key)=\(value)"
         }
         return parameterArray.joined(separator: "&") //join each element in array with &
@@ -62,7 +62,7 @@ enum EndPoints {
                 kLANGUAGE: parameters[kLANGUAGE] ?? "en", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
                 kCOUNTRY: parameters[kCOUNTRY] ?? "", //Find sources that display news in a specific country. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Default: all countries.
             ]
-        case .articles:
+        case .articles: // /everything has these parameters
             return [ //find more info at https://newsapi.org/docs/endpoints/everything
                 kQ: parameters[kQ] ?? "", //Keywords or phrases to search for in the article title and body.
                 kQINTITLE: parameters[kQINTITLE] ?? "", //Keywords or phrases to search for in the article title only.
@@ -74,9 +74,9 @@ enum EndPoints {
                 kLANGUAGE: parameters[kLANGUAGE] ?? "en", //The 2-letter ISO-639-1 code of the language you want to get headlines
                 kSORTBY: parameters[kSORTBY] ?? "popularity", //values can only be relevancy, popularity, publishedAt
                 kPAGESIZE: parameters[kPAGESIZE] ?? "20", //(Int) 20 default and 100 is max
-                //                    "page": parameters["page"] ?? "20", //(Int) Use this to page through the results.
+                kPAGE: parameters[kPAGE] ?? "1", //(Int) Use this to page through the results.
             ]
-        case .country, .topHeadline, .category:
+        case .country, .topHeadline, .category: // /top-headlines has these parameters
             return [
                 kCOUNTRY: parameters[kCOUNTRY] ?? "us", //The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
                 kCATEGORY: parameters[kCATEGORY] ??  "general", //The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
