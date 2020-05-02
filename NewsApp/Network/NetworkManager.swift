@@ -26,10 +26,10 @@ class NetworkManager {
     }
     
 ///Function that calls fetchArticle or fetchSources depending on the endpoint
-    static func fetchNewsApi(endpoint: EndPoints, parameters: [String: String] = [:], completion: @escaping (Result<[Article]>) -> Void) {
-        for (key, value) in parameters where value != "" { //if value has value, then appen to self.parameters
-            self.parameters[key] = value
-        }
+    static func fetchNewsApi(endpoint: EndPoints, completion: @escaping (Result<[Article]>) -> Void) {
+//        for (key, value) in parameters where value != "" { //if value has value, then appen to self.parameters
+//            self.parameters[key] = value
+//        }
 //        self.parameters = parameters
         switch endpoint {
         case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
@@ -140,7 +140,7 @@ class NetworkManager {
     // All the code we did before but cleaned up into their own methods
     static private func makeRequest(for endPoint: EndPoints) -> URLRequest {
         // grab the parameters from the endpoint and convert them into a string
-        let stringParams = endPoint.paramsToString()
+        let stringParams = endPoint.paramsToString(parameters: parameters)
         // get the path of the endpoint
         let path = endPoint.getPath()
         // create the full url from the above variables
@@ -152,120 +152,9 @@ class NetworkManager {
         request.httpMethod = endPoint.getHTTPMethod()
         return request
     }
-    
-    enum EndPoints {
-        case articles
-        case category
-        case source
-        case country
-        case topHeadline
-        case comments(articleId: Int)
-        
-        // determine which path to provide for the API request. sources for category, and everything for articles search
-        func getPath() -> String {
-            switch self {
-            case .category, .topHeadline, .country:
-                return "top-headlines"
-            case .articles:
-                return "everything"
-            case .source:
-                return "sources"
-            case .comments:
-                return "comments"
-            }
-        }
-        
-        // We're only ever calling GET for now, but this could be built out if that were to change
-        func getHTTPMethod() -> String {
-            return "GET"
-        }
-        
-        // Same headers we used for Postman
-        func getHeaders(apiKey: String) -> [String: String] {
-            return [
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": "X-Api-Key \(apiKey)", //"Authorization"
-                "Host": "newsapi.org"
-            ]
-        }
-        
-        // grab the parameters for the appropriate object (article or comment)
-        func getParams() -> [String: String] {
-            switch self {
-            case .source:
-                return [ //find more info at https://newsapi.org/docs/endpoints/sources
-                    kCATEGORY: NetworkManager.parameters[kCATEGORY] ?? "general", //either: business, entertainment, general, health, science, sports, technology
-                    kLANGUAGE: NetworkManager.parameters[kLANGUAGE] ?? "en", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
-                    kCOUNTRY: NetworkManager.parameters[kCOUNTRY] ?? "", //Find sources that display news in a specific country. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Default: all countries.
-                ]
-            case .articles:
-                return [ //find more info at https://newsapi.org/docs/endpoints/everything
-                    kQ: NetworkManager.parameters[kQ] ?? "", //Keywords or phrases to search for in the article title and body.
-                    kQINTITLE: NetworkManager.parameters[kQINTITLE] ?? "", //Keywords or phrases to search for in the article title only.
-                    kSOURCES: NetworkManager.parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
-//                    kDOMAINS: NetworkManager.parameters[kDOMAINS] ?? "", //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
-//                    kEXCLUDEDOMAINS: NetworkManager.parameters[kEXCLUDEDOMAINS] ??  "" //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.
-                    kFROM: NetworkManager.parameters[kFROM] ?? "", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
-                    kTO: NetworkManager.parameters[kTO] ?? "", //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
-                    kLANGUAGE: NetworkManager.parameters[kLANGUAGE] ??  "en", //The 2-letter ISO-639-1 code of the language you want to get headlines
-                    kSORTBY: NetworkManager.parameters[kSORTBY] ?? "popularity", //values can only be relevancy, popularity, publishedAt
-                    kPAGESIZE: NetworkManager.parameters[kPAGESIZE] ?? "2", //(Int) 20 default and 100 is max
-//                    "page": NetworkManager.parameters["page"] ?? "20", //(Int) Use this to page through the results.
-                ]
-            case .country, .topHeadline, .category:
-                return [
-                    kCOUNTRY: NetworkManager.parameters[kCOUNTRY] ?? "us", //The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
-                    kCATEGORY: NetworkManager.parameters[kCATEGORY] ??  "general", //The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
-                    kSOURCES: NetworkManager.parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
-                    kQ: NetworkManager.parameters[kQ] ?? "", //Keywords or a phrase to search for.
-                    kPAGESIZE: NetworkManager.parameters[kPAGESIZE] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
-                    kPAGE: NetworkManager.parameters[kPAGE] ?? "1", //Use this to page through the results if the total results found is greater than the page size.
-                    ]
-            case let .comments(articleId):
-                return [
-                    "sort_by": "votes",
-                    "order": "asc",
-                    "per_page": "20",
-                    "search[article_id]": "\(articleId)"
-                ]
-            }
-        }
-        
-        ///create string from array of parameters joining each element with & and put "=" between key and value
-        func paramsToString() -> String {
-            let parameterArray = getParams().map { key, value in //create an array from key and value
-                return "\(key)=\(value)"
-            }
-            return parameterArray.joined(separator: "&") //join each element in array with &
-        }
-    }
 }
 
 enum Result<T> {
     case success(T)
     case failure(Error)
-}
-
-enum EndPointError: Error {
-    case couldNotParse(message: String)
-    case noData(message: String)
-    case unsupportedEndpoint(message: String)
-    case endpointError(message: String)
-    case maximumResultsReached(message: String = "You have reached maximum amount articles. Upgrade your account to see more.")
-    case unknown(message: String = "Error status with no error message")
-}
-
-extension EndPointError: LocalizedError { //to show passed message for error.localizedDescription
-    public var errorDescription: String? {
-        switch self {
-            case let .couldNotParse(message),
-                 let .noData(message),
-                 let .unsupportedEndpoint(message),
-                 let .endpointError(message),
-                 let .maximumResultsReached(message),
-                 let .unknown(message):
-                return message
-        }
-    }
 }
