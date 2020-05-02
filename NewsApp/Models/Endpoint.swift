@@ -73,7 +73,7 @@ enum EndPoints {
                 kTO: parameters[kTO] ?? "", //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
                 kLANGUAGE: parameters[kLANGUAGE] ?? "en", //The 2-letter ISO-639-1 code of the language you want to get headlines
                 kSORTBY: parameters[kSORTBY] ?? "popularity", //values can only be relevancy, popularity, publishedAt
-                kPAGESIZE: parameters[kPAGESIZE] ?? "2", //(Int) 20 default and 100 is max
+                kPAGESIZE: parameters[kPAGESIZE] ?? "20", //(Int) 20 default and 100 is max
                 //                    "page": parameters["page"] ?? "20", //(Int) Use this to page through the results.
             ]
         case .country, .topHeadline, .category:

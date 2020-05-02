@@ -78,7 +78,7 @@ extension HomeVC: UISearchTextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField.text != nil {
-//            fetchGifs(for: textField.text!)
+            coordinator?.goToNewsList(endpoint: .articles, parameters: [kQ: textField.text!])
         }
         return true
     }
