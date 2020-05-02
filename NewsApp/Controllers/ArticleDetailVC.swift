@@ -13,7 +13,11 @@ class ArticleDetailVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     weak var coordinator: MainCoordinator?
-    var article: Article!
+    var article: Article! {
+        didSet {
+            self.title = article.title
+        }
+    }
     
 //MARK: Views
     @IBOutlet weak var webView: WKWebView!
