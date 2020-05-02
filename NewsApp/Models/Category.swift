@@ -9,7 +9,7 @@
 import Foundation
 
 enum Category: String {
-    case business = "Business", entertainment = "Entertainment", general = "General", health = "Health", science = "Science", sports = "Sports", technology = "Technology", all = "All"
+    case business = "Business", entertainment = "Entertainment", general = "General", health = "Health", science = "Science", sports = "Sports", technology = "Technology"
 }
 
 extension Category: CaseIterable { //to be able to use Category.allCases
