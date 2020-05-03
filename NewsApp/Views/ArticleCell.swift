@@ -26,6 +26,8 @@ class ArticleCell: UITableViewCell {
     
     func populateViews(article: Article) {
         imgView.image = UIImage()
+        imgView.layer.cornerRadius = 10
+        imgView.clipsToBounds = true
         mainIndicator.shouldAnimate(shouldAnimate: false)
         guard let title = article.title else { return }
         titleLabel.text = title
