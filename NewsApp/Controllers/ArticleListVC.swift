@@ -44,7 +44,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NetworkManager.totalCount = Int.max //reset totalCount of articles
+        NetworkManager.resetNetworkManager()
     }
 
 //MARK: Private Methods

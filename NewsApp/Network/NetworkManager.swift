@@ -26,6 +26,11 @@ class NetworkManager {
         }
     }
     
+    static func resetNetworkManager() {
+        totalCount = Int.max
+        parameters = [kPAGE: "0", kPAGESIZE: "20"]
+    }
+    
 ///Function that calls fetchArticle or fetchSources depending on the endpoint
     static func fetchNewsApi(endpoint: EndPoints, parameters: [String: String] = [:], completion: @escaping (Result<[Article]>) -> Void) {
         updateParameters(parameters: parameters)
