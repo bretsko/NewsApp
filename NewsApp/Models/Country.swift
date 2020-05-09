@@ -9,7 +9,7 @@
 import Foundation
 
 enum Country: String {
-    case ae = "United Arab Emirates", ar = "Argentina", at = "Austria", au = "Australia",
+    case ar = "Argentina", at = "Austria", au = "Australia",
     be = "Belgium", bg = "Bulgaria", br = "Brazil",
     ca = "Canada", ch = "Chile", cn = "China", co = "Colombia", cu = "Cuba", cz = "Czechia",
     de = "Denmark", eg = "Egypt", fr = "France",
