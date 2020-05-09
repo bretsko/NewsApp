@@ -12,7 +12,8 @@ enum EndPoints {
     case articles
     case language
     case category
-    case source
+    case sources //endpoint for fetching array of sources
+    case source //for fetching article using source
     case country
     case topHeadline
 //    case comments(articleId: Int)
@@ -20,11 +21,11 @@ enum EndPoints {
     // determine which path to provide for the API request. sources for category, and everything for articles search
     func getPath() -> String {
         switch self {
-        case .category, .topHeadline, .country:
+        case .category, .topHeadline, .country, .source:
             return "top-headlines"
         case .articles, .language:
             return "everything"
-        case .source:
+        case .sources:
             return "sources"
         }
     }
@@ -56,7 +57,7 @@ enum EndPoints {
     // grab the parameters for the appropriate object (article or comment) and add default
     func getParams(parameters: [String: String]) -> [String: String] {
         switch self {
-        case .source:
+        case .sources:
             return [ //find more info at https://newsapi.org/docs/endpoints/sources
                 kCATEGORY: parameters[kCATEGORY] ?? "", //either: business, entertainment, general, health, science, sports, technology
                 kLANGUAGE: parameters[kLANGUAGE] ?? "", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
@@ -80,10 +81,17 @@ enum EndPoints {
             return [
                 kCOUNTRY: parameters[kCOUNTRY] ?? "us", //The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
                 kCATEGORY: parameters[kCATEGORY] ??  "general", //The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
-                kSOURCES: parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
+//                kSOURCES: parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
                 kQ: parameters[kQ] ?? "", //Keywords or a phrase to search for.
                 kPAGESIZE: parameters[kPAGESIZE] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
                 kPAGE: parameters[kPAGE] ?? "1", //Use this to page through the results if the total results found is greater than the page size.
+            ]
+        case .source: //source cannot have country or category endpoint
+            return [
+            kSOURCES: parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
+            kQ: parameters[kQ] ?? "", //Keywords or a phrase to search for.
+            kPAGESIZE: parameters[kPAGESIZE] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
+            kPAGE: parameters[kPAGE] ?? "1", //Use this to page through the results if the total results found is greater than the page size.
             ]
         }
     }

@@ -35,7 +35,7 @@ class NetworkManager {
     static func fetchNewsApi(endpoint: EndPoints, parameters: [String: String] = [:], completion: @escaping (Result<[Article]>) -> Void) {
         updateParameters(parameters: parameters)
         switch endpoint {
-        case .articles, .category, .country, .topHeadline: //these endpoints all receives an array of articles
+        case .articles, .category, .country, .topHeadline, .source: //these endpoints all receives an array of articles
             fetchArticles(endpoint: endpoint) { (result) in //fetch articles
                 switch result {
                 case let .success(articles):
@@ -93,7 +93,7 @@ class NetworkManager {
     }
     
     static func fetchSources(completion: @escaping (Result<[Source]>) -> Void) {
-        let articlesRequest = makeRequest(for: .source) //setup request as source
+        let articlesRequest = makeRequest(for: .sources) //setup request as source
         let task = urlSession.dataTask(with: articlesRequest) { data, response, error in
             // Check for errors.
             if let error = error {
