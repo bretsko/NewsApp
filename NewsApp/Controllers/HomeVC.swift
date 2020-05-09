@@ -52,9 +52,6 @@ class HomeVC: UIViewController, Storyboarded {
     }
     
     fileprivate func setupCollectionView() {
-//        let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
-//            return self.sections[sectionIndex].layoutSection()
-//        }
         collectionView.collectionViewLayout = collectionViewLayout
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -77,6 +74,24 @@ class HomeVC: UIViewController, Storyboarded {
 extension HomeVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        let cell: CategoryCell = collectionView.cellForItem(at: indexPath) as! CategoryCell //to initialize the cell
+        switch indexPath.section {
+        case 1: //categories
+            let section = sections[indexPath.section] as! ImageSection
+            let category = section.categories[indexPath.row]
+            coordinator?.goToNewsList(endpoint: .category, parameters: [kCATEGORY: category.rawValue])
+        case 3: //countries
+//            let section = sections[indexPath.section] as! LabelSection
+//            let country = section.titles[indexPath.row]
+            let country = String(describing: Country.allCases[indexPath.row]) //convert enum case to string
+            coordinator?.goToNewsList(endpoint: .country, parameters: [kCOUNTRY: country])
+        case 5: //languages
+//            let section = sections[indexPath.section] as! LabelSection
+//            let language = section.titles[indexPath.row]
+            let language = String(describing: Language.allCases[indexPath.row])
+            coordinator?.goToNewsList(endpoint: .articles, parameters: [kLANGUAGE: language])
+        default: //titles
+            break
+        }
 //        let category = Category.allCases[indexPath.row]
 //        coordinator?.goToNewsList(endpoint: .category, parameters: [kCATEGORY: category.rawValue])
     }
@@ -89,25 +104,9 @@ extension HomeVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sections[section].numberOfItems
-//        switch section {
-//        case 0, 2, 4: //for title sections
-//            return 1
-//        case 1:
-//            return Category.allCases.count
-//        case 3:
-//            return Country.allCases.count
-//        case 5:
-//            return Language.allCases.count
-//        default:
-//            return 0
-//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell: CategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CategoryCell.self), for: indexPath) as! CategoryCell
-//        let category = Category.allCases[indexPath.row]
-//        cell.category = category
-//        return cell
         switch sections[indexPath.section] {
         case is TitleSection:
             let section = sections[indexPath.section] as! TitleSection
