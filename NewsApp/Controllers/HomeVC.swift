@@ -27,6 +27,11 @@ class HomeVC: UIViewController, Storyboarded {
         }
         return layout
     }()
+    var sources: [Source] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
 //MARK: Views
     @IBOutlet weak var collectionView: UICollectionView!
@@ -43,6 +48,19 @@ class HomeVC: UIViewController, Storyboarded {
         self.title = "News Stand"
         setupCollectionView()
         setupSearchBar()
+        NetworkManager.fetchSources { (result) in
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(sources):
+                    self.sources.append(contentsOf: sources)
+                    for source in self.sources {
+                        print(source)
+                    }
+                case let .failure(error):
+                    Service.presentAlert(on: self, title: "Error", message: error.localizedDescription)
+                }
+            }
+        }
     }
     
     fileprivate func setupSearchBar() {
@@ -56,7 +74,6 @@ class HomeVC: UIViewController, Storyboarded {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
-//        collectionView.collectionViewLayout = CategoryFlowLayout()
 //        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: String(describing: CategoryCell.self)) //no need since it's inside collectionView's story
         collectionView.register(UINib(nibName: TitleCell.identifier, bundle: .main), forCellWithReuseIdentifier: TitleCell.identifier)
         collectionView.register(UINib(nibName: ImageCell.identifier, bundle: .main), forCellWithReuseIdentifier: ImageCell.identifier)
@@ -71,6 +88,8 @@ class HomeVC: UIViewController, Storyboarded {
 }
 
 //MARK: Extensions
+
+//MARK: CollectionView Delegate Extension
 extension HomeVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        let cell: CategoryCell = collectionView.cellForItem(at: indexPath) as! CategoryCell //to initialize the cell
@@ -87,19 +106,16 @@ extension HomeVC: UICollectionViewDelegate {
             let vcTitle = Country.allCases[indexPath.row].rawValue + " News"
             coordinator?.goToNewsList(endpoint: .country, vcTitle: vcTitle, parameters: [kCOUNTRY: country])
         case 5: //languages
-//            let section = sections[indexPath.section] as! LabelSection
-//            let language = section.titles[indexPath.row]
             let language = String(describing: Language.allCases[indexPath.row])
             let vcTitle = Language.allCases[indexPath.row].rawValue + " News"
             coordinator?.goToNewsList(endpoint: .language, vcTitle: vcTitle, parameters: [kLANGUAGE: language])
         default: //titles
             break
         }
-//        let category = Category.allCases[indexPath.row]
-//        coordinator?.goToNewsList(endpoint: .category, parameters: [kCATEGORY: category.rawValue])
     }
 }
 
+//MARK: CollectionView Data Source Extension
 extension HomeVC: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return sections.count
