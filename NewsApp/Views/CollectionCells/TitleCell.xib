@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5XX-NX-CJ3">
-                        <rect key="frame" x="20" y="0.0" width="253" height="56"/>
+                        <rect key="frame" x="20" y="15" width="253" height="41"/>
                         <fontDescription key="fontDescription" name="MuktaMahee-Bold" family="Mukta Mahee" pointSize="20"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -33,7 +33,7 @@
             </view>
             <constraints>
                 <constraint firstItem="5MI-Oc-lON" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="0yO-ea-qUX"/>
-                <constraint firstItem="5XX-NX-CJ3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="6GL-cl-Zpj"/>
+                <constraint firstItem="5XX-NX-CJ3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="6GL-cl-Zpj"/>
                 <constraint firstItem="5XX-NX-CJ3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="EIw-dp-MAJ"/>
                 <constraint firstAttribute="bottom" secondItem="5MI-Oc-lON" secondAttribute="bottom" constant="5" id="MA2-Sc-KCF"/>
                 <constraint firstAttribute="trailing" secondItem="5MI-Oc-lON" secondAttribute="trailing" id="YZw-8v-sLr"/>
