@@ -44,15 +44,6 @@ class NetworkManager {
                     completion(.failure(error))
                 }
             }
-        case .source: //get all sources, working but not implemented
-            fetchSources { (result) in
-                switch result {
-                case let.success(sources):
-                    print("Sources are: ", sources)
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
         default:
             completion(.failure(EndPointError.unsupportedEndpoint(message: "Endpoint is not supported")))
         }
@@ -115,10 +106,13 @@ class NetworkManager {
             guard let result = try? JSONDecoder().decode(Sources.self, from: data) else {
                 return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse sources")))
             }
-            let articles = result.sources
+            if result.status != "ok" {
+                completion(Result.failure(EndPointError.endpointError(message: result.message ?? "Unknown endpoint error")))
+            }
+            let sources = result.sources
             // Return the result with the completion handler.
             DispatchQueue.main.async {
-                completion(Result.success(articles))
+                completion(Result.success(sources))
             }
         }
         task.resume()
