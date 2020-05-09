@@ -9,34 +9,40 @@
 import UIKit
 
 struct LabelSection: Section {
-    let numberOfItems = 1
-    let title: String
+    
+    var titles: [String]
+    var numberOfItems = 1
 
-    init(title: String) {
-        self.title = title
+    init(titles: [String]) {
+        self.titles = titles
+        self.numberOfItems = titles.count
     }
     
     func layoutSection() -> NSCollectionLayoutSection {
         // Step 1:
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .fractionalHeight(0.3))
         
         // Step 2:
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        // Step 3:
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
+        // Step 3: Try using 95% width and 35% height
+//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .absolute(0.3))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .fractionalHeight(0.35))
         
-        // Step 4:
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        // Step 4: You will need to specify how many items per group (3)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         // Step 5:
         let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10)
         return section
     }
     
     //Step 6:
     func configureCell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TitleCell.self), for: indexPath) as! TitleCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LabelCell.self), for: indexPath) as! LabelCell
+        let title = self.titles[indexPath.row]
         cell.set(title: title)
         return cell
     }
