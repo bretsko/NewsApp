@@ -21,5 +21,4 @@ class TitleCell: UICollectionViewCell {
     func set(title: String) {
         lblTitle.text = title
     }
-
 }

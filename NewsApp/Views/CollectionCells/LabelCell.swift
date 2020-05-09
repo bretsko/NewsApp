@@ -21,5 +21,9 @@ class LabelCell: UICollectionViewCell {
     
     func set(title: String) {
         lblTitle.text = title
+        self.layer.cornerRadius = 10
+        self.layer.masksToBounds = true //same as clipsToBounds
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.black.cgColor
     }
 }
