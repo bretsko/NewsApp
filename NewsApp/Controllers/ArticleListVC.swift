@@ -41,11 +41,6 @@ class ArticleListVC: UIViewController, Storyboarded {
         activityIndicator.shouldAnimate()
         getArticles()
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        NetworkManager.resetNetworkManager()
-    }
 
 //MARK: Private Methods
     fileprivate func setupViews() {
