@@ -8,17 +8,23 @@
 
 import UIKit
 
-struct Sources: Decodable {
+struct Sources: Codable {
     var status: String
     var sources: [Source]
+    var message: String? //in case status is not ok
 }
 
-//struct Source: Decodable {
-//    var id: String //identifier of news source
-//    var name: String //name news source
-//    var description: String //A description of the news source
-//    var url: URL //URL of the homepage.
-//    var category: String //type of news
-//    var language: String //language news was written on
-//    var country: String //country this news source is based in (and primarily writes about)
+//public struct Source: Codable {
+//    public let id: String?
+//    public let name: String
 //}
+
+public struct Source: Codable {
+    var id: String //identifier of news source
+    var name: String //name news source
+    var description: String //A description of the news source
+    var url: URL //URL of the homepage.
+    var category: String //type of news
+    var language: String //language news was written on
+    var country: String //country this news source is based in (and primarily writes about)
+}
