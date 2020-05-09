@@ -35,7 +35,7 @@ class NetworkManager {
     static func fetchNewsApi(endpoint: EndPoints, parameters: [String: String] = [:], completion: @escaping (Result<[Article]>) -> Void) {
         updateParameters(parameters: parameters)
         switch endpoint {
-        case .articles, .category, .country, .topHeadline, .source: //these endpoints all receives an array of articles
+        case .articles, .category, .country, .topHeadline, .source, .language: //these endpoints all receives an array of articles
             fetchArticles(endpoint: endpoint) { (result) in //fetch articles
                 switch result {
                 case let .success(articles):
