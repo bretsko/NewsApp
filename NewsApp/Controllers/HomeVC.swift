@@ -20,8 +20,7 @@ class HomeVC: UIViewController, Storyboarded {
         TitleSection(title: "Languages"),
         LabelSection(titles: Language.allCases.map { $0.rawValue }),
         TitleSection(title: "Sources"),
-//        LabelSection(titles: sources.filter{ $0.name} )
-        LabelSection(titles: [] ) //create an array of sources name from sources
+        LabelSection(titles: []) //keep it empty for now as we fetch sources
     ]
     lazy var collectionViewLayout: UICollectionViewLayout = {
         var sections = self.sections
@@ -57,14 +56,17 @@ class HomeVC: UIViewController, Storyboarded {
         self.title = "News Stand"
         setupCollectionView()
         setupSearchBar()
+        fetchSources()
+    }
+    
+    ///fetches a list of sources which is needed to fetch articles by language and by source
+    fileprivate func fetchSources() {
         NetworkManager.fetchSources { (result) in
-            DispatchQueue.main.async {
-                switch result {
-                case let .success(sources):
-                    self.sources.append(contentsOf: sources)
-                case let .failure(error):
-                    Service.presentAlert(on: self, title: "Error", message: error.localizedDescription)
-                }
+            switch result {
+            case let .success(sources):
+                self.sources.append(contentsOf: sources)
+            case let .failure(error):
+                Service.presentAlert(on: self, title: "Error", message: error.localizedDescription)
             }
         }
     }
@@ -98,24 +100,22 @@ class HomeVC: UIViewController, Storyboarded {
 //MARK: CollectionView Delegate Extension
 extension HomeVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let cell: CategoryCell = collectionView.cellForItem(at: indexPath) as! CategoryCell //to initialize the cell
         switch indexPath.section {
-        case 1: //categories
+        case 1: //fetch articles by categories
             let section = sections[indexPath.section] as! ImageSection
             let category = section.categories[indexPath.row]
             let vcTitle = Category.allCases[indexPath.row].rawValue + " News"
             coordinator?.goToNewsList(endpoint: .category, vcTitle: vcTitle, parameters: [kCATEGORY: category.rawValue])
-        case 3: //countries
-//            let section = sections[indexPath.section] as! LabelSection
-//            let country = section.titles[indexPath.row]
+        case 3: //fetch articles by countries
             let country = String(describing: Country.allCases[indexPath.row]) //convert enum case to string
             let vcTitle = Country.allCases[indexPath.row].rawValue + " News"
             coordinator?.goToNewsList(endpoint: .country, vcTitle: vcTitle, parameters: [kCOUNTRY: country])
-        case 5: //languages
+        case 5: //fetch articles by language
             let language = String(describing: Language.allCases[indexPath.row])
             let vcTitle = Language.allCases[indexPath.row].rawValue + " News"
-            coordinator?.goToNewsList(endpoint: .language, vcTitle: vcTitle, parameters: [kLANGUAGE: language])
-        case 7: //languages
+            let sourcesQueryString = Language.getSourcesString(language: language, sources: self.sources) //fetching articles by language requires sources query
+            coordinator?.goToNewsList(endpoint: .language, vcTitle: vcTitle, parameters: [kLANGUAGE: language, kSOURCES: sourcesQueryString])
+        case 7: //fetch articles by source
             let source = sources[indexPath.row]
             coordinator?.goToNewsList(endpoint: .source, vcTitle: source.name, parameters: [kSOURCES: source.id])
         default: //titles
