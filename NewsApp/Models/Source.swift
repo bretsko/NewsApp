@@ -14,10 +14,10 @@ struct Sources: Codable {
     var message: String? //in case status is not ok
 }
 
-//public struct Source: Codable {
-//    public let id: String?
-//    public let name: String
-//}
+public struct ArticleSource: Codable {
+    public let id: String?
+    public let name: String
+}
 
 public struct Source: Codable {
     var id: String //identifier of news source

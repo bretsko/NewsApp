@@ -26,7 +26,7 @@ class NetworkManager {
         }
     }
     
-    static func resetNetworkManager() {
+    static func resetNetworkManager() { //reset totalCount and parameters
         totalCount = Int.max
         parameters = [kPAGE: "0", kPAGESIZE: "20"]
     }

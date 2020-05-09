@@ -19,11 +19,6 @@ class ArticleListVC: UIViewController, Storyboarded {
        }
     }
     var endpoint: EndPoints!
-//    var parameters: [String: String] = [:] {
-//        didSet {
-//            self.title = parameters[kCATEGORY] ?? "News List"
-//        }
-//    }
     var page: Int = 1
     
 //MARK: Views
