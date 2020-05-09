@@ -78,17 +78,20 @@ extension HomeVC: UICollectionViewDelegate {
         case 1: //categories
             let section = sections[indexPath.section] as! ImageSection
             let category = section.categories[indexPath.row]
-            coordinator?.goToNewsList(endpoint: .category, parameters: [kCATEGORY: category.rawValue])
+            let vcTitle = Category.allCases[indexPath.row].rawValue + " News"
+            coordinator?.goToNewsList(endpoint: .category, vcTitle: vcTitle, parameters: [kCATEGORY: category.rawValue])
         case 3: //countries
 //            let section = sections[indexPath.section] as! LabelSection
 //            let country = section.titles[indexPath.row]
             let country = String(describing: Country.allCases[indexPath.row]) //convert enum case to string
-            coordinator?.goToNewsList(endpoint: .country, parameters: [kCOUNTRY: country])
+            let vcTitle = Country.allCases[indexPath.row].rawValue + " News"
+            coordinator?.goToNewsList(endpoint: .country, vcTitle: vcTitle, parameters: [kCOUNTRY: country])
         case 5: //languages
 //            let section = sections[indexPath.section] as! LabelSection
 //            let language = section.titles[indexPath.row]
             let language = String(describing: Language.allCases[indexPath.row])
-            coordinator?.goToNewsList(endpoint: .articles, parameters: [kLANGUAGE: language])
+            let vcTitle = Language.allCases[indexPath.row].rawValue + " News"
+            coordinator?.goToNewsList(endpoint: .language, vcTitle: vcTitle, parameters: [kLANGUAGE: language])
         default: //titles
             break
         }
@@ -128,7 +131,7 @@ extension HomeVC: UISearchTextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField.text != nil {
-            coordinator?.goToNewsList(endpoint: .articles, parameters: [kQ: textField.text!])
+            coordinator?.goToNewsList(endpoint: .articles, vcTitle: "\(textField.text!) News", parameters: [kQ: textField.text!])
         }
         return true
     }

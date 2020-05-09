@@ -23,10 +23,10 @@ class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func goToNewsList(endpoint: EndPoints, parameters: [String: String]) {
+    func goToNewsList(endpoint: EndPoints, vcTitle: String, parameters: [String: String]) {
         let vc = ArticleListVC.instantiate()
         vc.coordinator = self
-        vc.title = parameters[kCATEGORY] ?? "News List"
+        vc.title = vcTitle
         vc.endpoint = endpoint //.articles for searching, and .category for category
         NetworkManager.updateParameters(parameters: parameters) //update parameters
         navigationController.pushViewController(vc, animated: true)
