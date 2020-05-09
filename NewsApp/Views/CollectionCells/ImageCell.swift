@@ -12,6 +12,7 @@ import UIKit
 class ImageCell: UICollectionViewCell {
     
     static var identifier: String = "ImageCell"
+    let gradientLayer = CAGradientLayer()
     
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -21,13 +22,24 @@ class ImageCell: UICollectionViewCell {
     }
     
     func setContents(title: String, image: UIImage = UIImage()) {
-        coverImg.image = image
         titleLabel.text = title
+        coverImg.image = image
+        coverImg.layer.cornerRadius = 10
+        coverImg.layer.masksToBounds = true //same as clipsToBounds
+        darkenImageView()
     }
     
     override func prepareForReuse() {
-//        coverImg.kf.cancelDownloadTask()
         coverImg.image = nil
         titleLabel.text = nil
+        gradientLayer.colors = [UIColor.clear.cgColor] //reset the color
+    }
+    
+    fileprivate func darkenImageView() {
+        guard let black: CGColor = UIColor.black.cgColor.copy(alpha: 0.7) else { return }
+        gradientLayer.colors = [UIColor.clear.cgColor, black]
+        gradientLayer.locations = [0, 0.4] //0.75 instead of 0 so there will be more clear color than black
+        gradientLayer.frame = coverImg.frame
+        coverImg.layer.addSublayer(gradientLayer)
     }
 }
