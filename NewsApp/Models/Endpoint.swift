@@ -46,7 +46,7 @@ enum EndPoints {
     
     ///create string from array of parameters joining each element with & and put "=" between key and value
     func paramsToString(parameters: [String: String]) -> String {
-        let parameterArray = getParams(parameters: parameters).filter( { !$0.value.isEmpty }).map { key, value in //create an array from key and value
+        let parameterArray = getParams(parameters: parameters).filter( { !$0.value.isEmpty }).map { key, value in //create an array from key and value //filtering value that is empty or ""
 //        let parameterArray = parameters.map { key, value in //create an array from key and valuexb
             return "\(key)=\(value)"
         }
