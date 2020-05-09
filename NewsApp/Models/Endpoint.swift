@@ -10,23 +10,22 @@ import Foundation
 
 enum EndPoints {
     case articles
+    case language
     case category
     case source
     case country
     case topHeadline
-    case comments(articleId: Int)
+//    case comments(articleId: Int)
     
     // determine which path to provide for the API request. sources for category, and everything for articles search
     func getPath() -> String {
         switch self {
         case .category, .topHeadline, .country:
             return "top-headlines"
-        case .articles:
+        case .articles, .language:
             return "everything"
         case .source:
             return "sources"
-        case .comments:
-            return "comments"
         }
     }
     
@@ -47,7 +46,7 @@ enum EndPoints {
     
     ///create string from array of parameters joining each element with & and put "=" between key and value
     func paramsToString(parameters: [String: String]) -> String {
-        let parameterArray = getParams(parameters: parameters).map { key, value in //create an array from key and value
+        let parameterArray = getParams(parameters: parameters).filter( { !$0.value.isEmpty }).map { key, value in //create an array from key and value
 //        let parameterArray = parameters.map { key, value in //create an array from key and valuexb
             return "\(key)=\(value)"
         }
@@ -63,14 +62,14 @@ enum EndPoints {
                 kLANGUAGE: parameters[kLANGUAGE] ?? "en", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
                 kCOUNTRY: parameters[kCOUNTRY] ?? "", //Find sources that display news in a specific country. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Default: all countries.
             ]
-        case .articles: // /everything has these parameters
+        case .articles, .language: // /everything has these parameters
             return [ //find more info at https://newsapi.org/docs/endpoints/everything
                 kQ: parameters[kQ] ?? "", //Keywords or phrases to search for in the article title and body.
                 kQINTITLE: parameters[kQINTITLE] ?? "", //Keywords or phrases to search for in the article title only.
                 kSOURCES: parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
                 //                    kDOMAINS: parameters[kDOMAINS] ?? "", //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
                 //                    kEXCLUDEDOMAINS: parameters[kEXCLUDEDOMAINS] ??  "" //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.
-                kFROM: parameters[kFROM] ?? "", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
+                kFROM: parameters[kFROM] ?? "\(Service.getIso8601DateByWeek(weekCount: -2))", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
                 kTO: parameters[kTO] ?? "", //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
                 kLANGUAGE: parameters[kLANGUAGE] ?? "en", //The 2-letter ISO-639-1 code of the language you want to get headlines
                 kSORTBY: parameters[kSORTBY] ?? "popularity", //values can only be relevancy, popularity, publishedAt
@@ -85,13 +84,6 @@ enum EndPoints {
                 kQ: parameters[kQ] ?? "", //Keywords or a phrase to search for.
                 kPAGESIZE: parameters[kPAGESIZE] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
                 kPAGE: parameters[kPAGE] ?? "1", //Use this to page through the results if the total results found is greater than the page size.
-            ]
-        case let .comments(articleId):
-            return [
-                "sort_by": "votes",
-                "order": "asc",
-                "per_page": "20",
-                "search[article_id]": "\(articleId)"
             ]
         }
     }
