@@ -19,7 +19,7 @@ public struct ArticleList: Codable {
 /// A product retrieved from the Product Hunt API.
 public struct Article {
     // Various properties of a post that we either need or want to display
-    public let source: Source?
+//    public let source: Source?
     public let author: String?
     public let title: String?
     public let description: String?
