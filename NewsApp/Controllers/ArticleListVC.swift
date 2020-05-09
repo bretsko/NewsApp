@@ -14,9 +14,9 @@ class ArticleListVC: UIViewController, Storyboarded {
 //MARK: Properties
     weak var coordinator: MainCoordinator?
     var articles: [Article] = [] {
-       didSet {
-           tableView.reloadData()
-       }
+        didSet {
+            tableView.reloadData()
+        }
     }
     var endpoint: EndPoints!
     var page: Int = 1
