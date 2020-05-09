@@ -18,7 +18,10 @@ class HomeVC: UIViewController, Storyboarded {
         TitleSection(title: "Countries"),
         LabelSection(titles: Country.allCases.map { $0.rawValue }), //since titles is an array of String, we need to map allCases to its rawValue
         TitleSection(title: "Languages"),
-        LabelSection(titles: Language.allCases.map { $0.rawValue })
+        LabelSection(titles: Language.allCases.map { $0.rawValue }),
+        TitleSection(title: "Sources"),
+//        LabelSection(titles: sources.filter{ $0.name} )
+        LabelSection(titles: [] ) //create an array of sources name from sources
     ]
     lazy var collectionViewLayout: UICollectionViewLayout = {
         var sections = self.sections
@@ -29,6 +32,7 @@ class HomeVC: UIViewController, Storyboarded {
     }()
     var sources: [Source] = [] {
         didSet {
+            sections[7] = LabelSection(titles: sources.map{ $0.name } ) //create an array of sources name from sources
             collectionView.reloadData()
         }
     }
@@ -53,9 +57,9 @@ class HomeVC: UIViewController, Storyboarded {
                 switch result {
                 case let .success(sources):
                     self.sources.append(contentsOf: sources)
-                    for source in self.sources {
-                        print(source)
-                    }
+//                    for source in self.sources {
+//                        print(source)
+//                    }
                 case let .failure(error):
                     Service.presentAlert(on: self, title: "Error", message: error.localizedDescription)
                 }
@@ -109,6 +113,10 @@ extension HomeVC: UICollectionViewDelegate {
             let language = String(describing: Language.allCases[indexPath.row])
             let vcTitle = Language.allCases[indexPath.row].rawValue + " News"
             coordinator?.goToNewsList(endpoint: .language, vcTitle: vcTitle, parameters: [kLANGUAGE: language])
+        case 7: //languages
+            let source = String(describing: sources[indexPath.row])
+//            let vcTitle = Language.allCases[indexPath.row].rawValue + " News"
+            coordinator?.goToNewsList(endpoint: .language, vcTitle: source, parameters: [kSOURCES: source])
         default: //titles
             break
         }
@@ -126,14 +134,33 @@ extension HomeVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch sections[indexPath.section] {
-        case is TitleSection:
+//        switch sections[indexPath.section] {
+//        case is TitleSection:
+//            let section = sections[indexPath.section] as! TitleSection
+//            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
+//        case is ImageSection:
+//            let section = sections[indexPath.section] as! ImageSection
+//            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
+//        case is LabelSection:
+//            let section = sections[indexPath.section] as! LabelSection
+//            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
+//        default:
+//            return sections[indexPath.section].configureCell(collectionView: collectionView, indexPath: indexPath)
+//        }
+        switch indexPath.section {
+        case 0,2,4,6: //title sections
             let section = sections[indexPath.section] as! TitleSection
             return section.configureCell(collectionView: collectionView, indexPath: indexPath)
-        case is ImageSection:
+        case 1: //category
             let section = sections[indexPath.section] as! ImageSection
             return section.configureCell(collectionView: collectionView, indexPath: indexPath)
-        case is LabelSection:
+        case 3:
+            let section = sections[indexPath.section] as! LabelSection
+            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
+        case 5:
+            let section = sections[indexPath.section] as! LabelSection
+            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
+        case 7:
             let section = sections[indexPath.section] as! LabelSection
             return section.configureCell(collectionView: collectionView, indexPath: indexPath)
         default:
