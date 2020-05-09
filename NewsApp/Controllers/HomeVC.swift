@@ -52,11 +52,18 @@ class HomeVC: UIViewController, Storyboarded {
     }
     
     fileprivate func setupCollectionView() {
+//        let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
+//            return self.sections[sectionIndex].layoutSection()
+//        }
+        collectionView.collectionViewLayout = collectionViewLayout
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.collectionViewLayout = CategoryFlowLayout()
+//        collectionView.collectionViewLayout = CategoryFlowLayout()
 //        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: String(describing: CategoryCell.self)) //no need since it's inside collectionView's story
+        collectionView.register(UINib(nibName: TitleCell.identifier, bundle: .main), forCellWithReuseIdentifier: TitleCell.identifier)
+        collectionView.register(UINib(nibName: ImageCell.identifier, bundle: .main), forCellWithReuseIdentifier: ImageCell.identifier)
+        collectionView.register(UINib(nibName: LabelCell.identifier, bundle: .main), forCellWithReuseIdentifier: LabelCell.identifier)
     }
     
 //MARK: IBActions
@@ -70,21 +77,50 @@ class HomeVC: UIViewController, Storyboarded {
 extension HomeVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        let cell: CategoryCell = collectionView.cellForItem(at: indexPath) as! CategoryCell //to initialize the cell
-        let category = Category.allCases[indexPath.row]
-        coordinator?.goToNewsList(endpoint: .category, parameters: [kCATEGORY: category.rawValue])
+//        let category = Category.allCases[indexPath.row]
+//        coordinator?.goToNewsList(endpoint: .category, parameters: [kCATEGORY: category.rawValue])
     }
 }
 
 extension HomeVC: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return sections.count
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Category.allCases.count
+        return sections[section].numberOfItems
+//        switch section {
+//        case 0, 2, 4: //for title sections
+//            return 1
+//        case 1:
+//            return Category.allCases.count
+//        case 3:
+//            return Country.allCases.count
+//        case 5:
+//            return Language.allCases.count
+//        default:
+//            return 0
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: CategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CategoryCell.self), for: indexPath) as! CategoryCell
-        let category = Category.allCases[indexPath.row]
-        cell.category = category
-        return cell
+//        let cell: CategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CategoryCell.self), for: indexPath) as! CategoryCell
+//        let category = Category.allCases[indexPath.row]
+//        cell.category = category
+//        return cell
+        switch sections[indexPath.section] {
+        case is TitleSection:
+            let section = sections[indexPath.section] as! TitleSection
+            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
+        case is ImageSection:
+            let section = sections[indexPath.section] as! ImageSection
+            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
+        case is LabelSection:
+            let section = sections[indexPath.section] as! LabelSection
+            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
+        default:
+            return sections[indexPath.section].configureCell(collectionView: collectionView, indexPath: indexPath)
+        }
     }
 }
 

@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="z0R-Ch-G9P">
-                                <rect key="frame" x="16" y="56" width="343" height="611"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="611"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uhF-Pw-iod">
                                     <size key="itemSize" width="128" height="128"/>
@@ -58,13 +58,13 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="z0R-Ch-G9P" secondAttribute="trailing" constant="16" id="DUb-Yf-npJ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="z0R-Ch-G9P" secondAttribute="trailing" id="DUb-Yf-npJ"/>
                             <constraint firstItem="z0R-Ch-G9P" firstAttribute="top" secondItem="GRB-aT-Fj9" secondAttribute="bottom" id="NGb-kC-2Fd"/>
                             <constraint firstItem="GRB-aT-Fj9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="S7F-mg-hzk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="z0R-Ch-G9P" secondAttribute="bottom" id="TKH-6F-tJI"/>
                             <constraint firstItem="GRB-aT-Fj9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="d2R-AI-7cQ"/>
                             <constraint firstItem="GRB-aT-Fj9" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="o2b-th-jxj"/>
-                            <constraint firstItem="z0R-Ch-G9P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="sC5-gj-kSe"/>
+                            <constraint firstItem="z0R-Ch-G9P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sC5-gj-kSe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
