@@ -46,6 +46,11 @@ class HomeVC: UIViewController, Storyboarded {
         super.viewDidLoad()
         setupViews()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NetworkManager.resetNetworkManager()
+    }
 
 //MARK: Private Methods
     fileprivate func setupViews() {
@@ -57,9 +62,6 @@ class HomeVC: UIViewController, Storyboarded {
                 switch result {
                 case let .success(sources):
                     self.sources.append(contentsOf: sources)
-//                    for source in self.sources {
-//                        print(source)
-//                    }
                 case let .failure(error):
                     Service.presentAlert(on: self, title: "Error", message: error.localizedDescription)
                 }
@@ -114,9 +116,8 @@ extension HomeVC: UICollectionViewDelegate {
             let vcTitle = Language.allCases[indexPath.row].rawValue + " News"
             coordinator?.goToNewsList(endpoint: .language, vcTitle: vcTitle, parameters: [kLANGUAGE: language])
         case 7: //languages
-            let source = String(describing: sources[indexPath.row])
-//            let vcTitle = Language.allCases[indexPath.row].rawValue + " News"
-            coordinator?.goToNewsList(endpoint: .language, vcTitle: source, parameters: [kSOURCES: source])
+            let source = sources[indexPath.row]
+            coordinator?.goToNewsList(endpoint: .source, vcTitle: source.name, parameters: [kSOURCES: source.id])
         default: //titles
             break
         }
@@ -134,33 +135,14 @@ extension HomeVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        switch sections[indexPath.section] {
-//        case is TitleSection:
-//            let section = sections[indexPath.section] as! TitleSection
-//            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
-//        case is ImageSection:
-//            let section = sections[indexPath.section] as! ImageSection
-//            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
-//        case is LabelSection:
-//            let section = sections[indexPath.section] as! LabelSection
-//            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
-//        default:
-//            return sections[indexPath.section].configureCell(collectionView: collectionView, indexPath: indexPath)
-//        }
-        switch indexPath.section {
-        case 0,2,4,6: //title sections
+        switch sections[indexPath.section] {
+        case is TitleSection:
             let section = sections[indexPath.section] as! TitleSection
             return section.configureCell(collectionView: collectionView, indexPath: indexPath)
-        case 1: //category
+        case is ImageSection:
             let section = sections[indexPath.section] as! ImageSection
             return section.configureCell(collectionView: collectionView, indexPath: indexPath)
-        case 3:
-            let section = sections[indexPath.section] as! LabelSection
-            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
-        case 5:
-            let section = sections[indexPath.section] as! LabelSection
-            return section.configureCell(collectionView: collectionView, indexPath: indexPath)
-        case 7:
+        case is LabelSection:
             let section = sections[indexPath.section] as! LabelSection
             return section.configureCell(collectionView: collectionView, indexPath: indexPath)
         default:
