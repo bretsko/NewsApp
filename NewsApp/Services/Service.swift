@@ -40,5 +40,18 @@ class Service {
         image = UIImage(data: decodedData! as Data) //assign our image to our decodedData
         withBlock(image)
     }
+    
+    /// Get the previous date by week.
+    /// - Parameter weekCount: how many weeks behind. Must be a negative Int
+    /// - Returns: ISO8601 Date as String
+    /// - e.g. current date + weekCount * week
+    static func getIso8601DateByWeek(weekCount: Int = -1) -> String {
+        let lastWeekDate = Calendar.current.date(byAdding: .weekOfYear, value: weekCount, to: Date())!
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let lastWeekDateString = dateFormatter.string(from: lastWeekDate)
+        return lastWeekDateString
+    }
 }
 
