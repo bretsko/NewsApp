@@ -16,11 +16,6 @@ public struct ArticleList: Codable {
     public let articles: [Article]?
 }
 
-public struct Source: Codable {
-    public let id: String?
-    public let name: String
-}
-
 /// A product retrieved from the Product Hunt API.
 public struct Article {
     // Various properties of a post that we either need or want to display
@@ -32,30 +27,6 @@ public struct Article {
     public let content: String? //must be optional because some articles dont have content
     public let url: URL?
     public let urlToImage: URL?
-    
-//    func fetchImage(completion: @escaping (_ image: UIImage?, _ error: String?) -> Void) {
-//        let request = URLRequest(url: previewImageURL)
-//        let defaultSession = URLSession(configuration: .default)
-//        let dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-//            guard error == nil else {
-//                completion(nil, error?.localizedDescription)
-//                return
-//            }
-//            guard let data = data else {
-//                completion(nil, "No data")
-//                return
-//            }
-//            DispatchQueue.main.async {
-//                if let image = UIImage(data: data) {
-//                    completion(image, nil)
-//
-//                } else {
-//                    print("\(self.name) has no image fetched from \(self.previewImageURL)")
-//                }
-//            }
-//        })
-//        dataTask.resume()
-//    }
 }
 
 
