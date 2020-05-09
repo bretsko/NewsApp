@@ -12,6 +12,21 @@ class HomeVC: UIViewController, Storyboarded {
     
 //MARK: Properties
     weak var coordinator: MainCoordinator?
+    lazy var sections: [Section] = [
+        TitleSection(title: "Categories"),
+        ImageSection(categories: Category.allCases),
+        TitleSection(title: "Countries"),
+        LabelSection(titles: Country.allCases.map { $0.rawValue }), //since titles is an array of String, we need to map allCases to its rawValue
+        TitleSection(title: "Languages"),
+        LabelSection(titles: Language.allCases.map { $0.rawValue })
+    ]
+    lazy var collectionViewLayout: UICollectionViewLayout = {
+        var sections = self.sections
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
+            return sections[sectionIndex].layoutSection()
+        }
+        return layout
+    }()
     
 //MARK: Views
     @IBOutlet weak var collectionView: UICollectionView!
