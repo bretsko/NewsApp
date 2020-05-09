@@ -75,12 +75,34 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="8Z4-1N-FlZ">
                                                     <rect key="frame" x="8" y="8" width="359" height="84"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6S8-VP-awx">
-                                                            <rect key="frame" x="0.0" y="0.0" width="243" height="21.5"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Le0-Cr-DCk">
+                                                            <rect key="frame" x="0.0" y="0.0" width="243" height="84"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6S8-VP-awx">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="243" height="57"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="d2v-Dr-fXp">
+                                                                    <rect key="frame" x="0.0" y="67" width="243" height="17"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xWv-Np-QH4">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="95" height="17"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfi-uv-e3w">
+                                                                            <rect key="frame" x="115" y="0.0" width="128" height="17"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                </stackView>
+                                                            </subviews>
+                                                        </stackView>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-8z-JRt">
                                                             <rect key="frame" x="275" y="0.0" width="84" height="84"/>
                                                             <constraints>
@@ -88,6 +110,9 @@
                                                             </constraints>
                                                         </imageView>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="Le0-Cr-DCk" firstAttribute="height" secondItem="8Z4-1N-FlZ" secondAttribute="height" id="mza-sZ-fbw"/>
+                                                    </constraints>
                                                 </stackView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="srb-JZ-lD0" userLabel="main Activity Indicator">
                                                     <rect key="frame" x="172.5" y="35" width="30" height="30"/>
@@ -117,6 +142,8 @@
                                             <outlet property="imgIndicator" destination="224-Jh-Tni" id="IpE-Up-DoQ"/>
                                             <outlet property="imgView" destination="Q0w-8z-JRt" id="7sq-T3-ci8"/>
                                             <outlet property="mainIndicator" destination="srb-JZ-lD0" id="hZR-9Z-3DE"/>
+                                            <outlet property="publishedAtLabel" destination="sfi-uv-e3w" id="OT4-vE-a75"/>
+                                            <outlet property="sourceNameLabel" destination="xWv-Np-QH4" id="HHS-qG-fiR"/>
                                             <outlet property="titleLabel" destination="6S8-VP-awx" id="scg-WB-4al"/>
                                         </connections>
                                     </tableViewCell>
