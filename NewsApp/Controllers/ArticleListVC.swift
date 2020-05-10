@@ -98,28 +98,73 @@ class ArticleListVC: UIViewController, Storyboarded {
 //MARK: Extensions
 extension ArticleListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let article = articles[indexPath.row]
-        coordinator?.goToNewsDetails(article: article)
+        switch tableView {
+        case self.tableView: //article list
+            let article = articles[indexPath.row]
+            coordinator?.goToNewsDetails(article: article)
+        case sortTable:
+            let sortyBy = sortOptions[indexPath.row]
+        case fromTable:
+            let fromDate = dateOptions[indexPath.row]
+        case toTable:
+            let toDate = dateOptions[indexPath.row]
+        default:
+            break
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        switch tableView {
+        case self.tableView: //article list
+            return 100
+        case sortTable, fromTable, toTable:
+            return 30
+        default:
+            return 0
+        }
     }
 }
 
 extension ArticleListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return articles.count
+        switch tableView {
+        case self.tableView: //article list
+            return articles.count
+        case sortTable:
+            return sortOptions.count
+        case fromTable, toTable:
+            return dateOptions.count
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: ArticleCell = tableView.dequeueReusableCell(withIdentifier: String(describing: ArticleCell.self), for: indexPath) as! ArticleCell
-        let article = articles[indexPath.row]
-        cell.populateViews(article: article)
-        if indexPath.row == articles.count - 1 && indexPath.row < NetworkManager.totalCount - 1 { //if last cell and it's not the last article, get more articles
-            self.page += 1 //increment page
-            getArticles()
+        switch tableView {
+        case self.tableView: //article list
+            let cell: ArticleCell = tableView.dequeueReusableCell(withIdentifier: String(describing: ArticleCell.self), for: indexPath) as! ArticleCell
+            let article = articles[indexPath.row]
+            cell.populateViews(article: article)
+            if indexPath.row == articles.count - 1 && indexPath.row < NetworkManager.totalCount - 1 { //if last cell and it's not the last article, get more articles
+                self.page += 1 //increment page
+                getArticles()
+            }
+            return cell
+        case sortTable:
+            let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "sortCell", for: indexPath)
+            cell.textLabel?.text = sortOptions[indexPath.row]
+            return cell
+        case fromTable:
+            let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "fromCell", for: indexPath)
+            cell.textLabel?.text = dateOptions[indexPath.row]
+            return cell
+        case toTable:
+            let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "toCell", for: indexPath)
+            cell.textLabel?.text = dateOptions[indexPath.row]
+            return cell
+        default:
+            return UITableViewCell()
         }
-        return cell
     }
 }
