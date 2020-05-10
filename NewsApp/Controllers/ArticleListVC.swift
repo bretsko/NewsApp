@@ -189,22 +189,19 @@ extension ArticleListVC: UITableViewDataSource {
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "sortCell", for: indexPath)
             cell.textLabel?.text = sortOptions[indexPath.row]
             cell.textLabel?.textAlignment = .center
-//            cell.isSelected = indexPath.row == 1 ? true : false //indicate default cell
-            cell.setHighlighted(indexPath.row == 1, animated: true) //indicate default cell
+            if indexPath.row == 1 { tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle) } //indicate selected cell on load
             return cell
         case fromTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "fromCell", for: indexPath)
             cell.textLabel?.text = dateOptions[indexPath.row]
             cell.textLabel?.textAlignment = .center
-//            cell.isSelected = indexPath.row == 2 ? true : false //indicate default cell
-            cell.setHighlighted(indexPath.row == 2, animated: true) //indicate default cell
+            if indexPath.row == 2 { tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle) } //indicate selected cell on load
             return cell
         case toTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "toCell", for: indexPath)
             cell.textLabel?.text = dateOptions[indexPath.row]
             cell.textLabel?.textAlignment = .center
-//            cell.isSelected = indexPath.row == 0 ? true : false //indicate default cell
-            cell.setHighlighted(indexPath.row == 0, animated: true) //indicate default cell
+            if indexPath.row == 0 { tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle) } //indicate selected cell on load
             return cell
         default:
             return UITableViewCell()
