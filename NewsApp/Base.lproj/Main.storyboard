@@ -111,7 +111,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Il1-M7-SHN">
                                                         <rect key="frame" x="0.0" y="0.0" width="104" height="27"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12.5"/>
-                                                        <state key="normal" title="From: 2 weeks"/>
+                                                        <state key="normal" title="Past: Week"/>
                                                         <connections>
                                                             <action selector="filterButtonsTapped:" destination="ie5-EL-mTU" eventType="touchUpInside" id="JVj-B6-LzG"/>
                                                         </connections>
@@ -141,7 +141,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B0r-eL-efe">
                                                         <rect key="frame" x="0.0" y="0.0" width="104" height="27"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12.5"/>
-                                                        <state key="normal" title="To: Today"/>
+                                                        <state key="normal" title="Until: Now"/>
                                                         <connections>
                                                             <action selector="filterButtonsTapped:" destination="ie5-EL-mTU" eventType="touchUpInside" id="Trd-Fu-hrZ"/>
                                                         </connections>
