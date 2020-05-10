@@ -57,7 +57,7 @@ enum EndPoints {
     // grab the parameters for the appropriate object (article or comment) and add default
     func getParams(parameters: [String: String]) -> [String: String] {
         switch self {
-        case .sources:
+        case .sources: //for list of sources
             return [ //find more info at https://newsapi.org/docs/endpoints/sources
                 kCATEGORY: parameters[kCATEGORY] ?? "", //either: business, entertainment, general, health, science, sports, technology
                 kLANGUAGE: parameters[kLANGUAGE] ?? "", //Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
