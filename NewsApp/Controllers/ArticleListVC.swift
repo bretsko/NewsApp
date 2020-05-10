@@ -18,7 +18,7 @@ class ArticleListVC: UIViewController, Storyboarded {
             tableView.reloadData()
         }
     }
-    var sortOptions: [String] = ["Newest", "Popularity", "Relevancy"]
+    var sortOptions: [String] = ["Oldest", "Popularity", "Relevancy"]
     var endpoint: EndPoints!
     var page: Int = 1
     
@@ -47,6 +47,12 @@ class ArticleListVC: UIViewController, Storyboarded {
 
 //MARK: Private Methods
     fileprivate func setupViews() {
+        switch endpoint {
+        case .articles, .language: //show filter buttons for /everything endpoint
+            filterButtonsStackView.isHidden = false
+        default:
+            filterButtonsStackView.isHidden = true
+        }
         setupTableView()
     }
     
@@ -151,10 +157,12 @@ extension ArticleListVC: UITableViewDelegate {
             let fromDate = DateOptions.fromAllCases[indexPath.row] //not include now case
             fromButton.setTitle("Past: \(fromDate.rawValue)", for: .normal)
             toggleButtonTables(shouldShow: false, type: fromButton)
+            updateParamsThenFetch(parameters: [kFROM: fromDate.asDateParameter])
         case toTable:
             let toDate = DateOptions.allCases[indexPath.row]
             toButton.setTitle("Until: \(toDate.rawValue)", for: .normal)
             toggleButtonTables(shouldShow: false, type: toButton)
+            updateParamsThenFetch(parameters: [kTO: toDate.asDateParameter])
         default:
             break
         }
