@@ -18,6 +18,8 @@ class ArticleListVC: UIViewController, Storyboarded {
             tableView.reloadData()
         }
     }
+    var sortOptions: [String] = ["Popularity", "Relevancy", "Newest"]
+    var dateOptions: [String] = ["Today", "1 week", "2 weeks", "1 month", "3 months"]
     var endpoint: EndPoints!
     var page: Int = 1
     
