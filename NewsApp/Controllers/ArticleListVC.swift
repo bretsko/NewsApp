@@ -32,6 +32,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     @IBOutlet weak var fromTable: UITableView!
     @IBOutlet weak var toButton: UIButton!
     @IBOutlet weak var toTable: UITableView!
+    @IBOutlet weak var filterButtonsStackView: UIStackView!
     
 //MARK: App LifeCycle
     override func viewDidLoad() {
