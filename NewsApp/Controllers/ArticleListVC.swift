@@ -132,15 +132,15 @@ extension ArticleListVC: UITableViewDelegate {
             coordinator?.goToNewsDetails(article: article)
         case sortTable:
             let sortBy = sortOptions[indexPath.row]
-            sortButton.setTitle("Sort By: \(sortBy)", for: .normal)
+            sortButton.setTitle("Sort By: \(sortBy)", for: .normal) //update button's title by the selected cell
             toggleButtonTables(shouldShow: false, type: sortButton)
         case fromTable:
             let fromDate = dateOptions[indexPath.row]
-            fromButton.setTitle(fromDate, for: .normal)
+            fromButton.setTitle("From: \(fromDate)", for: .normal)
             toggleButtonTables(shouldShow: false, type: fromButton)
         case toTable:
             let toDate = dateOptions[indexPath.row]
-            toButton.setTitle(toDate, for: .normal)
+            toButton.setTitle("To: \(toDate)", for: .normal)
             toggleButtonTables(shouldShow: false, type: toButton)
         default:
             break
@@ -189,16 +189,22 @@ extension ArticleListVC: UITableViewDataSource {
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "sortCell", for: indexPath)
             cell.textLabel?.text = sortOptions[indexPath.row]
             cell.textLabel?.textAlignment = .center
+//            cell.isSelected = indexPath.row == 1 ? true : false //indicate default cell
+            cell.setHighlighted(indexPath.row == 1, animated: true) //indicate default cell
             return cell
         case fromTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "fromCell", for: indexPath)
             cell.textLabel?.text = dateOptions[indexPath.row]
             cell.textLabel?.textAlignment = .center
+//            cell.isSelected = indexPath.row == 2 ? true : false //indicate default cell
+            cell.setHighlighted(indexPath.row == 2, animated: true) //indicate default cell
             return cell
         case toTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "toCell", for: indexPath)
             cell.textLabel?.text = dateOptions[indexPath.row]
             cell.textLabel?.textAlignment = .center
+//            cell.isSelected = indexPath.row == 0 ? true : false //indicate default cell
+            cell.setHighlighted(indexPath.row == 0, animated: true) //indicate default cell
             return cell
         default:
             return UITableViewCell()
