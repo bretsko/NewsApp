@@ -68,13 +68,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="leh-hO-taK" userLabel="buttons Stack View">
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="leh-hO-taK" userLabel="buttons Stack View">
                                         <rect key="frame" x="0.0" y="56" width="375" height="127"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Shf-sO-Smn" userLabel="sort Stack View">
                                                 <rect key="frame" x="0.0" y="0.0" width="111.5" height="127"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3pA-yZ-HLU">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3pA-yZ-HLU">
                                                         <rect key="frame" x="0.0" y="0.0" width="111.5" height="27"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <state key="normal" title="Sort By: Popularity"/>
@@ -110,7 +110,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Il1-M7-SHN">
                                                         <rect key="frame" x="0.0" y="0.0" width="112" height="27"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                        <state key="normal" title="From:"/>
+                                                        <state key="normal" title="From: 2 weeks"/>
                                                         <connections>
                                                             <action selector="filterButtonsTapped:" destination="ie5-EL-mTU" eventType="touchUpInside" id="JVj-B6-LzG"/>
                                                         </connections>
