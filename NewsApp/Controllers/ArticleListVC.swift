@@ -97,16 +97,27 @@ class ArticleListVC: UIViewController, Storyboarded {
     
     
 //MARK: Helper Methods
-    func getArticles() {
-        NetworkManager.fetchNewsApi(endpoint: endpoint, parameters: [kPAGE: "\(page)"]) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case let .success(articles):
-                    self.articles.append(contentsOf: articles)
-                    self.activityIndicator.shouldAnimate(shouldAnimate: false)
-                case let .failure(error):
-                    Service.presentAlert(on: self, title: "Error", message: error.localizedDescription)
+    ///Hide all tables or show table depending on the UIButton selected
+    fileprivate func toggleButtonTables(shouldShow: Bool, type: UIButton? = nil) {
+        self.searchBar.resignFirstResponder()
+        if shouldShow {
+            UIView.animate(withDuration: 0.3) {
+                switch type {
+                case self.sortButton:
+                    self.sortTable.isHidden = false
+                case self.fromButton:
+                    self.fromTable.isHidden = false
+                case self.toButton:
+                    self.toTable.isHidden = false
+                default:
+                    break
                 }
+            }
+        } else { //hide everything
+            UIView.animate(withDuration: 0.3) {
+                self.sortTable.isHidden = true
+                self.fromTable.isHidden = true
+                self.toTable.isHidden = true
             }
         }
     }
@@ -120,11 +131,17 @@ extension ArticleListVC: UITableViewDelegate {
             let article = articles[indexPath.row]
             coordinator?.goToNewsDetails(article: article)
         case sortTable:
-            let sortyBy = sortOptions[indexPath.row]
+            let sortBy = sortOptions[indexPath.row]
+            sortButton.setTitle("Sort By: \(sortBy)", for: .normal)
+            toggleButtonTables(shouldShow: false, type: sortButton)
         case fromTable:
             let fromDate = dateOptions[indexPath.row]
+            fromButton.setTitle(fromDate, for: .normal)
+            toggleButtonTables(shouldShow: false, type: fromButton)
         case toTable:
             let toDate = dateOptions[indexPath.row]
+            toButton.setTitle(toDate, for: .normal)
+            toggleButtonTables(shouldShow: false, type: toButton)
         default:
             break
         }
@@ -171,14 +188,17 @@ extension ArticleListVC: UITableViewDataSource {
         case sortTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "sortCell", for: indexPath)
             cell.textLabel?.text = sortOptions[indexPath.row]
+            cell.textLabel?.textAlignment = .center
             return cell
         case fromTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "fromCell", for: indexPath)
             cell.textLabel?.text = dateOptions[indexPath.row]
+            cell.textLabel?.textAlignment = .center
             return cell
         case toTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "toCell", for: indexPath)
             cell.textLabel?.text = dateOptions[indexPath.row]
+            cell.textLabel?.textAlignment = .center
             return cell
         default:
             return UITableViewCell()
