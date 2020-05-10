@@ -57,22 +57,39 @@ class ArticleListVC: UIViewController, Storyboarded {
         tableView.rowHeight = 100
         sortTable.delegate = self
         sortTable.dataSource = self
+        sortTable.isHidden = true
         fromTable.delegate = self
         fromTable.dataSource = self
+        fromTable.isHidden = true
         toTable.delegate = self
         toTable.dataSource = self
+        toTable.isHidden = true
 //        tableView.register(NewsCell.self, forCellReuseIdentifier: String(describing: NewsCell.self)) //not needed if cell is created in storyboard
+    }
+    
+    func getArticles() {
+        NetworkManager.fetchNewsApi(endpoint: endpoint, parameters: [kPAGE: "\(page)"]) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(articles):
+                    self.articles.append(contentsOf: articles)
+                    self.activityIndicator.shouldAnimate(shouldAnimate: false)
+                case let .failure(error):
+                    Service.presentAlert(on: self, title: "Error", message: error.localizedDescription)
+                }
+            }
+        }
     }
     
 //MARK: IBActions
     @IBAction func filterButtonsTapped(_ sender: UIButton) {
         switch sender {
         case sortButton:
-            print("Sort")
+            toggleButtonTables(shouldShow: sortTable.isHidden, type: sortButton)
         case fromButton:
-            print("From")
+            toggleButtonTables(shouldShow: fromTable.isHidden, type: fromButton)
         case toButton:
-            print("To")
+            toggleButtonTables(shouldShow: toTable.isHidden, type: toButton)
         default:
             break
         }
