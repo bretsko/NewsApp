@@ -19,7 +19,6 @@ class ArticleListVC: UIViewController, Storyboarded {
         }
     }
     var sortOptions: [String] = ["Newest", "Popularity", "Relevancy"]
-    var dateOptions: [String] = ["Today", "1 week", "2 weeks", "1 month", "3 months"]
     var endpoint: EndPoints!
     var page: Int = 1
     
@@ -54,15 +53,19 @@ class ArticleListVC: UIViewController, Storyboarded {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 100
+        tableView.showsVerticalScrollIndicator = false
         sortTable.delegate = self
         sortTable.dataSource = self
         sortTable.isHidden = true
+        sortTable.showsVerticalScrollIndicator = false
         fromTable.delegate = self
         fromTable.dataSource = self
         fromTable.isHidden = true
+        fromTable.showsVerticalScrollIndicator = false
         toTable.delegate = self
         toTable.dataSource = self
         toTable.isHidden = true
+        toTable.showsVerticalScrollIndicator = false
 //        tableView.register(NewsCell.self, forCellReuseIdentifier: String(describing: NewsCell.self)) //not needed if cell is created in storyboard
     }
     
@@ -79,6 +82,14 @@ class ArticleListVC: UIViewController, Storyboarded {
                 }
             }
         }
+    }
+    
+    func updateParamsThenFetch(parameters: [String: String]) {
+        NetworkManager.updateParameters(parameters: parameters)
+        self.page = 1 //reset page
+        self.articles.removeAll()
+        self.tableView.reloadData()
+        getArticles()
     }
     
 //MARK: IBActions
@@ -134,13 +145,14 @@ extension ArticleListVC: UITableViewDelegate {
             let sortBy = sortOptions[indexPath.row]
             sortButton.setTitle("Sort By: \(sortBy)", for: .normal) //update button's title by the selected cell
             toggleButtonTables(shouldShow: false, type: sortButton)
+            updateParamsThenFetch(parameters: [kSORTBY: sortBy.lowerCasingFirstLetter()])
         case fromTable:
-            let fromDate = dateOptions[indexPath.row]
-            fromButton.setTitle("From: \(fromDate)", for: .normal)
+            let fromDate = DateOptions.fromAllCases[indexPath.row] //not include now case
+            fromButton.setTitle("Past: \(fromDate.rawValue)", for: .normal)
             toggleButtonTables(shouldShow: false, type: fromButton)
         case toTable:
-            let toDate = dateOptions[indexPath.row]
-            toButton.setTitle("To: \(toDate)", for: .normal)
+            let toDate = DateOptions.allCases[indexPath.row]
+            toButton.setTitle("Until: \(toDate.rawValue)", for: .normal)
             toggleButtonTables(shouldShow: false, type: toButton)
         default:
             break
@@ -167,8 +179,10 @@ extension ArticleListVC: UITableViewDataSource {
             return articles.count
         case sortTable:
             return sortOptions.count
-        case fromTable, toTable:
-            return dateOptions.count
+        case fromTable:
+            return DateOptions.fromAllCases.count //fromAllCase does not include now case
+        case toTable:
+            return DateOptions.allCases.count
         default:
             return 0
         }
@@ -193,13 +207,13 @@ extension ArticleListVC: UITableViewDataSource {
             return cell
         case fromTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "fromCell", for: indexPath)
-            cell.textLabel?.text = dateOptions[indexPath.row]
+            cell.textLabel?.text = DateOptions.fromAllCases[indexPath.row].rawValue //not include now case
             cell.textLabel?.textAlignment = .center
             if indexPath.row == 2 { tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle) } //indicate selected cell on load
             return cell
         case toTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "toCell", for: indexPath)
-            cell.textLabel?.text = dateOptions[indexPath.row]
+            cell.textLabel?.text = DateOptions.allCases[indexPath.row].rawValue
             cell.textLabel?.textAlignment = .center
             if indexPath.row == 0 { tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle) } //indicate selected cell on load
             return cell

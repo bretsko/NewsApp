@@ -58,6 +58,8 @@
 		3374F9E1246625DD00450AE8 /* LabelSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3374F9E0246625DD00450AE8 /* LabelSection.swift */; };
 		3374F9E32466278700450AE8 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3374F9E22466278700450AE8 /* Section.swift */; };
 		33859CFE2454DF32001E2855 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33859CFD2454DF32001E2855 /* Source.swift */; };
+		33E33B912467D3E7009232A5 /* String+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E33B902467D3E7009232A5 /* String+extensions.swift */; };
+		33E33B932467E1BD009232A5 /* DateOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E33B922467E1BD009232A5 /* DateOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +115,8 @@
 		3374F9E0246625DD00450AE8 /* LabelSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSection.swift; sourceTree = "<group>"; };
 		3374F9E22466278700450AE8 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		33859CFD2454DF32001E2855 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
+		33E33B902467D3E7009232A5 /* String+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extensions.swift"; sourceTree = "<group>"; };
+		33E33B922467E1BD009232A5 /* DateOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateOptions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +188,7 @@
 				335233DD2453744D0056EA8E /* Category.swift */,
 				3374F9C0246616D200450AE8 /* Country.swift */,
 				3374F9C224661D0000450AE8 /* Language.swift */,
+				33E33B922467E1BD009232A5 /* DateOptions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -228,6 +233,7 @@
 				335233B42452803C0056EA8E /* Date+extensions.swift */,
 				335233B52452803C0056EA8E /* UITextField+extensions.swift */,
 				3354CBED2458FDBC008F7968 /* UIActivityIndicatorView+extensions.swift */,
+				33E33B902467D3E7009232A5 /* String+extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -373,6 +379,7 @@
 				3374F9E1246625DD00450AE8 /* LabelSection.swift in Sources */,
 				335233BC2452803C0056EA8E /* UIButton+extensions.swift in Sources */,
 				335233C82452803C0056EA8E /* Constants.swift in Sources */,
+				33E33B932467E1BD009232A5 /* DateOptions.swift in Sources */,
 				335233D22452CAF50056EA8E /* Storyboarded.swift in Sources */,
 				33859CFE2454DF32001E2855 /* Source.swift in Sources */,
 				33687B5524663A83002E3C8C /* ImageSection.swift in Sources */,
@@ -394,6 +401,7 @@
 				335233EB2453D0F70056EA8E /* NetworkManager.swift in Sources */,
 				3352338E2452768E0056EA8E /* SceneDelegate.swift in Sources */,
 				33066CED245DFD2D00EF6EA8 /* Endpoint.swift in Sources */,
+				33E33B912467D3E7009232A5 /* String+extensions.swift in Sources */,
 				335233BB2452803C0056EA8E /* UIViewController+extensions.swift in Sources */,
 				3374F9C324661D0000450AE8 /* Language.swift in Sources */,
 				335233C52452803C0056EA8E /* UIScrollView+extensions.swift in Sources */,
