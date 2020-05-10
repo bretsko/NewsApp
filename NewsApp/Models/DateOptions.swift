@@ -16,17 +16,17 @@ enum DateOptions: String {
         case .now:
             return ""
         case .hours24:
-            return Service.getIso8601DateByDay(dayCount: 1)
+            return Service.getIso8601DateByDay(dayCount: -1)
         case .days3:
-            return Service.getIso8601DateByDay(dayCount: 3)
+            return Service.getIso8601DateByDay(dayCount: -3)
         case .week:
-            return Service.getIso8601DateByWeek(weekCount: 1)
+            return Service.getIso8601DateByWeek(weekCount: -1)
         case .weeks2:
-            return Service.getIso8601DateByWeek(weekCount: 2)
+            return Service.getIso8601DateByWeek(weekCount: -2)
         case .month:
-            return Service.getIso8601DateByWeek(weekCount: 4)
+            return Service.getIso8601DateByWeek(weekCount: -4)
         case .months3:
-            return Service.getIso8601DateByWeek(weekCount: 12)
+            return Service.getIso8601DateByWeek(weekCount: -12)
         
         }
     }
