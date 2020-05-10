@@ -53,5 +53,15 @@ class Service {
         let lastWeekDateString = dateFormatter.string(from: lastWeekDate)
         return lastWeekDateString
     }
+    
+    ///get the date from a day or whatever dayCount ago
+    static func getIso8601DateByDay(dayCount: Int = -1) -> String {
+        let dayDate = Calendar.current.date(byAdding: .weekday, value: dayCount, to: Date())!
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dayDateString = dateFormatter.string(from: dayDate)
+        return dayDateString
+    }
 }
 
