@@ -42,7 +42,6 @@ class ArticleListVC: UIViewController, Storyboarded {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        activityIndicator.shouldAnimate()
         getArticles()
     }
 
@@ -68,6 +67,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     }
     
     func getArticles() {
+        activityIndicator.shouldAnimate()
         NetworkManager.fetchNewsApi(endpoint: endpoint, parameters: [kPAGE: "\(page)"]) { result in
             DispatchQueue.main.async {
                 switch result {
