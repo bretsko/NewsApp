@@ -70,7 +70,7 @@ enum EndPoints {
                 kSOURCES: parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
                 //                    kDOMAINS: parameters[kDOMAINS] ?? "", //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
                 //                    kEXCLUDEDOMAINS: parameters[kEXCLUDEDOMAINS] ??  "" //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.
-                kFROM: parameters[kFROM] ?? "\(Service.getIso8601DateByWeek(weekCount: -2))", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
+                kFROM: parameters[kFROM] ?? "\(Service.getIso8601DateByWeek(weekCount: -1))", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
                 kTO: parameters[kTO] ?? "", //A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
                 kLANGUAGE: parameters[kLANGUAGE] ?? "en", //The 2-letter ISO-639-1 code of the language you want to get headlines
                 kSORTBY: parameters[kSORTBY] ?? "popularity", //values can only be relevancy, popularity, publishedAt
@@ -83,9 +83,6 @@ enum EndPoints {
                 kCATEGORY: parameters[kCATEGORY] ??  "general", //The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
 //                kSOURCES: parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
 //                kFROM: parameters[kFROM] ?? "\(Service.getIso8601DateByWeek(weekCount: -2))", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
-                kFROM: parameters[kFROM] ?? "\(Service.getIso8601DateByWeek(weekCount: -4))", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
-                kTO: parameters[kTO] ?? "",
-                kSORTBY: parameters[kSORTBY] ?? "popularity",
                 kQ: parameters[kQ] ?? "", //Keywords or a phrase to search for.
                 kPAGESIZE: parameters[kPAGESIZE] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
                 kPAGE: parameters[kPAGE] ?? "1", //Use this to page through the results if the total results found is greater than the page size.
@@ -94,9 +91,6 @@ enum EndPoints {
             return [
                 kSOURCES: parameters[kSOURCES] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
                 kQ: parameters[kQ] ?? "", //Keywords or a phrase to search for.
-                kFROM: parameters[kFROM] ?? "\(Service.getIso8601DateByWeek(weekCount: -2))", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
-                kTO: parameters[kTO] ?? "",
-                kSORTBY: parameters[kSORTBY] ?? "popularity",
                 kPAGESIZE: parameters[kPAGESIZE] ??  "20", //The number of results to return per page (request). 20 is the default, 100 is the maximum.
                 kPAGE: parameters[kPAGE] ?? "1", //Use this to page through the results if the total results found is greater than the page size.
             ]
