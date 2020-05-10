@@ -75,6 +75,13 @@ class HomeVC: UIViewController, Storyboarded {
         searchBar.searchTextField.delegate = self
         searchBar.searchTextField.placeholder = "Search for News"
         searchBar.returnKeyType = .search
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let flexibleBar = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.handleDismissTap(_:)))
+        toolBar.setItems([flexibleBar, doneButton], animated: true)
+        searchBar.searchTextField.inputAccessoryView = toolBar
+        searchBar.searchTextField.clearButtonMode = .always
     }
     
     fileprivate func setupCollectionView() {
@@ -92,7 +99,9 @@ class HomeVC: UIViewController, Storyboarded {
     
     
 //MARK: Helper Methods
-
+    @objc func handleDismissTap(_ gesture: UITapGestureRecognizer) { //dismiss fields
+        self.view.endEditing(false)
+    }
 }
 
 //MARK: Extensions
