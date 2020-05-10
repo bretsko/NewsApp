@@ -24,6 +24,13 @@ class ArticleListVC: UIViewController, Storyboarded {
 //MARK: Views
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var sortButton: UIButton!
+    @IBOutlet weak var sortTable: UITableView!
+    @IBOutlet weak var fromButton: UIButton!
+    @IBOutlet weak var fromTable: UITableView!
+    @IBOutlet weak var toButton: UIButton!
+    @IBOutlet weak var toTable: UITableView!
     
 //MARK: App LifeCycle
     override func viewDidLoad() {
@@ -46,10 +53,28 @@ class ArticleListVC: UIViewController, Storyboarded {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 100
+        sortTable.delegate = self
+        sortTable.dataSource = self
+        fromTable.delegate = self
+        fromTable.dataSource = self
+        toTable.delegate = self
+        toTable.dataSource = self
 //        tableView.register(NewsCell.self, forCellReuseIdentifier: String(describing: NewsCell.self)) //not needed if cell is created in storyboard
     }
     
 //MARK: IBActions
+    @IBAction func filterButtonsTapped(_ sender: UIButton) {
+        switch sender {
+        case sortButton:
+            print("Sort")
+        case fromButton:
+            print("From")
+        case toButton:
+            print("To")
+        default:
+            break
+        }
+    }
     
     
 //MARK: Helper Methods
