@@ -47,13 +47,14 @@ class ArticleListVC: UIViewController, Storyboarded {
 
 //MARK: Private Methods
     fileprivate func setupViews() {
+        setupSearchBar()
+        setupTableView()
         switch endpoint {
         case .articles, .language: //show filter buttons for /everything endpoint
             filterButtonsStackView.isHidden = false
         default:
             filterButtonsStackView.isHidden = true
         }
-        setupTableView()
     }
     
     fileprivate func setupTableView() {
@@ -61,6 +62,7 @@ class ArticleListVC: UIViewController, Storyboarded {
         tableView.dataSource = self
         tableView.rowHeight = 100
         tableView.showsVerticalScrollIndicator = false
+        tableView.tableFooterView = UIView()
         sortTable.delegate = self
         sortTable.dataSource = self
         sortTable.isHidden = true
@@ -74,6 +76,19 @@ class ArticleListVC: UIViewController, Storyboarded {
         toTable.isHidden = true
         toTable.showsVerticalScrollIndicator = false
 //        tableView.register(NewsCell.self, forCellReuseIdentifier: String(describing: NewsCell.self)) //not needed if cell is created in storyboard
+    }
+    
+    fileprivate func setupSearchBar() {
+        searchBar.searchTextField.delegate = self
+        searchBar.searchTextField.placeholder = "Search for Articles"
+        searchBar.returnKeyType = .search
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let flexibleBar = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.handleDismissTap(_:)))
+        toolBar.setItems([flexibleBar, doneButton], animated: true)
+        searchBar.searchTextField.inputAccessoryView = toolBar
+        searchBar.searchTextField.clearButtonMode = .always
     }
     
     func getArticles() {
@@ -138,6 +153,10 @@ class ArticleListVC: UIViewController, Storyboarded {
                 self.toTable.isHidden = true
             }
         }
+    }
+    
+    @objc func handleDismissTap(_ gesture: UITapGestureRecognizer) { //dismiss fields
+        self.view.endEditing(false)
     }
 }
 
@@ -229,5 +248,17 @@ extension ArticleListVC: UITableViewDataSource {
         default:
             return UITableViewCell()
         }
+    }
+}
+
+// MARK: - Search bar functions
+extension ArticleListVC: UISearchTextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if !textField.text!.isEmpty { //if textfield is not empty
+//            coordinator?.goToNewsList(endpoint: .articles, vcTitle: "\(textField.text!) News", parameters: [kQ: textField.text!])
+            updateParamsThenFetch(parameters: [kQ: textField.text!])
+        }
+        return true
     }
 }
