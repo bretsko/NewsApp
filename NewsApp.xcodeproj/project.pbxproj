@@ -60,6 +60,7 @@
 		33859CFE2454DF32001E2855 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33859CFD2454DF32001E2855 /* Source.swift */; };
 		33E33B912467D3E7009232A5 /* String+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E33B902467D3E7009232A5 /* String+extensions.swift */; };
 		33E33B932467E1BD009232A5 /* DateOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E33B922467E1BD009232A5 /* DateOptions.swift */; };
+		33E33B952467F6A6009232A5 /* SortByOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E33B942467F6A6009232A5 /* SortByOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +118,7 @@
 		33859CFD2454DF32001E2855 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		33E33B902467D3E7009232A5 /* String+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extensions.swift"; sourceTree = "<group>"; };
 		33E33B922467E1BD009232A5 /* DateOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateOptions.swift; sourceTree = "<group>"; };
+		33E33B942467F6A6009232A5 /* SortByOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByOptions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 				3374F9C0246616D200450AE8 /* Country.swift */,
 				3374F9C224661D0000450AE8 /* Language.swift */,
 				33E33B922467E1BD009232A5 /* DateOptions.swift */,
+				33E33B942467F6A6009232A5 /* SortByOptions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				335233BF2452803C0056EA8E /* UIColor+extensions.swift in Sources */,
 				335233C72452803C0056EA8E /* UITextField+extensions.swift in Sources */,
 				3374F9C1246616D200450AE8 /* Country.swift in Sources */,
+				33E33B952467F6A6009232A5 /* SortByOptions.swift in Sources */,
 				335233C62452803C0056EA8E /* Date+extensions.swift in Sources */,
 				335233BD2452803C0056EA8E /* UIView+extensions.swift in Sources */,
 				33687B5624663A83002E3C8C /* TitleSection.swift in Sources */,

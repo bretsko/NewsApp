@@ -18,7 +18,6 @@ class ArticleListVC: UIViewController, Storyboarded {
             tableView.reloadData()
         }
     }
-    var sortOptions: [String] = ["Oldest", "Popularity", "Relevancy"]
     var endpoint: EndPoints!
     var page: Int = 1
     
@@ -118,7 +117,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     @IBAction func filterButtonsTapped(_ sender: UIButton) {
         switch sender {
         case sortButton:
-            toggleButtonTables(shouldShow: sortTable.isHidden, type: sortButton)
+            toggleButtonTables(shouldShow: sortTable.isHidden, type: sortButton) //show if table is hidden
         case fromButton:
             toggleButtonTables(shouldShow: fromTable.isHidden, type: fromButton)
         case toButton:
@@ -134,7 +133,7 @@ class ArticleListVC: UIViewController, Storyboarded {
     fileprivate func toggleButtonTables(shouldShow: Bool, type: UIButton? = nil) {
         self.searchBar.resignFirstResponder()
         if shouldShow {
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: 0.2) {
                 switch type {
                 case self.sortButton:
                     self.sortTable.isHidden = false
@@ -147,7 +146,7 @@ class ArticleListVC: UIViewController, Storyboarded {
                 }
             }
         } else { //hide everything
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: 0.2) {
                 self.sortTable.isHidden = true
                 self.fromTable.isHidden = true
                 self.toTable.isHidden = true
@@ -168,10 +167,10 @@ extension ArticleListVC: UITableViewDelegate {
             let article = articles[indexPath.row]
             coordinator?.goToNewsDetails(article: article)
         case sortTable:
-            let sortBy = sortOptions[indexPath.row]
+            let sortBy = SortByOptions.allCases[indexPath.row]
             sortButton.setTitle("Sort By: \(sortBy)", for: .normal) //update button's title by the selected cell
             toggleButtonTables(shouldShow: false, type: sortButton)
-            updateParamsThenFetch(parameters: [kSORTBY: sortBy.lowerCasingFirstLetter()])
+            updateParamsThenFetch(parameters: [kSORTBY: sortBy.asSortByParameter])
         case fromTable:
             let fromDate = DateOptions.fromAllCases[indexPath.row] //not include now case
             fromButton.setTitle("Past: \(fromDate.rawValue)", for: .normal)
@@ -206,7 +205,7 @@ extension ArticleListVC: UITableViewDataSource {
         case self.tableView: //article list
             return articles.count
         case sortTable:
-            return sortOptions.count
+            return SortByOptions.allCases.count
         case fromTable:
             return DateOptions.fromAllCases.count //fromAllCase does not include now case
         case toTable:
@@ -229,7 +228,7 @@ extension ArticleListVC: UITableViewDataSource {
             return cell
         case sortTable:
             let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "sortCell", for: indexPath)
-            cell.textLabel?.text = sortOptions[indexPath.row]
+            cell.textLabel?.text = SortByOptions.allCases[indexPath.row].rawValue
             cell.textLabel?.textAlignment = .center
             if indexPath.row == 1 { tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle) } //indicate selected cell on load
             return cell
@@ -256,7 +255,10 @@ extension ArticleListVC: UISearchTextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if !textField.text!.isEmpty { //if textfield is not empty
-//            coordinator?.goToNewsList(endpoint: .articles, vcTitle: "\(textField.text!) News", parameters: [kQ: textField.text!])
+            self.title = textField.text! //update title
+            sortButton.setTitle("Sort By: Relevancy", for: .normal) //change sort to relevancy as it will be closer to the textField input
+            let indexPath = IndexPath(row: 2, section: 0) //relevancy's index
+            tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
             updateParamsThenFetch(parameters: [kQ: textField.text!])
         }
         return true
