@@ -259,7 +259,7 @@ extension ArticleListVC: UISearchTextFieldDelegate {
             sortButton.setTitle("Sort By: Relevancy", for: .normal) //change sort to relevancy as it will be closer to the textField input
             let indexPath = IndexPath(row: 2, section: 0) //relevancy's index
             tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
-            updateParamsThenFetch(parameters: [kQ: textField.text!])
+            updateParamsThenFetch(parameters: [kQ: textField.text!, kSORTBY: SortByOptions.relevancy.asSortByParameter])
         }
         return true
     }
