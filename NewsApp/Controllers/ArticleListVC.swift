@@ -157,6 +157,18 @@ class ArticleListVC: UIViewController, Storyboarded {
     @objc func handleDismissTap(_ gesture: UITapGestureRecognizer) { //dismiss fields
         self.view.endEditing(false)
     }
+    
+    ///Ensures that fromDate is before toDate
+//    func checkSelectedDate(tableView: UITableView, indexPath: IndexPath) {
+//        switch tableView {
+//        case fromTable:
+//            print("from \(indexPath.row) \(toTable.indexPathForSelectedRow!.row)")
+//        case toTable:
+//            print("to \(indexPath.row) \(fromTable.indexPathForSelectedRow!.row)")
+//        default:
+//            break
+//        }
+//    }
 }
 
 //MARK: Extensions
@@ -173,18 +185,19 @@ extension ArticleListVC: UITableViewDelegate {
             updateParamsThenFetch(parameters: [kSORTBY: sortBy.asSortByParameter])
         case fromTable:
             let fromDate = DateOptions.fromAllCases[indexPath.row] //not include now case
+//            checkSelectedDate(tableView: tableView, indexPath: indexPath)
             fromButton.setTitle("Past: \(fromDate.rawValue)", for: .normal)
             toggleButtonTables(shouldShow: false, type: fromButton)
             updateParamsThenFetch(parameters: [kFROM: fromDate.asDateParameter])
         case toTable:
             let toDate = DateOptions.allCases[indexPath.row]
+//            checkSelectedDate(tableView: tableView, indexPath: indexPath)
             toButton.setTitle("Until: \(toDate.rawValue)", for: .normal)
             toggleButtonTables(shouldShow: false, type: toButton)
             updateParamsThenFetch(parameters: [kTO: toDate.asDateParameter])
         default:
             break
         }
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
