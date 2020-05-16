@@ -2,7 +2,7 @@
 News App that reads from [newsapi.org](newsapi.org) as my take home final project for MOB1.3 in [Make School](makeschool.com)
 
 ## Live Demo
-
+ <img src="https://github.com/SamuelFolledo/NewsApp/blob/master/static/gif/newsAppDemo2.gif" width="400" height="800"> 
 
 ### Important Links
 - [MOB1.3](https://github.com/Make-School-Courses/MOB-1.3-Dynamic-iOS-Apps)
