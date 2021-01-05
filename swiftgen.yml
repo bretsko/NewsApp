@@ -1,0 +1,9 @@
+ib:
+  inputs: NewsApp/Base.lproj
+  outputs:
+    - templateName: scenes-swift5
+      output: NewsApp/Generated/Storyboard Scenes.swift
+    - templateName: segues-swift5
+      output: NewsApp/Generated/Storyboard Segues.swift
+
+

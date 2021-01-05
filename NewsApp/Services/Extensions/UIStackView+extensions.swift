@@ -10,19 +10,19 @@ import UIKit
 
 extension UIStackView {
     
-/// setup vertical stackView
+    /// setup vertical stackView
     func setupStandardVertical() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.distribution = .fill
-        self.axis = .vertical
-        self.alignment = .fill
+        translatesAutoresizingMaskIntoConstraints = false
+        distribution = .fill
+        axis = .vertical
+        alignment = .fill
     }
     
-/// setup horizontail stackView
+    /// setup horizontail stackView
     func setupStandardHorizontal() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.distribution = .fill
-        self.axis = .horizontal
-        self.alignment = .fill
+        translatesAutoresizingMaskIntoConstraints = false
+        distribution = .fill
+        axis = .horizontal
+        alignment = .fill
     }
 }

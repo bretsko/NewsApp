@@ -12,11 +12,14 @@ struct LabelSection: Section {
     
     var titles: [String]
     var numberOfItems = 1
-
+    
     init(titles: [String]) {
         self.titles = titles
         self.numberOfItems = titles.count
     }
+    
+    
+    //MARK: -
     
     func layoutSection() -> NSCollectionLayoutSection {
         // Step 1:
@@ -25,7 +28,7 @@ struct LabelSection: Section {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 0, bottom: 0, trailing: 0)
         // Step 3: Try using 95% width and 35% height
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .absolute(0.3))
+        //        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .absolute(0.3))
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.45), heightDimension: .fractionalHeight(0.35))
         // Step 4: You will need to specify how many items per group (3)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
@@ -36,10 +39,10 @@ struct LabelSection: Section {
         return section
     }
     
-    //Step 6:
+    // Step 6:
     func configureCell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LabelCell.self), for: indexPath) as! LabelCell
-        let title = self.titles[indexPath.row]
+        let title = titles[indexPath.row]
         cell.set(title: title)
         return cell
     }

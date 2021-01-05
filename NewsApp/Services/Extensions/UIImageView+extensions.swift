@@ -10,12 +10,12 @@ import UIKit
 
 extension UIImage {
     
-/// apply tint to an image to whatever color
+    /// apply tint to an image to whatever color
     func tint(with color: UIColor) -> UIImage {
         var image = withRenderingMode(.alwaysTemplate)
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
         color.set()
-
+        
         image.draw(in: CGRect(origin: .zero, size: size))
         image = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()

@@ -9,22 +9,29 @@
 import UIKit
 
 class SettingsService {
-    static let shared = SettingsService() //Singleton
-    var isDarkMode: Bool = false
-    var mainColor: UIColor = kMAINCOLOR
-    var blackColor: UIColor { //get only property
-        return isDarkMode ? kOFFWHITECOLOR : kOFFBLACKCOLOR
+    static let shared = SettingsService()
+    
+    var isDarkMode = false
+    var mainColor: UIColor = .purple
+    
+    //MARK: -
+    
+    var blackColor: UIColor {
+        isDarkMode ? .offWhite : .offBlack
     }
-    var whiteColor: UIColor  {
-        return isDarkMode ? kOFFBLACKCOLOR : kOFFWHITECOLOR
+
+    var whiteColor: UIColor {
+        isDarkMode ? .offBlack : .offWhite
     }
-///whites that will turn gray on dark mode
+
+    /// whites that will turn gray on dark mode
     var grayColor: UIColor {
-        return isDarkMode ? .lightGray : kOFFWHITECOLOR
+        isDarkMode ? .lightGray : .offWhite
     }
-/// black that will turn gray on darkmode
+
+    /// black that will turn gray on darkmode
     var darkGrayColor: UIColor {
-        return isDarkMode ? .lightGray : kOFFBLACKCOLOR
+        isDarkMode ? .lightGray : .offBlack
     }
     
     private init() {

@@ -8,22 +8,21 @@
 
 import UIKit
 
-
 class LabelCell: UICollectionViewCell {
     
-    static var identifier: String = "LabelCell"
     @IBOutlet private var lblTitle: UILabel!
+    static var identifier = "LabelCell"
 
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     func set(title: String) {
         lblTitle.text = title
-        self.layer.cornerRadius = 10
-        self.layer.masksToBounds = true //same as clipsToBounds
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.black.cgColor
+        layer.cornerRadius = 10
+        layer.masksToBounds = true // same as clipsToBounds
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.black.cgColor
     }
 }

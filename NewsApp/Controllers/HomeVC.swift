@@ -8,39 +8,38 @@
 
 import UIKit
 
-class HomeVC: UIViewController, Storyboarded {
+class HomeVC: UIViewController {
+
+    @IBOutlet weak var collectionView: UICollectionView!
+    var searchController: UISearchController!
     
-//MARK: Properties
     weak var coordinator: MainCoordinator?
-    lazy var sections: [Section] = [
+    
+    var sections: [Section] = [
+        
         TitleSection(title: "Categories"),
         ImageSection(categories: Category.allCases),
+        
         TitleSection(title: "Countries"),
-        LabelSection(titles: Country.allCases.map { $0.rawValue }), //since titles is an array of String, we need to map allCases to its rawValue
+        LabelSection(titles: Country.allCases.map { $0.rawValue }),
+        
         TitleSection(title: "Languages"),
         LabelSection(titles: Language.allCases.map { $0.rawValue }),
+        
         TitleSection(title: "Sources"),
-        LabelSection(titles: []) //keep it empty for now as we fetch sources
+        LabelSection(titles: []) // keep it empty for now as we fetch sources
     ]
-    lazy var collectionViewLayout: UICollectionViewLayout = {
-        var sections = self.sections
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
-            return sections[sectionIndex].layoutSection()
-        }
-        return layout
-    }()
+
     var sources: [Source] = [] {
         didSet {
-            sections[7] = LabelSection(titles: sources.map{ $0.name } ) //create an array of sources name from sources
+            sections[7] = LabelSection(titles: sources.map { $0.name })
             collectionView.reloadData()
         }
     }
     
-//MARK: Views
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var searchBar: UISearchBar!
     
-//MARK: App LifeCycle
+    //MARK: - App LifeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -48,99 +47,131 @@ class HomeVC: UIViewController, Storyboarded {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NetworkManager.resetNetworkManager()
+        NetworkManager.shared.resetNetworkManager()
     }
+    
+    //MARK: - setup UI
 
-//MARK: Private Methods
-    fileprivate func setupViews() {
-        self.title = "News Stand"
+    private func setupViews() {
+        navigationItem.title = "News Stand"
         setupCollectionView()
         setupSearchBar()
         fetchSources()
     }
     
-    ///fetches a list of sources which is needed to fetch articles by language and by source
-    fileprivate func fetchSources() {
-        NetworkManager.fetchSources { (result) in
-            switch result {
-            case let .success(sources):
-                self.sources.append(contentsOf: sources)
-            case let .failure(error):
-                Service.presentAlert(on: self, title: "Error", message: error.localizedDescription)
-            }
-        }
-    }
-    
-    fileprivate func setupSearchBar() {
+    private func setupSearchBar() {
+        
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.obscuresBackgroundDuringPresentation = false
+        
+        let searchBar = searchController.searchBar
+        searchBar.tintColor = .white
+        searchBar.barTintColor = UIColor.blue
+        searchBar.returnKeyType = .search
+        searchBar.tintColor = .darkGray
+        
         searchBar.searchTextField.delegate = self
         searchBar.searchTextField.placeholder = "Search for News"
-        searchBar.returnKeyType = .search
+        searchBar.searchTextField.clearButtonMode = .always
+
+        
+        // cancel button
+        searchController.searchBar.showsCancelButton = false
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         let flexibleBar = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.handleDismissTap(_:)))
-        toolBar.setItems([flexibleBar, doneButton], animated: true)
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleDismissTap(_:)))
+        toolBar.setItems([flexibleBar, cancelButton], animated: true)
         searchBar.searchTextField.inputAccessoryView = toolBar
-        searchBar.searchTextField.clearButtonMode = .always
+               
+        navigationItem.searchController = searchController
     }
     
-    fileprivate func setupCollectionView() {
-        collectionView.collectionViewLayout = collectionViewLayout
+    private func setupCollectionView() {
+        
+        collectionView.collectionViewLayout = UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
+            self.sections[sectionIndex].layoutSection()
+        }
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
-//        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: String(describing: CategoryCell.self)) //no need since it's inside collectionView's story
+        //        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: String(describing: CategoryCell.self)) //no need since it's inside collectionView's story
         collectionView.register(UINib(nibName: TitleCell.identifier, bundle: .main), forCellWithReuseIdentifier: TitleCell.identifier)
         collectionView.register(UINib(nibName: ImageCell.identifier, bundle: .main), forCellWithReuseIdentifier: ImageCell.identifier)
         collectionView.register(UINib(nibName: LabelCell.identifier, bundle: .main), forCellWithReuseIdentifier: LabelCell.identifier)
     }
     
-//MARK: IBActions
+    
+    //MARK: - IBActions
+    
+    @objc func handleDismissTap(_ gesture: UITapGestureRecognizer) {
+        searchController.searchBar.endEditing(false)
+    }
     
     
-//MARK: Helper Methods
-    @objc func handleDismissTap(_ gesture: UITapGestureRecognizer) { //dismiss fields
-        self.view.endEditing(false)
+    //MARK: -
+
+    /// fetches a list of sources which is needed to fetch articles by language and by source
+    private func fetchSources() {
+        NetworkManager.shared.fetchSources { result in
+            DispatchQueue.main.async { [weak self] in
+                guard let weakSelf = self else {
+                    return
+                }
+                switch result {
+                case let .success(sources):
+                    weakSelf.sources.append(contentsOf: sources)
+                case let .failure(error):
+                    Service.presentAlert(on: weakSelf, title: "Error", message: error.localizedDescription)
+                }
+            }
+        }
     }
 }
 
-//MARK: Extensions
+//MARK: - UICollectionViewDelegate
 
-//MARK: CollectionView Delegate Extension
 extension HomeVC: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         switch indexPath.section {
-        case 1: //fetch articles by categories
+        case 1: // fetch articles by categories
             let section = sections[indexPath.section] as! ImageSection
             let category = section.categories[indexPath.row]
             let vcTitle = Category.allCases[indexPath.row].rawValue + " News"
-            coordinator?.goToNewsList(endpoint: .category, vcTitle: vcTitle, parameters: [kCATEGORY: category.rawValue])
-        case 3: //fetch articles by countries
-            let country = String(describing: Country.allCases[indexPath.row]) //convert enum case to string
+            coordinator?.goToNewsList(endpoint: .category, vcTitle: vcTitle, parameters: ["category": category.rawValue])
+            
+        case 3: // fetch articles by countries
+            let country = String(describing: Country.allCases[indexPath.row]) // convert enum case to string
             let vcTitle = Country.allCases[indexPath.row].rawValue + " News"
-            coordinator?.goToNewsList(endpoint: .country, vcTitle: vcTitle, parameters: [kCOUNTRY: country])
-        case 5: //fetch articles by language
+            coordinator?.goToNewsList(endpoint: .country, vcTitle: vcTitle, parameters: ["country": country])
+            
+        case 5: // fetch articles by language
             let language = String(describing: Language.allCases[indexPath.row])
             let vcTitle = Language.allCases[indexPath.row].rawValue + " News"
-            let sourcesQueryString = Language.getSourcesString(language: language, sources: self.sources) //fetching articles by language requires sources query
-            coordinator?.goToNewsList(endpoint: .language, vcTitle: vcTitle, parameters: [kLANGUAGE: language, kSOURCES: sourcesQueryString])
-        case 7: //fetch articles by source
+            let sourcesQueryString = Language.getSourcesString(language: language, sources: sources) // fetching articles by language requires sources query
+            coordinator?.goToNewsList(endpoint: .language, vcTitle: vcTitle, parameters: ["language": language, "sources": sourcesQueryString])
+            
+        case 7: // fetch articles by source
             let source = sources[indexPath.row]
-            coordinator?.goToNewsList(endpoint: .source, vcTitle: source.name, parameters: [kSOURCES: source.id])
-        default: //titles
+            coordinator?.goToNewsList(endpoint: .source, vcTitle: source.name, parameters: ["sources": source.id])
+        default: // titles
             break
         }
     }
 }
 
-//MARK: CollectionView Data Source Extension
+//MARK: - UICollectionViewDataSource
+
 extension HomeVC: UICollectionViewDataSource {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
+        sections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sections[section].numberOfItems
+        sections[section].numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -160,12 +191,14 @@ extension HomeVC: UICollectionViewDataSource {
     }
 }
 
-// MARK: - Search bar functions
+//MARK: - UISearchTextFieldDelegate
+
 extension HomeVC: UISearchTextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField.text != nil {
-            coordinator?.goToNewsList(endpoint: .articles, vcTitle: "\(textField.text!) News", parameters: [kQ: textField.text!])
+            coordinator?.goToNewsList(endpoint: .articles, vcTitle: "\(textField.text!) News", parameters: ["q": textField.text!])
         }
         return true
     }

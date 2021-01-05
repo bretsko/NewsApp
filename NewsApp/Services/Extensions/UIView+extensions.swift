@@ -10,32 +10,32 @@ import UIKit
 
 extension UIView {
     
-/// Constraint view to its superview
+    /// Constraint view to its superview
     func fitInSuperview() {
-        guard let sv = self.superview else { return }
-        self.translatesAutoresizingMaskIntoConstraints = false
+        guard let sv = superview else { return }
+        translatesAutoresizingMaskIntoConstraints = false
         topAnchor.constraint(equalTo: sv.topAnchor).isActive = true
         bottomAnchor.constraint(equalTo: sv.bottomAnchor).isActive = true
         leftAnchor.constraint(equalTo: sv.leftAnchor).isActive = true
         rightAnchor.constraint(equalTo: sv.rightAnchor).isActive = true
     }
     
-/// Constraint view to its superview's margin
+    /// Constraint view to its superview's margin
     func fitInSuperviewMargins() {
-        guard let sv = self.superview else { return }
-        self.translatesAutoresizingMaskIntoConstraints = false
+        guard let sv = superview else { return }
+        translatesAutoresizingMaskIntoConstraints = false
         topAnchor.constraint(equalTo: sv.topAnchor, constant: sv.layoutMargins.top).isActive = true
-        bottomAnchor.constraint(equalTo: sv.bottomAnchor,constant: -sv.layoutMargins.bottom).isActive = true
-        leftAnchor.constraint(equalTo: sv.leftAnchor,constant: sv.layoutMargins.left).isActive = true
-        rightAnchor.constraint(equalTo: sv.rightAnchor,constant: -sv.layoutMargins.right).isActive = true
+        bottomAnchor.constraint(equalTo: sv.bottomAnchor, constant: -sv.layoutMargins.bottom).isActive = true
+        leftAnchor.constraint(equalTo: sv.leftAnchor, constant: sv.layoutMargins.left).isActive = true
+        rightAnchor.constraint(equalTo: sv.rightAnchor, constant: -sv.layoutMargins.right).isActive = true
     }
-
-/// Returns a collection of constraints to anchor the bounds of the current view to the given view.
-/// https://medium.com/better-programming/auto-layout-in-swift-ffd918d4ec06
-/// - Parameter view: The view to anchor to.
-/// - Returns: The layout constraints needed for this constraint.
+    
+    /// Returns a collection of constraints to anchor the bounds of the current view to the given view.
+    /// https://medium.com/better-programming/auto-layout-in-swift-ffd918d4ec06
+    /// - Parameter view: The view to anchor to.
+    /// - Returns: The layout constraints needed for this constraint.
     func pinEdgesEquallyTo(boundsOf view: UIView) -> [NSLayoutConstraint] {
-        return [
+        [
             topAnchor.constraint(equalTo: view.topAnchor),
             leadingAnchor.constraint(equalTo: view.leadingAnchor),
             view.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -43,9 +43,9 @@ extension UIView {
         ]
     }
     
-/// Constraint a view to another view with equal leading and trailing helper
+    /// Constraint a view to another view with equal leading and trailing helper
     func pinLeftAndRightEdgesEquallyTo(constantInset: CGFloat = 0.0, boundsOf view: UIView) -> [NSLayoutConstraint] {
-        return [
+        [
             topAnchor.constraint(equalTo: view.topAnchor),
             leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constantInset),
             view.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -53,9 +53,9 @@ extension UIView {
         ]
     }
     
-/// Top and bottom constraint helper
+    /// Top and bottom constraint helper
     func pinTopAndBottomEdgesEquallyTo(constantInset: CGFloat = 0.0, boundsOf view: UIView) -> [NSLayoutConstraint] {
-        return [
+        [
             topAnchor.constraint(equalTo: view.topAnchor, constant: constantInset),
             leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomAnchor.constraint(equalTo: view.topAnchor, constant: -constantInset),
@@ -63,17 +63,17 @@ extension UIView {
         ]
     }
     
-/// Height constraint helper
+    /// Height constraint helper
     func pinHeightTo(constantInset: CGFloat = 0.0, multiplier: CGFloat = 1.0, boundsOf view: UIView) -> [NSLayoutConstraint] {
-        if constantInset != 0.0 && multiplier != 1.0 {
+        if constantInset != 0.0, multiplier != 1.0 {
             print("Height cannot apply both constant inset and multiplier at the same time")
             return []
         }
-        if constantInset == 0.0 { //apply constant to height
+        if constantInset == 0.0 { // apply constant to height
             return [
-               heightAnchor.constraint(equalTo: view.heightAnchor, constant: constantInset)
+                heightAnchor.constraint(equalTo: view.heightAnchor, constant: constantInset)
             ]
-        } else { //apply multiplier to height
+        } else { // apply multiplier to height
             return [
                 heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: multiplier)
             ]
@@ -81,22 +81,23 @@ extension UIView {
     }
     
     func pinWidthTo(constantInset: CGFloat = 0.0, multiplier: CGFloat = 1.0, boundsOf view: UIView) -> [NSLayoutConstraint] {
-        if constantInset != 0.0 && multiplier != 1.0 {
+        if constantInset != 0.0, multiplier != 1.0 {
             print("Width cannot apply both constant inset and multiplier at the same time")
             return []
         }
-        if constantInset == 0.0 { //apply constant to height
+        if constantInset == 0.0 { // apply constant to height
             return [
-               widthAnchor.constraint(equalTo: view.widthAnchor, constant: constantInset)
+                widthAnchor.constraint(equalTo: view.widthAnchor, constant: constantInset)
             ]
-        } else { //apply multiplier to height
+        } else { // apply multiplier to height
             return [
                 widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: multiplier)
             ]
         }
     }
 }
-//extension NSLayoutConstraint {
+
+// extension NSLayoutConstraint {
 //
 //    /// Returns the constraint sender with the passed priority.
 //    /// https://medium.com/better-programming/auto-layout-in-swift-ffd918d4ec06
@@ -107,9 +108,9 @@ extension UIView {
 //        return self
 //    }
 //
-//}
+// }
 //
-//extension UILayoutPriority {
+// extension UILayoutPriority {
 //
 //    /// Creates a priority which is almost required, but not 100%.
 //    static var almostRequired: UILayoutPriority {
@@ -120,4 +121,4 @@ extension UIView {
 //    static var notRequired: UILayoutPriority {
 //        return UILayoutPriority(rawValue: 0)
 //    }
-//}
+// }

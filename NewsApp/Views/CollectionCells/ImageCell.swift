@@ -7,15 +7,16 @@
 //
 
 import UIKit
-//import Kingfisher
+// import Kingfisher
 
 class ImageCell: UICollectionViewCell {
-    
-    static var identifier: String = "ImageCell"
-    let gradientLayer = CAGradientLayer()
-    
+
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
+    
+    static var identifier = "ImageCell"
+    let gradientLayer = CAGradientLayer()
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,20 +26,20 @@ class ImageCell: UICollectionViewCell {
         titleLabel.text = title
         coverImg.image = image
         coverImg.layer.cornerRadius = 10
-        coverImg.layer.masksToBounds = true //same as clipsToBounds
+        coverImg.layer.masksToBounds = true // same as clipsToBounds
         darkenImageView()
     }
     
     override func prepareForReuse() {
         coverImg.image = nil
         titleLabel.text = nil
-        gradientLayer.colors = [UIColor.clear.cgColor] //reset the color
+        gradientLayer.colors = [UIColor.clear.cgColor] // reset the color
     }
     
-    fileprivate func darkenImageView() {
+    private func darkenImageView() {
         guard let black: CGColor = UIColor.black.cgColor.copy(alpha: 0.7) else { return }
         gradientLayer.colors = [UIColor.clear.cgColor, black]
-        gradientLayer.locations = [0, 0.4] //0.75 instead of 0 so there will be more clear color than black
+        gradientLayer.locations = [0, 0.4] // 0.75 instead of 0 so there will be more clear color than black
         gradientLayer.frame = coverImg.frame
         coverImg.layer.addSublayer(gradientLayer)
     }

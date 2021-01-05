@@ -8,7 +8,8 @@
 
 import UIKit
 
-enum DateOptions: String {
+enum DateOptions: String, CaseIterable {
+    
     case now = "Now", hours24 = "24 hours", days3 = "3 days", week = "Week", weeks2 = "2 weeks", month = "Month", months3 = "3 months"
     
     var asDateParameter: String {
@@ -27,14 +28,11 @@ enum DateOptions: String {
             return Service.getIso8601DateByWeek(weekCount: -4)
         case .months3:
             return Service.getIso8601DateByWeek(weekCount: -12)
-        
         }
     }
-}
 
-extension DateOptions: CaseIterable { //to be able to use Category.allCases
+    /// except now
     static var fromAllCases: [DateOptions] {
-        return [.hours24, .days3, .week, .weeks2, .month, .months3] //not include now
+        [.hours24, .days3, .week, .weeks2, .month, .months3] 
     }
 }
-

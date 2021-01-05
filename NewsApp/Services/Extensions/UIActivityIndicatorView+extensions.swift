@@ -9,14 +9,15 @@
 import UIKit
 
 extension UIActivityIndicatorView {
-///function that animates and show indicatorView or not
+    
+    /// function that animates and show indicatorView or not
     func shouldAnimate(shouldAnimate: Bool = true) {
         if shouldAnimate {
-            self.startAnimating()
-            self.isHidden = false
+            startAnimating()
+            isHidden = false
         } else {
-            self.stopAnimating()
-            self.isHidden = true
+            stopAnimating()
+            isHidden = true
         }
     }
 }

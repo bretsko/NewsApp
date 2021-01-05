@@ -10,10 +10,20 @@ import UIKit
 
 extension UIColor {
     
-    convenience init(hexString: String, alpha: CGFloat = 1.0) { //6 strings hex
+    static var purple: UIColor {
+        UIColor(hexString: "#6a4bc9", alpha: 1.0)
+    }
+    static var offWhite: UIColor  {
+        UIColor(hexString: "#f0f0f0")
+    }
+    static var offBlack: UIColor  {
+        UIColor(hexString: "#212121")
+    }
+
+    convenience init(hexString: String, alpha: CGFloat = 1.0) { // 6 strings hex
         let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
-        if (hexString.hasPrefix("#")) {
+        if hexString.hasPrefix("#") {
             scanner.currentIndex = scanner.string.index(after: scanner.currentIndex)
         }
         var color: UInt64 = 0
@@ -22,22 +32,23 @@ extension UIColor {
         let r = Int(color >> 16) & mask
         let g = Int(color >> 8) & mask
         let b = Int(color) & mask
-        let red   = CGFloat(r) / 255.0
+        let red = CGFloat(r) / 255.0
         let green = CGFloat(g) / 255.0
-        let blue  = CGFloat(b) / 255.0
-        self.init(red:red, green:green, blue:blue, alpha:alpha)
+        let blue = CGFloat(b) / 255.0
+        self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
+
     func toHexString() -> String {
-        var r:CGFloat = 0
-        var g:CGFloat = 0
-        var b:CGFloat = 0
-        var a:CGFloat = 0
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
         getRed(&r, green: &g, blue: &b, alpha: &a)
-        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
-        return String(format:"#%06x", rgb)
+        let rgb: Int = (Int)(r * 255) << 16 | (Int)(g * 255) << 8 | (Int)(b * 255) << 0
+        return String(format: "#%06x", rgb)
     }
     
-    public convenience init?(hex: String) {
+    convenience init?(hex: String) {
         let r, g, b, a: CGFloat
         if hex.hasPrefix("#") {
             let start = hex.index(hex.startIndex, offsetBy: 1)
@@ -58,7 +69,6 @@ extension UIColor {
         return nil
     }
     
-    
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
@@ -68,10 +78,8 @@ extension UIColor {
     }
     
     convenience init(rgb: Int) {
-        self.init(
-            red: (rgb >> 16) & 0xFF,
-            green: (rgb >> 8) & 0xFF,
-            blue: rgb & 0xFF
-        )
+        self.init(red: (rgb >> 16) & 0xFF,
+                  green: (rgb >> 8) & 0xFF,
+                  blue: rgb & 0xFF)
     }
 }

@@ -8,11 +8,11 @@
 
 import UIKit
 
-class Service {    
-//presentAlert
+class Service {
+    
     static func presentAlert(on: UIViewController, title: String, message: String) {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default) { (action) in
+        let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
             alertVC.dismiss(animated: true, completion: nil)
         }
         alertVC.addAction(okAction)
@@ -27,17 +27,17 @@ class Service {
         on.present(alertVC, animated: true, completion: nil)
     }
     
-    static func dateFormatter() -> DateFormatter { // DateFormatter = A formatter that converts between dates and their textual representations.
+    static func dateFormatter() -> DateFormatter {
         let dateFormatter = DateFormatter()
         let dateFormat = "yyyyMMddHHmmss"
-        dateFormatter.dateFormat = dateFormat //dateFormat = "yyyyMMddHHmmss"
+        dateFormatter.dateFormat = dateFormat // dateFormat = "yyyyMMddHHmmss"
         return dateFormatter
     }
-
-    static func imageFromData(pictureData: String, withBlock: (_ image: UIImage?) -> Void ) { //string to image method for imageURL
-        var image: UIImage? //container for our image
-        let decodedData = NSData(base64Encoded: pictureData, options: NSData.Base64DecodingOptions(rawValue: 0)) //this will decode our string to an NSData
-        image = UIImage(data: decodedData! as Data) //assign our image to our decodedData
+    
+    static func imageFromData(pictureData: String, withBlock: (_ image: UIImage?) -> ()) { // string to image method for imageURL
+        var image: UIImage? // container for our image
+        let decodedData = NSData(base64Encoded: pictureData, options: NSData.Base64DecodingOptions(rawValue: 0)) // this will decode our string to an NSData
+        image = UIImage(data: decodedData! as Data) // assign our image to our decodedData
         withBlock(image)
     }
     
@@ -54,7 +54,7 @@ class Service {
         return lastWeekDateString
     }
     
-    ///get the date from a day or whatever dayCount ago
+    /// get the date from a day or whatever dayCount ago
     static func getIso8601DateByDay(dayCount: Int = -1) -> String {
         let dayDate = Calendar.current.date(byAdding: .weekday, value: dayCount, to: Date())!
         let dateFormatter = DateFormatter()
@@ -64,4 +64,3 @@ class Service {
         return dayDateString
     }
 }
-

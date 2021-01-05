@@ -8,12 +8,18 @@
 
 import UIKit
 
-enum Category: String {
-    case business = "Business", entertainment = "Entertainment", general = "General", health = "Health", science = "Science", sports = "Sports", technology = "Technology"
+enum Category: String, CaseIterable {
+    
+    case business = "Business"
+    case entertainment = "Entertainment"
+    case general = "General"
+    case health = "Health"
+    case science = "Science"
+    case sports = "Sports"
+    case technology = "Technology"
+    
     var image: UIImage {
-        return UIImage(named: "\(String(describing: self)).jpg")!
+        UIImage(named: "\(String(describing: self)).jpg")!
     }
 }
 
-extension Category: CaseIterable { //to be able to use Category.allCases
-}

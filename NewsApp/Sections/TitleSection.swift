@@ -9,12 +9,15 @@
 import UIKit
 
 struct TitleSection: Section {
+    
     let numberOfItems = 1
     let title: String
-
-    init(title: String) {
-        self.title = title
-    }
+    
+//    init(title: String) {
+//        self.title = title
+//    }
+    
+    //MARK: -
     
     func layoutSection() -> NSCollectionLayoutSection {
         // Step 1:
@@ -30,7 +33,7 @@ struct TitleSection: Section {
         return section
     }
     
-    //Step 6:
+    // Step 6:
     func configureCell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TitleCell.self), for: indexPath) as! TitleCell
         cell.set(title: title)

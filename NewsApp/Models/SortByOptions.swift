@@ -8,10 +8,17 @@
 
 import UIKit
 
-enum SortByOptions: String {
-    case publishedAt = "Newest", //newest articles come first.
-    relevancy = "Relevancy", //articles more closely related to q come first.
-    popularity = "Popularity" //articles from popular sources and publishers come first.
+enum SortByOptions: String, CaseIterable {
+    
+    /// newest articles come first
+    case publishedAt = "Newest"
+    
+    /// articles more closely related to q come first.
+    case relevancy = "Relevancy"
+    
+    /// articles from popular sources and publishers come first.
+    case popularity = "Popularity"
+    
     
     var asSortByParameter: String {
         switch self {
@@ -23,7 +30,4 @@ enum SortByOptions: String {
             return "popularity"
         }
     }
-}
-
-extension SortByOptions: CaseIterable { //to be able to use Category.allCases
 }

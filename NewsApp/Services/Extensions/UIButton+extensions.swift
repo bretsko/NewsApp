@@ -9,44 +9,45 @@
 import UIKit
 
 extension UIButton {
-/// applied main color and rounded corners
+    
+    /// applied main color and rounded corners
     func isMainButton(color: UIColor = SettingsService.shared.mainColor, titleColor: UIColor = SettingsService.shared.grayColor) {
-//        self.layer.borderWidth = 2
-//        self.layer.borderColor = UIColor.white.cgColor
-        self.backgroundColor = color
-        self.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
-        self.setTitleColor(titleColor, for: .normal)
-//        self.layer.cornerRadius = self.frame.height / 5
-        self.layer.cornerRadius = 10
-        self.clipsToBounds = true
-//        self.layer.masksToBounds = true
+        //        self.layer.borderWidth = 2
+        //        self.layer.borderColor = UIColor.white.cgColor
+        backgroundColor = color
+        titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
+        setTitleColor(titleColor, for: .normal)
+        //        self.layer.cornerRadius = self.frame.height / 5
+        layer.cornerRadius = 10
+        clipsToBounds = true
+        //        self.layer.masksToBounds = true
     }
     
     func isWhiteButton() {
-        self.backgroundColor = kOFFWHITECOLOR
-        self.titleLabel?.font = .systemFont(ofSize: 24, weight: .medium)
-        self.setTitleColor(kOFFBLACKCOLOR, for: .normal)
-        self.layer.cornerRadius = 10
-        self.clipsToBounds = true
+        backgroundColor = .offWhite
+        titleLabel?.font = .systemFont(ofSize: 24, weight: .medium)
+        setTitleColor(.offBlack, for: .normal)
+        layer.cornerRadius = 10
+        clipsToBounds = true
     }
     
     func isBlackButton(titleColor: UIColor = SettingsService.shared.grayColor) {
-        self.backgroundColor = kOFFBLACKCOLOR
-        self.titleLabel?.font = .systemFont(ofSize: 24, weight: .medium)
-        self.setTitleColor(titleColor, for: .normal)
-        self.layer.cornerRadius = 10
-        self.clipsToBounds = true
-        self.layer.borderWidth = 2 //add a border
-        self.layer.borderColor = SettingsService.shared.isDarkMode ? titleColor.cgColor : UIColor.clear.cgColor
+        backgroundColor = .offBlack
+        titleLabel?.font = .systemFont(ofSize: 24, weight: .medium)
+        setTitleColor(titleColor, for: .normal)
+        layer.cornerRadius = 10
+        clipsToBounds = true
+        layer.borderWidth = 2 // add a border
+        layer.borderColor = SettingsService.shared.isDarkMode ? titleColor.cgColor : UIColor.clear.cgColor
     }
     
     func isClearButton(titleColor: UIColor = SettingsService.shared.mainColor) {
-        self.backgroundColor = .clear
-        self.setTitleColor(titleColor, for: .normal)
-        self.titleLabel?.font = .systemFont(ofSize: 24, weight: .medium)
-        self.layer.cornerRadius = 10
-        self.clipsToBounds = true
-        self.layer.borderWidth = 2
-        self.layer.borderColor = titleColor.cgColor
+        backgroundColor = .clear
+        setTitleColor(titleColor, for: .normal)
+        titleLabel?.font = .systemFont(ofSize: 24, weight: .medium)
+        layer.cornerRadius = 10
+        clipsToBounds = true
+        layer.borderWidth = 2
+        layer.borderColor = titleColor.cgColor
     }
 }

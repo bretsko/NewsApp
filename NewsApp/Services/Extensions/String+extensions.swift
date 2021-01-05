@@ -9,19 +9,20 @@
 import Foundation
 
 extension String {
+    
     func capitalizingFirstLetter() -> String {
-        return prefix(1).uppercased() + dropFirst()
+        prefix(1).uppercased() + dropFirst()
     }
     
     mutating func capitalizeFirstLetter() {
-        self = self.capitalizingFirstLetter()
+        self = capitalizingFirstLetter()
     }
     
     func lowerCasingFirstLetter() -> String {
-        return prefix(1).lowercased() + dropFirst()
+        prefix(1).lowercased() + dropFirst()
     }
     
     mutating func lowerCaseFirstLetter() {
-        self = self.lowerCasingFirstLetter()
+        self = lowerCasingFirstLetter()
     }
 }

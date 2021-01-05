@@ -11,27 +11,27 @@ import UIKit
 extension UITextField {
     
     func isEmailTextField() {
-        self.keyboardType = .emailAddress
-        self.placeholder = "Email"
-        self.clearButtonMode = .whileEditing
+        keyboardType = .emailAddress
+        placeholder = "Email"
+        clearButtonMode = .whileEditing
     }
     
     func isPasswordTextField() {
-        self.isHidden = false
-        self.isSecureTextEntry = true
-        self.keyboardType = .default
-        self.text = ""
-        self.placeholder = "Password"
-        self.clearButtonMode = .whileEditing
+        isHidden = false
+        isSecureTextEntry = true
+        keyboardType = .default
+        text = ""
+        placeholder = "Password"
+        clearButtonMode = .whileEditing
     }
     
     func isPhoneTextField() {
-        self.keyboardType = .phonePad
+        keyboardType = .phonePad
     }
     
     func isPhoneCodeTextField(isHidden: Bool) {
-        self.keyboardType = .numberPad
-        self.isSecureTextEntry = false
+        keyboardType = .numberPad
+        isSecureTextEntry = false
         if isHidden {
             self.isHidden = true
         } else {

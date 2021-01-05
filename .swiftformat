@@ -1,0 +1,56 @@
+
+--swiftversion 5.3
+--beforemarks 
+--closingparen same-line
+--commas always
+--conflictmarkers reject
+--elseposition same-line
+--exponentcase lowercase
+--extensionacl on-extension
+--fragment false
+--funcattributes prev-line
+--guardelse same-line
+--ifdef indent
+--modifierorder override,public,final,lazy,weak,convenience
+--nevertrailing 
+--nospaceoperators 
+--nowrapoperators 
+--operatorfunc spaced
+--patternlet inline
+--ranges spaced
+--redundanttype inferred
+--self remove
+--selfrequired 
+--semicolons never
+--shortoptionals always
+--stripunusedargs closure-only
+--trailingclosures 
+--trimwhitespace nonblank-lines
+--typeattributes prev-line
+--varattributes preserve
+--voidtype void
+
+--markextensions always
+--marktypes always
+
+# --redundantPattern # not supported
+# --spaceAroundComments # not supported
+# --spaceAroundGenerics # not supported
+# --spaceAroundBrackets # not supported
+# --spaceInsideComments # not supported
+# --spaceAroundParens # not supported
+# --spaceAroundBraces # not supported
+# --consecutiveBlankLines # not supported
+# --blankLinesBetweenScopes # not supported
+
+--wrapcollections before-first
+--wrapconditions preserve
+--wrapreturntype preserve #if-multiline
+
+# --wraparguments after-first
+# --wrapparameters after-first
+
+
+
+--disable blankLinesAtStartOfScope,anyObjectProtocol,braces,emptyBraces,enumNamespaces,fileHeader,hoistPatternLet,indent,initCoderUnavailable,leadingDelimiters,linebreakAtEndOfFile,linebreaks,numberFormatting,preferKeyPath,redundantBackticks,redundantLetError,sortedImports,strongOutlets,strongifiedSelf,trailingCommas,void,wrap,wrapAttributes,wrapMultilineStatementBraces,yodaConditions
+--enable isEmpty

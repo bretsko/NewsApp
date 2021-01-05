@@ -9,6 +9,7 @@
 import UIKit
 
 class MainCoordinator: Coordinator {
+    
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     
@@ -18,31 +19,31 @@ class MainCoordinator: Coordinator {
     }
     
     func start() {
-        let vc = HomeVC.instantiate() //we can do this because of HomeVC conformed to Storyboarded protocol
-        vc.coordinator = self //assign vc's coordinator to self
+        let vc = StoryboardScene.Main.homeVC.instantiate()
+        vc.coordinator = self // assign vc's coordinator to self
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func goToNewsList(endpoint: EndPoints, vcTitle: String, parameters: [String: String]) {
-        let vc = ArticleListVC.instantiate()
+    func goToNewsList(endpoint: EndPoint, vcTitle: String, parameters: [String: String]) {
+        let vc = StoryboardScene.Main.articleListVC.instantiate()
         vc.coordinator = self
         vc.title = vcTitle
-        vc.endpoint = endpoint //.articles for searching, and .category for category
-        NetworkManager.updateParameters(parameters: parameters) //update parameters
+        vc.endpoint = endpoint // .articles for searching, and .category for category
+        NetworkManager.shared.updateParameters(parameters: parameters) // update parameters
         navigationController.pushViewController(vc, animated: true)
     }
     
     func goToNewsDetails(article: Article) {
-        let vc = ArticleDetailVC.instantiate()
+        let vc = StoryboardScene.Main.articleDetailVC.instantiate()
         vc.coordinator = self
         vc.article = article
         navigationController.pushViewController(vc, animated: true)
     }
     
-    fileprivate func setupNavigationController() {
-        self.navigationController.isNavigationBarHidden = false
-        self.navigationController.navigationBar.prefersLargeTitles = true
-//        navigationController.navigationBar.tintColor = SettingsService.shared.grayColor //button color
-//        navigationController.setStatusBarColor(backgroundColor: kMAINCOLOR)
+    private func setupNavigationController() {
+        navigationController.isNavigationBarHidden = false
+        navigationController.navigationBar.prefersLargeTitles = true
+        //        navigationController.navigationBar.tintColor = SettingsService.shared.grayColor //button color
+        //        navigationController.setStatusBarColor(backgroundColor: kMAINCOLOR)
     }
 }
