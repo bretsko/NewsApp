@@ -33,6 +33,7 @@ class ArticleListVC: UIViewController {
         case to
     }
     
+    
     /// currently opened tab bar option, if any
     var tabBarType: TabBarType?
     
@@ -40,11 +41,7 @@ class ArticleListVC: UIViewController {
     // MARK: -
     
     weak var coordinator: MainCoordinator?
-    var articles: [Article] = [] {
-        didSet {
-            articlesTableView.reloadData()
-        }
-    }
+    var articles: [Article] = []
     
     /// current news source
     var endpoint: EndPoint!
@@ -62,7 +59,7 @@ class ArticleListVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchArticles()
+        fetchArticles(page: page)
     }
     
     // MARK: - UI setup
@@ -70,13 +67,17 @@ class ArticleListVC: UIViewController {
     private func setupViews() {
         setupSearchBar()
         setupTableViews()
-        switch endpoint {
-        case .articles, .language:
-            // show filter buttons for /everything endpoint
-            filterButtonsStackView.isHidden = false
-        default:
-            filterButtonsStackView.isHidden = true
-        }
+        
+        // filters currently only work in everything endpoint
+//        switch endpoint {
+//        case .articles, .language:
+//            filterButtonsStackView.isHidden = false
+//        default:
+//            filterButtonsStackView.isHidden = true
+//        }
+    }
+    var filterButtons: [UIButton] {
+        [sortButton, toButton, fromButton]
     }
     
     private func setupTableViews() {
@@ -119,30 +120,27 @@ class ArticleListVC: UIViewController {
     
     // MARK: - IBActions
     
-    @IBAction func filterButtonsTapped(_ sender: UIButton) {
-        switch sender {
-        case sortButton:
-            if sortTableView.isHidden {
-                showTableView(type: .sort)
-            } else {
-                showTableView(type: nil)
-            }
-            
-        case fromButton:
-            if fromTableView.isHidden {
-                showTableView(type: .from)
-            } else {
-                showTableView(type: nil)
-            }
-            
-        case toButton:
-            if toTableView.isHidden {
-                showTableView(type: .to)
-            } else {
-                showTableView(type: nil)
-            }
-        default:
-            break
+    @IBAction func sortButtonTapped(_ sender: UIButton) {
+        if sortTableView.isHidden {
+            showFilterTableView(type: .sort)
+        } else {
+            showFilterTableView(type: nil)
+        }
+    }
+    
+    @IBAction func fromButtonTapped(_ sender: UIButton) {
+        if fromTableView.isHidden {
+            showFilterTableView(type: .from)
+        } else {
+            showFilterTableView(type: nil)
+        }
+    }
+    
+    @IBAction func toButtonTapped(_ sender: UIButton) {
+        if toTableView.isHidden {
+            showFilterTableView(type: .to)
+        } else {
+            showFilterTableView(type: nil)
         }
     }
     
@@ -153,11 +151,13 @@ class ArticleListVC: UIViewController {
     
     // MARK: -
     
-    func fetchArticles() {
+    private func fetchArticles(page: Int) {
+        
+        let qitems = NetworkManager.makeURLQueryItems(page: page)
+        
         activityIndicator.shouldAnimate()
-        let params = ["page": "\(page)"]
-        NetworkManager.shared.fetchNews(endpoint,
-                                        parameters: params) { result in
+        NetworkManager.shared.fetchArticles(endpoint,
+                                            pageParams: qitems) { result in
             DispatchQueue.main.async { [weak self] in
                 
                 guard let weakSelf = self else {
@@ -165,8 +165,9 @@ class ArticleListVC: UIViewController {
                 }
                 switch result {
                 case let .success(articles):
-                    weakSelf.articles.append(contentsOf: articles)
+                    weakSelf.articles += articles
                     weakSelf.activityIndicator.shouldAnimate(false)
+                    weakSelf.articlesTableView.reloadData()
                 case let .failure(error):
                     weakSelf.presentAlert(title: "Error", message: error.localizedDescription)
                 }
@@ -174,20 +175,13 @@ class ArticleListVC: UIViewController {
         }
     }
     
-    func updateParamsThenFetch(parameters: [String: String]) {
-        NetworkManager.shared.update(parameters: parameters)
-        page = 1 // reset page
-        articles.removeAll()
-        articlesTableView.reloadData()
-        fetchArticles()
-    }
     
     /// Hide all tables or show table depending on the UIButton selected
     /// if type is nil - hides all
-    private func showTableView(type: TabBarType?) {
+    private func showFilterTableView(type: TabBarType?) {
         
         tabBarType = type
-
+        
         searchBar.resignFirstResponder()
         guard let type = type else {
             // hide everything
@@ -239,31 +233,62 @@ extension ArticleListVC: UITableViewDelegate {
             return
         }
         
-        let parameters: [String : String]
+        //TODO: setup filters
+//        let titleStr = titleForFilterButton(with: tabBarType,
+//                                            at: indexPath.row)
+//        let param = filterParam(for: tabBarType,
+//                                at: indexPath.row)
+//        //endpoint = .source(Set([param]))
+//
+//        switch tabBarType {
+//        case .sort:
+//            sortButton.setTitle(titleStr, for: .normal)
+//        case .from:
+//            fromButton.setTitle(titleStr, for: .normal)
+//        case .to:
+//            toButton.setTitle(titleStr, for: .normal)
+//        }
+//        // hide all after press
+//        showFilterTableView(type: nil)
+//
+//        page = 1 // reset page
+//        fetchArticles(page: page)
+    }
+    
+    func filterParam(for tabBarType: TabBarType,
+                     at row: Int) -> FilterOption {
         switch tabBarType {
         case .sort:
-            let sortBy = SortByOptions.allCases[indexPath.row]
-            
-            sortButton.setTitle("Sort By: \(sortBy)",
-                                for: .normal)
-            parameters = ["sortBy": sortBy.paramString]
+            let sortByOptions = SortByOptions.allCases[row]
+            return .sortBy(sortByOptions)
             
         case .from:
             // not include now case
-            let fromDate = DateOptions.fromAllCases[indexPath.row]
-            fromButton.setTitle("Past: \(fromDate.rawValue)",
-                                for: .normal)
-            parameters = ["from": fromDate.paramString]
+            let fromDate = DateOptions.fromAllCases[row]
+            return .fromDate(fromDate)
             
         case .to:
-            let toDate = DateOptions.allCases[indexPath.row]
-            toButton.setTitle("Until: \(toDate.rawValue)",
-                              for: .normal)
-            parameters = ["to": toDate.paramString]
+            let toDate = DateOptions.allCases[row]
+            return .toDate(toDate)
         }
-        // hide all after press
-        showTableView(type: nil)
-        updateParamsThenFetch(parameters: parameters)
+    }
+    
+    func titleForFilterButton(with tabBarType: TabBarType,
+                              at row: Int) -> String {
+        switch tabBarType {
+        case .sort:
+            let sortBy = SortByOptions.allCases[row]
+            return "Sort By: \(sortBy)"
+            
+        case .from:
+            // not include now case
+            let fromDate = DateOptions.fromAllCases[row]
+            return "Past: \(fromDate.rawValue)"
+            
+        case .to:
+            let toDate = DateOptions.allCases[row]
+            return "Until: \(toDate.rawValue)"
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -302,15 +327,17 @@ extension ArticleListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let tabBarType = tabBarType else {
+            
             let articleCell = articlesTableView.dequeueReusableCell(withIdentifier: ArticleCell.identifier, for: indexPath) as! ArticleCell
+            
             let article = articles[indexPath.row]
             articleCell.populateViews(with: article)
             
             // if last cell and it's not the last article, get more articles
             if indexPath.row == articles.count - 1,
-               indexPath.row + 1 < NetworkManager.shared.numArticlesOnBackend {
+               indexPath.row < NetworkManager.shared.numArticlesOnBackend {
                 page += 1
-                fetchArticles()
+                fetchArticles(page: page)
             }
             return articleCell
         }
@@ -319,10 +346,22 @@ extension ArticleListVC: UITableViewDataSource {
         switch tabBarType {
         case .sort:
             cell = sortTableView.dequeueReusableCell(withIdentifier: "sortCell", for: indexPath)
-            cell.textLabel?.text = SortByOptions.allCases[indexPath.row].rawValue
+            
+            let option = SortByOptions.allCases[indexPath.row]
+            switch option {
+            case .publishedAt:
+                cell.textLabel?.text = "Newest"
+            case .relevancy:
+                cell.textLabel?.text = "Relevancy"
+            case .popularity:
+                cell.textLabel?.text = "Popularity"
+            }
+            
             cell.textLabel?.textAlignment = .center
             if indexPath.row == 1 {
-                sortTableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+                sortTableView.selectRow(at: indexPath,
+                                        animated: true,
+                                        scrollPosition: .middle)
             }
             
         case .from:
@@ -331,7 +370,9 @@ extension ArticleListVC: UITableViewDataSource {
             // not include now case
             cell.textLabel?.textAlignment = .center
             if indexPath.row == 2 {
-                fromTableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+                fromTableView.selectRow(at: indexPath,
+                                        animated: true,
+                                        scrollPosition: .middle)
             }
             
         case .to:
@@ -339,7 +380,9 @@ extension ArticleListVC: UITableViewDataSource {
             cell.textLabel?.text = DateOptions.allCases[indexPath.row].rawValue
             cell.textLabel?.textAlignment = .center
             if indexPath.row == 0 {
-                toTableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+                toTableView.selectRow(at: indexPath,
+                                      animated: true,
+                                      scrollPosition: .middle)
             }
         }
         return cell
@@ -358,12 +401,22 @@ extension ArticleListVC: UISearchTextFieldDelegate {
             return true
         }
         title = text
+        
+        //???
         sortButton.setTitle("Sort By: Relevancy", for: .normal)
         // change sort to relevancy as it will be closer to the textField input
+        
         let indexPath = IndexPath(row: 2, section: 0)
         // relevancy's index
         articlesTableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
-        updateParamsThenFetch(parameters: ["q": text, "sortBy": SortByOptions.relevancy.paramString])
+        
+        let filterOption1 = FilterOption.query(text)
+        let filterOption2 = FilterOption.sortBy(.relevancy)
+        
+        endpoint = .search(Set([filterOption1, filterOption2]))
+        
+        page = 1 // reset page
+        fetchArticles(page: page)
         return true
     }
 }

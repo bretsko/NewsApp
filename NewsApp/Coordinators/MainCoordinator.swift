@@ -25,16 +25,13 @@ class MainCoordinator: Coordinator {
     }
     
     func goToNewsList(endpoint: EndPoint,
-                      vcTitle: String,
-                      parameters: [String: String]) {
+                      vcTitle: String) {
         
         let vc = StoryboardScene.Main.articleListVC.instantiate()
         vc.coordinator = self
         vc.title = vcTitle
         vc.endpoint = endpoint
-        // .articles for searching, and .category for category
         
-        NetworkManager.shared.update(parameters: parameters)
         navigationController.pushViewController(vc, animated: true)
     }
     

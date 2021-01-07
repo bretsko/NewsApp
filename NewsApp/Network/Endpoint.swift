@@ -8,163 +8,94 @@
 
 import Foundation
 
-enum EndPoint: String {
-    
-    case articles
-    case language
-    case category
-    
-    case sources //endpoint for fetching array of sources
-    case source // for fetching article using source
-    
-    case country
-    case topHeadline
-    // case comments(articleId: Int)
-    
-    static let baseURL = "https://newsapi.org/v2/"
+enum EndPoint {
+
+    /// Search all articles
+    /// https://newsapi.org/docs/endpoints/everything
+    // Search through millions of articles from over 50,000 large and small news sources and blogs. This includes breaking news as well as lesser articles.
+    case search(Set<FilterOption>)
     
     
-    func makeURL(with params: [String : String]) -> URL {
+    /// Search top headlines
+    /// https://newsapi.org/docs/endpoints/top-headlines
+    /// This endpoint provides live top and breaking headlines for a country, specific category in a country, single source, or multiple sources. You can also search with keywords. Articles are sorted by the earliest date published first.
+    case top_headlines(Set<TopFilterOption>)
+    
+    
+    /// get list of all news sources used to provide news
+    /// https://newsapi.org/docs/endpoints/sources
+    case sources
+
+    
+    static let baseURL = "newsapi.org"
+  
+ 
+    //MARK: -
+    
+    func makeURL(with apiKey: String,
+                 pageParams: [URLQueryItem]? = nil) -> URL {
         
-        let strParams = paramsToString(parameters: params)
-        let urlStr = Self.baseURL + "\(makePath())?\(strParams)"
-        return URL(string: urlStr)!
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = Self.baseURL
+        components.path = getPath()
+        
+//        var queryItems = [
+//            URLQueryItem(name: "apiKey", value: apiKey)
+//        ]
+        var queryItems = [URLQueryItem]()
+        switch self {
+        case .search(let filterOptionSet):
+            queryItems = filterOptionSet.map{$0.queryItems}.flatMap{$0}
+            
+        case .top_headlines(let filterOptionSet):
+            queryItems = filterOptionSet.map{$0.queryItem}
+        
+        case .sources:
+            //TODO: category, country, language
+            return components.url!
+        }
+        
+        if let pageParams = pageParams {
+             queryItems += pageParams
+        } else {
+            queryItems += NetworkManager.makeURLQueryItems()
+        }
+        components.queryItems = queryItems
+        return components.url!
     }
     
-    func makeURLRequest(with params: [String : String],
-                        apiKey: String) -> URLRequest {
-        let url =  makeURL(with: params)
+    
+    func makeURLRequest(with apiKey: String,
+                        pageParams: [URLQueryItem]? = nil) -> URLRequest {
+        let url = makeURL(with: apiKey, pageParams: pageParams)
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = makeHeaders(with: apiKey)
-        request.httpMethod = "GET"
+        request.httpMethod = "GET" // all requests are Get
         return request
     }
     
-    // ??
-    // sources for category, and everything for articles search
-    func makePath() -> String {
+    func getPath() -> String {
         switch self {
-        case .category, .topHeadline, .country, .source:
-            return "top-headlines"
-        case .articles, .language:
-            return "everything"
+        case .search:
+            return "/v2/everything"
+        case .top_headlines:
+            return "/v2/top-headlines"
         case .sources:
-            return rawValue
+            return "/v2/sources"
         }
     }
     
-    func makeHeaders(with apiKey: String) -> [String: String] {
-        [
+    func makeHeaders(with apiKey: String? = nil) -> [String: String] {
+        var r = [
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": "X-Api-Key \(apiKey)", // "Authorization"
             "Host": "newsapi.org"
         ]
-    }
-    
-    /// create string from array of parameters joining each element with & and put "=" between key and value
-    private func paramsToString(parameters: [String: String]) -> String {
-        let params = makeParams(with: parameters).filter { !$0.value.isEmpty }.map { key, value in
-            // create an array from key and value //filtering value that is empty or ""
-            //        let parameterArray = parameters.map { key, value in //create an array from key and valuexb
-            "\(key)=\(value)"
+        if let key = apiKey {
+            r["Authorization"] = "X-Api-Key \(key)"
         }
-        return params.joined(separator: "&")
-        // join each element in array with &
-    }
-    
-    // grab the parameters for the appropriate object (article or comment) and add default
-    private func makeParams(with parameters: [String: String]) -> [String: String] {
-        
-        switch self {
-        case .sources:
-            // for list of sources
-            return [
-                // more info at https://newsapi.org/docs/endpoints/sources
-                "category": parameters["category"] ?? "",
-                
-                // either: business, entertainment, general, health, science, sports, technology
-                "language": parameters["language"] ?? "",
-                
-                // Find sources that display news in a specific language. Possible options: ar de en es fr he it nl no pt ru se ud zh . Default: all languages.
-                
-                "country": parameters["country"] ?? "",
-                // Find sources that display news in a specific country. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Default: all countries.
-            ]
-            
-        case .articles, .language:
-            
-            //everything has these parameters
-            return [
-                // more info at https://newsapi.org/docs/endpoints/everything
-                "q": parameters["q"] ?? "",
-                
-                // Keywords or phrases to search for in the article title and body.
-                "qInTitle": parameters["qInTitle"] ?? "",
-                
-                // Keywords or phrases to search for in the article title only.
-                "sources": parameters["sources"] ?? "",
-                
-                // A comma-seperated string of identifiers (maximum 20) for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically
-                //                    "domains": parameters["domains"] ?? "", //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
-                
-                // "excludeDomains": parameters["excludeDomains"] ??  "" //A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to remove from the results.
-                "from": parameters["from"] ?? "\(makeISO8601DateByWeek(weekCount: -1))",
-                
-                // A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
-                "to": parameters["to"] ?? "",
-                
-                // A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the newest according to your plan.
-                "language": parameters["language"] ?? "en",
-                
-                // The 2-letter ISO-639-1 code of the language you want to get headlines
-                "sortBy": parameters["sortBy"] ?? "publishedAt",
-                
-                // values can only be relevancy, popularity, publishedAt
-                "pageSize": parameters["pageSize"] ?? "20",
-                
-                // (Int) 20 default and 100 is max
-                "page": parameters["page"] ?? "1",
-                // (Int) Use this to page through the results.
-            ]
-            
-        case .country, .topHeadline, .category:
-            //top-headlines has these parameters
-            
-            return [
-                "country": parameters["country"] ?? "us",
-                // The 2-letter ISO 3166-1 code of the country you want to get headlines for. Possible options: ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za . Note: you can't mix this param with the sources param.
-                
-                "category": parameters["category"] ?? "general",
-                // The category you want to get headlines for. Possible options: business entertainment general health science sports technology . Note: you can't mix this param with the sources param.
-                //                "sources": parameters["sources"] ?? "", //A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
-                //                "from": parameters["from"] ?? "\(makeISO8601DateByWeek(weekCount: -2))", //A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2020-04-25 or 2020-04-25T02:36:43) Default: the oldest according to your plan.
-                
-                "q": parameters["q"] ?? "",
-                // Keywords or a phrase to search for.
-                
-                "pageSize": parameters["pageSize"] ?? "20",
-                // The number of results to return per page (request). 20 is the default, 100 is the maximum.
-                
-                "page": parameters["page"] ?? "1",
-                // Use this to page through the results if the total results found is greater than the page size.
-            ]
-        case .source:
-            // source cannot have country or category endpoint
-            return [
-                "sources": parameters["sources"] ?? "",
-                // A comma-seperated string of identifiers for the news sources or blogs you want headlines from. Use the /sources endpoint to locate these programmatically or look at the sources index. Note: you can't mix this param with the country or category params.
-                
-                "q": parameters["q"] ?? "",
-                // Keywords or a phrase to search for.
-                
-                "pageSize": parameters["pageSize"] ?? "20",
-                // The number of results to return per page (request). 20 is the default, 100 is the maximum.
-                
-                "page": parameters["page"] ?? "1",
-                // Use this to page through the results if the total results found is greater than the page size.
-            ]
-        }
+        return r
     }
 }
 
@@ -173,13 +104,12 @@ enum EndPointError: Error {
     case noData(message: String)
     case unsupportedEndpoint(message: String)
     case endpointError(message: String)
-    case maximumResultsReached(message: String = "You have reached maximum amount articles. Upgrade your account to see more.")
-    case unknown(message: String = "Error status with no error message")
+    case maximumResultsReached(message: String = "You have reached maximum amount articles(100). Upgrade your account to see more.")
+    case unknown(message: String = "Unknown error")
 }
 
 extension EndPointError: LocalizedError {
     
-    // to show passed message for error.localizedDescription
     var errorDescription: String? {
         switch self {
         case let .couldNotParse(message),
@@ -192,3 +122,4 @@ extension EndPointError: LocalizedError {
         }
     }
 }
+

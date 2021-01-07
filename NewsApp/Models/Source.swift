@@ -21,7 +21,7 @@ struct ArticleSource: Decodable {
     let name: String
 }
 
-struct Source: Decodable {
+struct Source: Decodable, Hashable {
     
     /// identifier of news source
     let id: String

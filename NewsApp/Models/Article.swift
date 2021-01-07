@@ -26,17 +26,14 @@ struct ArticleList: Decodable {
 }
 
 
-/// A product retrieved from the Product Hunt API.
 struct Article: Decodable, Hashable {
     
-    /// Various properties of a post that we either need or want to display
     let source: ArticleSource
     let author: String?
     let title: String
     let description: String?
     let publishedAt: String?
     
-    /// must be optional because some articles dont have content
     let content: String?
     
     let url: URL?

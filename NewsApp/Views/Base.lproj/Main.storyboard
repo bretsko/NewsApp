@@ -56,46 +56,46 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2Mz-iI-m0N" userLabel="topStack View">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="219"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="222"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="33o-Ci-3VF">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="leh-hO-taK" userLabel="Tab Bar Stack View">
-                                        <rect key="frame" x="0.0" y="76" width="375" height="143"/>
+                                        <rect key="frame" x="0.0" y="76" width="375" height="146"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="kdD-ip-mFL">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="27"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="kdD-ip-mFL" userLabel="Buttons Stack View">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3pA-yZ-HLU">
-                                                        <rect key="frame" x="0.0" y="0.0" width="149" height="27"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="12.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14.5"/>
                                                         <state key="normal" title="Sort By: Popularity"/>
                                                         <connections>
-                                                            <action selector="filterButtonsTapped:" destination="ie5-EL-mTU" eventType="touchUpInside" id="jYc-gQ-vtT"/>
+                                                            <action selector="sortButtonTapped:" destination="ie5-EL-mTU" eventType="touchUpInside" id="JgR-8W-n4C"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Il1-M7-SHN">
-                                                        <rect key="frame" x="169" y="0.0" width="89.5" height="27"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="12.5"/>
+                                                        <rect key="frame" x="20" y="0.0" width="90" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14.5"/>
                                                         <state key="normal" title="Past: Week"/>
                                                         <connections>
-                                                            <action selector="filterButtonsTapped:" destination="ie5-EL-mTU" eventType="touchUpInside" id="JVj-B6-LzG"/>
+                                                            <action selector="fromButtonTapped:" destination="ie5-EL-mTU" eventType="touchUpInside" id="jgm-UV-90F"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B0r-eL-efe">
-                                                        <rect key="frame" x="278.5" y="0.0" width="96.5" height="27"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="12.5"/>
+                                                        <rect key="frame" x="130" y="0.0" width="245" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14.5"/>
                                                         <state key="normal" title="Until: Now"/>
                                                         <connections>
-                                                            <action selector="filterButtonsTapped:" destination="ie5-EL-mTU" eventType="touchUpInside" id="Trd-Fu-hrZ"/>
+                                                            <action selector="toButtonTapped:" destination="ie5-EL-mTU" eventType="touchUpInside" id="xla-gL-h7T"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="1ES-8b-eTC">
-                                                <rect key="frame" x="0.0" y="43" width="375" height="100"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="1ES-8b-eTC" userLabel="Options Stack View">
+                                                <rect key="frame" x="0.0" y="46" width="375" height="100"/>
                                                 <subviews>
                                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Q0f-M3-Buk">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="100"/>
@@ -155,11 +155,11 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ykJ-w8-HcQ">
-                                <rect key="frame" x="0.0" y="219" width="375" height="448"/>
+                                <rect key="frame" x="0.0" y="222" width="375" height="445"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="HRH-cx-tRn">
-                                <rect key="frame" x="162.5" y="418" width="50" height="50"/>
+                                <rect key="frame" x="162.5" y="419.5" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Ad6-qU-oUp"/>
                                     <constraint firstAttribute="width" constant="50" id="XyE-m2-kye"/>

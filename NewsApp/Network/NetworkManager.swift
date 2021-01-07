@@ -20,124 +20,101 @@ class NetworkManager {
     
     private let apiKey = "f7971dc8dd764567b33544a9daf7fcae"
     
-    private static let defaultParameters = ["page": "0",
-                                            "pageSize": "20"]
-    private var parameters = NetworkManager.defaultParameters
-    
     //TODO: move to VC or even ViewModel, first refactor to MVVM
     var numArticlesOnBackend = 0
     
     
-    //MARK: -
-    
-    func update(parameters: [String: String]) {
-        
-        for parameter in parameters.compactMapValues({ $0 }) where parameter.value != "" { 
-            self.parameters[parameter.key] = parameter.value
-        }
-    }
-    
-    /// reset numArticlesOnBackend and parameters
-    func reset() {
-        numArticlesOnBackend = 0
-        parameters = Self.defaultParameters
-    }
-    
-   
     //MARK: - fetch
-
-    
-    // ?? Function that calls fetchArticle or fetchSources depending on the endpoint
-    func fetchNews(_ endpoint: EndPoint,
-                   parameters: [String: String] = [:],
-                   completion: @escaping (Result<[Article]>) -> ()) {
-        update(parameters: parameters)
-        fetchArticles(endpoint) { result in
-            switch result {
-            case let .success(articles):
-                completion(.success(articles))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
     
     //??
     /// Use Endpoint.category for category VC with sources, and Endpoint.articles for list of articles with parameters
     func fetchArticles(_ endpoint: EndPoint,
+                       pageParams: [URLQueryItem]? = nil,
                        completion: @escaping (Result<[Article]>) -> ()) {
+
+        let pageParams1: [URLQueryItem]
+        if let params = pageParams {
+            pageParams1 = params
+        } else {
+            pageParams1 = NetworkManager.makeURLQueryItems()
+        }
+        let request = endpoint.makeURLRequest(with: apiKey, pageParams: pageParams1)
+        print("Sending request to: \(request.url!)")
         
-        let articlesRequest = endpoint.makeURLRequest(with: parameters, apiKey: apiKey)
-        let task = urlSession.dataTask(with: articlesRequest) { data, _, error in
+        let task = urlSession.dataTask(with: request) { data, _, error in
             if let error = error {
-                return completion(Result.failure(error))
+                return completion(.failure(error))
             }
             guard let data = data else {
-                return completion(Result.failure(EndPointError.noData(message: "Articles has no data")))
+                return completion(.failure(EndPointError.noData(message: "Articles has no data")))
             }
             guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
-                //do { //data debugging
-                //    let jsonResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any]
-                //    print(jsonResult)
-                //} catch {
-                //    print("Error deserializing JSON: \(error)")
-                //}
                 
                 //FIXME: wrong error, can be no sources, not parsing error
-                return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse Articles")))
+                return completion(.failure(EndPointError.couldNotParse(message: "Could not parse Articles")))
             }
             
-            if result.status == "error" {
+            guard let status = result.status else {
+                return completion(.failure(EndPointError.couldNotParse(message: result.message ?? EndPointError.unknown())))
+            }
+            guard status != "error" else {
                 guard let errorMessage = result.message,
                       let errorCode = result.code else {
-                    // check if theres an error message from the endpoint
-                    return completion(Result.failure(EndPointError.unknown()))
+                    return completion(.failure(EndPointError.unknown()))
                 }
-                switch errorCode { // check if endpoint error is known
+                switch errorCode {
                 case "maximumResultsReached":
-                    // free acc allows to fetch 100 articles only
-                    return completion(Result.failure(EndPointError.maximumResultsReached()))
+                    return completion(.failure(EndPointError.maximumResultsReached()))
                 default:
-                    return completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error \(errorCode): \(errorMessage)")))
+                    return completion(.failure(EndPointError.endpointError(message: "Endpoint Error \(errorCode): \(errorMessage)")))
                 }
+                return
             }
             self.numArticlesOnBackend = result.totalResults!
-            
-            //??
-            // Ensure we are passing unique array articles
-            let uniqueArticles = Array(NSOrderedSet(array: result.articles!)) as? [Article]
-            completion(Result.success(uniqueArticles!))
+            completion(.success(result.articles!))
         }
         task.resume()
     }
     
-    func fetchSources(completion: @escaping (Result<[Source]>) -> ()) {
+    //TODO:
+    // add filter options - category, country, language
+    // see https://newsapi.org/docs/endpoints/sources
+    func fetchAllSources(completion: @escaping (Result<[Source]>) -> ()) {
         
-        let articlesRequest = makeRequest(for: .sources)
-        let task = urlSession.dataTask(with: articlesRequest) { data, _, error in
+        let request = EndPoint.sources.makeURLRequest(with: apiKey)
+        print("Sending request to: \(request.url!)")
+
+        let task = urlSession.dataTask(with: request) { data, _, error in
             if let error = error {
-                return completion(Result.failure(error))
+                return completion(.failure(error))
             }
             guard let data = data else {
-                return completion(Result.failure(EndPointError.noData(message: "Sources has no data")))
+                return completion(.failure(EndPointError.noData(message: "Sources has no data")))
             }
             
             //FIXME: wrong error, can be no sources, not parsing error
             guard let result = try? JSONDecoder().decode(Sources.self, from: data) else {
-                return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse sources")))
+                return completion(.failure(EndPointError.couldNotParse(message: "Could not parse sources")))
             }
+            
             if result.status != "ok" {
-                completion(Result.failure(EndPointError.endpointError(message: result.message ?? "Unknown endpoint error")))
+                completion(.failure(EndPointError.endpointError(message: result.message ?? "Unknown endpoint error")))
+            } else {
+                let sources = result.sources
+                completion(.success(sources))
             }
-            let sources = result.sources
-            completion(Result.success(sources))
         }
         task.resume()
     }
     
-    /// All the code we did before but cleaned up into their own methods
-    private func makeRequest(for endPoint: EndPoint) -> URLRequest {
-        endPoint.makeURLRequest(with: parameters, apiKey: apiKey)
+    static func makeURLQueryItems(page: Int = 1, 
+                                  pageSize: Int = 20) -> [URLQueryItem] {
+        [
+            URLQueryItem(name: "page",
+                         value: String(page)),
+            URLQueryItem(name: "pageSize",
+                         value: String(pageSize))
+        ]
     }
 }
 

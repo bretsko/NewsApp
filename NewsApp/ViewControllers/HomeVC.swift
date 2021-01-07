@@ -82,7 +82,8 @@ class HomeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NetworkManager.shared.reset()
+        NetworkManager.shared.numArticlesOnBackend = 0
+        
     }
     
     //MARK: - setup UI
@@ -91,7 +92,7 @@ class HomeVC: UIViewController {
         navigationItem.title = "News Stand"
         setupCollectionView()
         setupSearchBar()
-        fetchSources()
+        loadAllSources()
     }
     
     private func setupSearchBar() {
@@ -147,15 +148,15 @@ class HomeVC: UIViewController {
     //MARK: -
     
     /// fetches a list of sources which is needed to fetch articles by language and by source
-    private func fetchSources() {
-        NetworkManager.shared.fetchSources { result in
+    private func loadAllSources() {
+        NetworkManager.shared.fetchAllSources { result in
             DispatchQueue.main.async { [weak self] in
                 guard let weakSelf = self else {
                     return
                 }
                 switch result {
                 case let .success(sources):
-                    weakSelf.sources.append(contentsOf: sources)
+                    weakSelf.sources = sources
                 case let .failure(error):
                     weakSelf.presentAlert(title: "Error", message: error.localizedDescription)
                 }
@@ -177,38 +178,40 @@ extension HomeVC: UICollectionViewDelegate {
         
         let endpoint: EndPoint
         let vcTitle: String
-        let parameters: [String : String]
         
         switch tableSection {
         case .category:
             let section = sections[indexPath.section] as! ImageSection
             let category = section.categories[indexPath.row]
+            // ?? 2 ways to get category ?
             vcTitle = Category.allCases[indexPath.row].rawValue + " News"
-            endpoint = .category
-            parameters = [endpoint.rawValue: category.rawValue]
+            fatalError()
+            //endpoint = .category(category)
             
         case .country:
-            let country = String(describing: Country.allCases[indexPath.row])
-            
-            vcTitle = Country.allCases[indexPath.row].rawValue + " News"
-            endpoint = .country
-            parameters = [endpoint.rawValue: country]
+            let country = Country.allCases[indexPath.row]
+            vcTitle = country.rawValue + " News"
+            fatalError()
+            //endpoint = .country(country)
             
         case .languages:
-            let language = String(describing: Language.allCases[indexPath.row])
-            vcTitle = Language.allCases[indexPath.row].rawValue + " News"
-            let sourcesQueryString = Language.getSourcesString(language: language, sources: sources)
-            endpoint = .language
-            parameters = [endpoint.rawValue: language,
-                          "sources": sourcesQueryString]
+            let language = Language.allCases[indexPath.row]
+            vcTitle = language.rawValue + " News"
+            let sourcesQueryString = Language.getSourcesString(language: language.rawValue, sources: sources)
+            if sourcesQueryString.isEmpty {
+                fatalError()
+            }
+            fatalError()
+            //endpoint = .language(language, sourcesQueryString)
             
         case .sources:
             let source = sources[indexPath.row]
-            endpoint = .source
             vcTitle = source.name
-            parameters = ["sources": source.id]
+            let filterOption = FilterOption.source(source)
+            fatalError()
+            //endpoint = .source(Set([filterOption]))
         }
-        coordinator?.goToNewsList(endpoint: endpoint, vcTitle: vcTitle, parameters: parameters)
+        coordinator?.goToNewsList(endpoint: endpoint, vcTitle: vcTitle)
     }
 }
 
@@ -252,9 +255,9 @@ extension HomeVC: UISearchTextFieldDelegate {
         textField.resignFirstResponder()
         
         if let text = textField.text  {
-            coordinator?.goToNewsList(endpoint: .articles,
-                                      vcTitle: text + " News",
-                                      parameters: ["q": text])
+            let filter = FilterOption.query(text)
+            coordinator?.goToNewsList(endpoint: .search(Set([filter])),
+                                      vcTitle: text + " News")
         }
         return true
     }
