@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--HomeVC-->
+        <!--Home VC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="HomeVC" id="BYZ-38-t0r" customClass="HomeVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" id="BYZ-38-t0r" userLabel="Home VC" customClass="HomeVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -47,10 +47,10 @@
             </objects>
             <point key="canvasLocation" x="1000.8" y="136.28185907046478"/>
         </scene>
-        <!--NewsListVC-->
+        <!--Article List VC-->
         <scene sceneID="yxW-x1-BXd">
             <objects>
-                <viewController storyboardIdentifier="ArticleListVC" title="NewsListVC" modalPresentationStyle="fullScreen" id="ie5-EL-mTU" customClass="ArticleListVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArticleListVC" title="ArticleListVC" modalPresentationStyle="fullScreen" id="ie5-EL-mTU" userLabel="Article List VC" customClass="ArticleListVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Tex-Of-xbM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -282,25 +282,25 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="HRH-cx-tRn" id="fOa-eg-UBH"/>
+                        <outlet property="articlesTableView" destination="ykJ-w8-HcQ" id="hGm-dk-3bP"/>
                         <outlet property="filterButtonsStackView" destination="leh-hO-taK" id="IRV-qs-lWt"/>
                         <outlet property="fromButton" destination="Il1-M7-SHN" id="FJM-7w-Uyd"/>
-                        <outlet property="fromTable" destination="lBD-It-sPR" id="dEG-Ps-d5D"/>
+                        <outlet property="fromTableView" destination="lBD-It-sPR" id="dEG-Ps-d5D"/>
                         <outlet property="searchBar" destination="33o-Ci-3VF" id="q0T-72-PCU"/>
                         <outlet property="sortButton" destination="3pA-yZ-HLU" id="yJT-Cm-lQ5"/>
-                        <outlet property="sortTable" destination="Q0f-M3-Buk" id="GTN-RK-eoE"/>
-                        <outlet property="tableView" destination="ykJ-w8-HcQ" id="hGm-dk-3bP"/>
+                        <outlet property="sortTableView" destination="Q0f-M3-Buk" id="GTN-RK-eoE"/>
                         <outlet property="toButton" destination="B0r-eL-efe" id="e78-lZ-dAD"/>
-                        <outlet property="toTable" destination="uig-Nb-R7L" id="MxE-sS-JsF"/>
+                        <outlet property="toTableView" destination="uig-Nb-R7L" id="MxE-sS-JsF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RME-x9-8BV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1860" y="136.28185907046478"/>
         </scene>
-        <!--Article DetailVC-->
+        <!--Article Detail VC-->
         <scene sceneID="JlS-fO-gor">
             <objects>
-                <viewController storyboardIdentifier="ArticleDetailVC" modalPresentationStyle="fullScreen" id="7VP-Ys-aHn" customClass="ArticleDetailVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArticleDetailVC" modalPresentationStyle="fullScreen" id="7VP-Ys-aHn" userLabel="Article Detail VC" customClass="ArticleDetailVC" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4SE-bW-d0g">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

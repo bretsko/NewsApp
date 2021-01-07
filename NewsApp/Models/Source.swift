@@ -26,7 +26,7 @@ struct Source: Decodable {
     /// identifier of news source
     let id: String
     
-    /// name news source
+    /// name of the news source
     let name: String
     
     /// A description of the news source

@@ -30,7 +30,7 @@ class NetworkManager {
     
     //MARK: -
     
-    func updateParameters(parameters: [String: String]) {
+    func update(parameters: [String: String]) {
         
         for parameter in parameters.compactMapValues({ $0 }) where parameter.value != "" { 
             self.parameters[parameter.key] = parameter.value
@@ -38,7 +38,7 @@ class NetworkManager {
     }
     
     /// reset numArticlesOnBackend and parameters
-    func resetNetworkManager() {
+    func reset() {
         numArticlesOnBackend = 0
         parameters = Self.defaultParameters
     }
@@ -51,20 +51,14 @@ class NetworkManager {
     func fetchNews(_ endpoint: EndPoint,
                    parameters: [String: String] = [:],
                    completion: @escaping (Result<[Article]>) -> ()) {
-        updateParameters(parameters: parameters)
-        switch endpoint {
-        case .articles, .category, .country, .topHeadline, .source, .language:
-            // these endpoints all receives an array of articles
-            fetchArticles(endpoint) { result in
-                switch result {
-                case let .success(articles):
-                    completion(.success(articles))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+        update(parameters: parameters)
+        fetchArticles(endpoint) { result in
+            switch result {
+            case let .success(articles):
+                completion(.success(articles))
+            case let .failure(error):
+                completion(.failure(error))
             }
-        default:
-            completion(.failure(EndPointError.unsupportedEndpoint(message: "Endpoint is not supported")))
         }
     }
     
@@ -82,18 +76,21 @@ class NetworkManager {
                 return completion(Result.failure(EndPointError.noData(message: "Articles has no data")))
             }
             guard let result = try? JSONDecoder().decode(ArticleList.self, from: data) else {
-                //                do { //data debugging
-                //                    let jsonResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any]
-                //                    print(jsonResult)
-                //                } catch {
-                //                    print("Error deserializing JSON: \(error)")
-                //                }
+                //do { //data debugging
+                //    let jsonResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any]
+                //    print(jsonResult)
+                //} catch {
+                //    print("Error deserializing JSON: \(error)")
+                //}
                 
                 //FIXME: wrong error, can be no sources, not parsing error
                 return completion(Result.failure(EndPointError.couldNotParse(message: "Could not parse Articles")))
             }
+            
             if result.status == "error" {
-                guard let errorMessage = result.message, let errorCode = result.code else { // check if theres an error message from the endpoint
+                guard let errorMessage = result.message,
+                      let errorCode = result.code else {
+                    // check if theres an error message from the endpoint
                     return completion(Result.failure(EndPointError.unknown()))
                 }
                 switch errorCode { // check if endpoint error is known
@@ -101,7 +98,7 @@ class NetworkManager {
                     // free acc allows to fetch 100 articles only
                     return completion(Result.failure(EndPointError.maximumResultsReached()))
                 default:
-                    return completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error \(errorCode): \(errorMessage)"))) // error message from endpoint
+                    return completion(Result.failure(EndPointError.endpointError(message: "Endpoint Error \(errorCode): \(errorMessage)")))
                 }
             }
             self.numArticlesOnBackend = result.totalResults!
@@ -137,9 +134,6 @@ class NetworkManager {
         }
         task.resume()
     }
-    
-    //TODO: improve request making using
-    // https://stackoverflow.com/questions/57963583/swift-get-request-with-url-parameters
     
     /// All the code we did before but cleaned up into their own methods
     private func makeRequest(for endPoint: EndPoint) -> URLRequest {

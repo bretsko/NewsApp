@@ -32,7 +32,7 @@ class ArticleCell: UITableViewCell {
         imgView.kf.cancelDownloadTask()
     }
     
-    func populateViews(article: Article) {
+    func populateViews(with article: Article) {
         
         titleLabel.text = article.title
         sourceNameLabel.text = article.source.name
@@ -41,13 +41,13 @@ class ArticleCell: UITableViewCell {
         imgView.image = UIImage()
         imgView.layer.cornerRadius = 10
         imgView.clipsToBounds = true
-        mainIndicator.shouldAnimate(shouldAnimate: false)
+        mainIndicator.shouldAnimate(false)
         
         imgView.kf.setImage(with: article.urlToImage, placeholder: UIImage(),
         completionHandler: { result in
             DispatchQueue.main.async { [weak self] in
                 
-                self?.imgIndicator.shouldAnimate(shouldAnimate: false)
+                self?.imgIndicator.shouldAnimate(false)
                 do {
                     _ = try result.get() // value
                 } catch {

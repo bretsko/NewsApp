@@ -1,5 +1,5 @@
 //
-//  SettingsService.swift
+//  AppSettings.swift
 //  MobileClasswork
 //
 //  Created by Macbook Pro 15 on 2/16/20.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class SettingsService {
-    static let shared = SettingsService()
+class AppSettings {
+    static let shared = AppSettings()
     
     var isDarkMode = false
     var mainColor: UIColor = .purple

@@ -19,8 +19,8 @@ enum SortByOptions: String, CaseIterable {
     /// articles from popular sources and publishers come first.
     case popularity = "Popularity"
     
-    
-    var asSortByParameter: String {
+    // ??
+    var paramString: String {
         switch self {
         case .publishedAt:
             return "publishedAt"

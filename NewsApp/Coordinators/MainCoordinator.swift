@@ -24,12 +24,17 @@ class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func goToNewsList(endpoint: EndPoint, vcTitle: String, parameters: [String: String]) {
+    func goToNewsList(endpoint: EndPoint,
+                      vcTitle: String,
+                      parameters: [String: String]) {
+        
         let vc = StoryboardScene.Main.articleListVC.instantiate()
         vc.coordinator = self
         vc.title = vcTitle
-        vc.endpoint = endpoint // .articles for searching, and .category for category
-        NetworkManager.shared.updateParameters(parameters: parameters) // update parameters
+        vc.endpoint = endpoint
+        // .articles for searching, and .category for category
+        
+        NetworkManager.shared.update(parameters: parameters)
         navigationController.pushViewController(vc, animated: true)
     }
     
@@ -43,7 +48,7 @@ class MainCoordinator: Coordinator {
     private func setupNavigationController() {
         navigationController.isNavigationBarHidden = false
         navigationController.navigationBar.prefersLargeTitles = true
-        //        navigationController.navigationBar.tintColor = SettingsService.shared.grayColor //button color
+        //        navigationController.navigationBar.tintColor = AppSettings.shared.grayColor //button color
         //        navigationController.setStatusBarColor(backgroundColor: kMAINCOLOR)
     }
 }

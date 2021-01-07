@@ -37,7 +37,8 @@ struct ImageSection: Section {
         return section
     }
     
-    func configureCell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    func configureCell(in collectionView: UICollectionView,
+                       at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ImageCell.self), for: indexPath) as! ImageCell
         let category = categories[indexPath.row]
         cell.setContents(title: category.rawValue, image: category.image)

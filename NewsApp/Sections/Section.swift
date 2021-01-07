@@ -14,6 +14,6 @@ protocol Section {
     
     func layoutSection() -> NSCollectionLayoutSection
     
-    func configureCell(collectionView: UICollectionView,
-                       indexPath: IndexPath) -> UICollectionViewCell
+    func configureCell(in collectionView: UICollectionView,
+                       at indexPath: IndexPath) -> UICollectionViewCell
 }
