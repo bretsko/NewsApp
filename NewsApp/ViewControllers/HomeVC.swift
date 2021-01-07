@@ -238,7 +238,8 @@ extension HomeVC: UICollectionViewDataSource {
             return sect.configureCell(in: collectionView,
                                       at: indexPath)
         } else {
-            return section.configureCell(in: collectionView, at: indexPath)
+            return section.configureCell(in: collectionView,
+                                         at: indexPath)
         }
     }
 }

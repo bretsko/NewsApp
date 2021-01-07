@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0CA5AB9725A46489003BE045 /* Storyboard Scenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5AB9525A46489003BE045 /* Storyboard Scenes.swift */; };
 		0CA5AB9825A46489003BE045 /* Storyboard Segues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5AB9625A46489003BE045 /* Storyboard Segues.swift */; };
+		0CF59AE625A7745F000DA01D /* ArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CF59AE525A7745F000DA01D /* ArticleCell.xib */; };
 		33066CED245DFD2D00EF6EA8 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33066CEC245DFD2D00EF6EA8 /* Endpoint.swift */; };
 		3352338C2452768E0056EA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352338B2452768E0056EA8E /* AppDelegate.swift */; };
 		3352338E2452768E0056EA8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3352338D2452768E0056EA8E /* SceneDelegate.swift */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		0CA5AB9525A46489003BE045 /* Storyboard Scenes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Storyboard Scenes.swift"; sourceTree = "<group>"; };
 		0CA5AB9625A46489003BE045 /* Storyboard Segues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Storyboard Segues.swift"; sourceTree = "<group>"; };
+		0CF59AE525A7745F000DA01D /* ArticleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticleCell.xib; sourceTree = "<group>"; };
 		33066CEC245DFD2D00EF6EA8 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		335233882452768E0056EA8E /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3352338B2452768E0056EA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -141,6 +143,33 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
+		0CF59AE825A7749D000DA01D /* ArticleCell */ = {
+			isa = PBXGroup;
+			children = (
+				0CF59AE525A7745F000DA01D /* ArticleCell.xib */,
+				335233D9245372A70056EA8E /* ArticleCell.swift */,
+			);
+			path = ArticleCell;
+			sourceTree = "<group>";
+		};
+		0CF59AEA25A774AC000DA01D /* TitleCell */ = {
+			isa = PBXGroup;
+			children = (
+				33687B5E24663C23002E3C8C /* TitleCell.swift */,
+				33687B5D24663C23002E3C8C /* TitleCell.xib */,
+			);
+			path = TitleCell;
+			sourceTree = "<group>";
+		};
+		0CF59AEB25A774B8000DA01D /* ImageCell */ = {
+			isa = PBXGroup;
+			children = (
+				33687B6224663C40002E3C8C /* ImageCell.swift */,
+				33687B6324663C40002E3C8C /* ImageCell.xib */,
+			);
+			path = ImageCell;
+			sourceTree = "<group>";
+		};
 		3352337F2452768E0056EA8E = {
 			isa = PBXGroup;
 			children = (
@@ -203,8 +232,10 @@
 			children = (
 				335233962452768F0056EA8E /* LaunchScreen.storyboard */,
 				335233912452768E0056EA8E /* Main.storyboard */,
-				33687B6124663C27002E3C8C /* CollectionCells */,
-				335233D9245372A70056EA8E /* ArticleCell.swift */,
+				0CF59AEA25A774AC000DA01D /* TitleCell */,
+				0CF59AEB25A774B8000DA01D /* ImageCell */,
+				0CF59AE825A7749D000DA01D /* ArticleCell */,
+				33687B6124663C27002E3C8C /* LabelCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -246,17 +277,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		33687B6124663C27002E3C8C /* CollectionCells */ = {
+		33687B6124663C27002E3C8C /* LabelCell */ = {
 			isa = PBXGroup;
 			children = (
-				33687B5E24663C23002E3C8C /* TitleCell.swift */,
-				33687B5D24663C23002E3C8C /* TitleCell.xib */,
-				33687B6224663C40002E3C8C /* ImageCell.swift */,
-				33687B6324663C40002E3C8C /* ImageCell.xib */,
 				33687B6724663C47002E3C8C /* LabelCell.swift */,
 				33687B6624663C47002E3C8C /* LabelCell.xib */,
 			);
-			path = CollectionCells;
+			path = LabelCell;
 			sourceTree = "<group>";
 		};
 		3374F9C42466210000450AE8 /* Sections */ = {
@@ -338,6 +365,7 @@
 				33687B5F24663C23002E3C8C /* TitleCell.xib in Resources */,
 				335233982452768F0056EA8E /* LaunchScreen.storyboard in Resources */,
 				335233952452768F0056EA8E /* Assets.xcassets in Resources */,
+				0CF59AE625A7745F000DA01D /* ArticleCell.xib in Resources */,
 				33687B6524663C40002E3C8C /* ImageCell.xib in Resources */,
 				335233932452768E0056EA8E /* Main.storyboard in Resources */,
 			);

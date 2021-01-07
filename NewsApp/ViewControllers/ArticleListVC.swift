@@ -88,13 +88,18 @@ class ArticleListVC: UIViewController {
             tableView.isHidden = isHidden
         }
         
-        setup(articlesTableView, isHidden: false)
+        // DisplayOption buttons
         setup(sortTableView, isHidden: true)
         setup(fromTableView, isHidden: true)
         setup(toTableView, isHidden: true)
         
+        // articlesTableView
+        setup(articlesTableView, isHidden: false)
         articlesTableView.tableFooterView = UIView()
         articlesTableView.rowHeight = 100
+        
+        let nib = UINib(nibName: ArticleCell.identifier, bundle: .main)
+        articlesTableView.register(nib, forCellReuseIdentifier: ArticleCell.identifier)
     }
     
     private func setupSearchBar() {
@@ -297,7 +302,7 @@ extension ArticleListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let tabBarType = tabBarType else {
-            let articleCell = articlesTableView.dequeueReusableCell(withIdentifier: String(describing: ArticleCell.self), for: indexPath) as! ArticleCell
+            let articleCell = articlesTableView.dequeueReusableCell(withIdentifier: ArticleCell.identifier, for: indexPath) as! ArticleCell
             let article = articles[indexPath.row]
             articleCell.populateViews(with: article)
             

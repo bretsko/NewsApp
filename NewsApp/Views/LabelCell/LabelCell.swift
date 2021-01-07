@@ -11,7 +11,7 @@ import UIKit
 class LabelCell: UICollectionViewCell {
     
     @IBOutlet private var lblTitle: UILabel!
-    static var identifier = "LabelCell"
+    static let identifier = "LabelCell"
 
     
     override func awakeFromNib() {

@@ -7,14 +7,13 @@
 //
 
 import UIKit
-// import Kingfisher
 
 class ImageCell: UICollectionViewCell {
 
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
-    static var identifier = "ImageCell"
+    static let identifier = "ImageCell"
     let gradientLayer = CAGradientLayer()
     
     

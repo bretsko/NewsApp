@@ -18,7 +18,8 @@ class ArticleCell: UITableViewCell {
     @IBOutlet weak var mainIndicator: UIActivityIndicatorView!
     @IBOutlet weak var imgIndicator: UIActivityIndicatorView!
     
-    
+    static let identifier = "ArticleCell"
+
     //MARK: -
     
     override func prepareForReuse() {
